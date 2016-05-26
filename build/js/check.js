@@ -1,8 +1,8 @@
-function(a,b) {
+function getMessage(a:*, b:*=):string {
   if (a = boolean) {
-    alert('Я попал в ' + b);
-  };
+    return('Я попал в ' + b);
+  }
   else {
-    alert('Я никуда не попал');
-  };
+    return('Я никуда не попал');
+  }
 };
