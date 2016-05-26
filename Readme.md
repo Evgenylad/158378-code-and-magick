@@ -1,7 +1,7 @@
 # Личный проект «Код и Магия» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Evgeny Ladyzhenskiy](https://up.htmlacademy.ru/javascript/5/user/158378).
-* Наставник: `Андрей Алексеев`.
+* Наставник: [Андрей Алексеев](https://htmlacademy.ru/profile/id4596).
 
 ---
 
