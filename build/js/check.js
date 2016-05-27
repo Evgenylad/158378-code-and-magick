@@ -1,30 +1,31 @@
 function getMessage(a,b) {
-  if (typeof a === "boolean") {
-    console.log('Я попал в ' + b);
-  }
 
-  else if (Array.isArray(a)) {
-    var total = a.reduce(function(sum, current) {
-      return sum + current;
+    if (Array.isArray(a)) {
+      var total = a.reduce(function(sum, current) {
+        return sum + current;
       });
       console.log('Я прошел ' + total + ' шагов');
-  }
-  else if (Array.isArray(a) && Array.isArray(b)) {
-    var ab = a.map(function (num, i) {
-      return num*b[i];
-    });
-    var lenght = ab.reduce(function(sum, current) {
-      return sum + current;
+    }
+
+    else if (Array.isArray(a) && Array.isArray(b)) {
+      var ab = a.map(function (num, i) {
+        return num*b[i];
       });
       console.log('Я прошел ' + lenght + ' метров');
-  }
+    }
 
-  else if (typeof a === "number") {
-    console.log('Я прыгнул на ' + a*100 + ' сантиметров');
-  }
+    else {
+      switch (typeof a) {
+        case "boolean":
+          console.log('Я попал в ' + b);
+          break;
 
-  else {
-    console.log('Я никуда не попал');
-  }
+        case "number":
+          console.log('Я прыгнул на ' + a*100 + ' сантиметров');
+          break;
 
-};
+        default:
+          console.log('Я никуда не попал');
+    }
+  }
+}
