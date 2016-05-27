@@ -3,20 +3,20 @@ function getMessage(a,b) {
     console.log('Я попал в ' + b);
   }
 
-  else if (Object.prototype.toString.call(a) == '[object Array]') {
+  else if (Array.isArray(a)) {
     var total = a.reduce(function(sum, current) {
       return sum + current;
       });
       console.log('Я прошел ' + total + ' шагов');
   }
-  else if (Object.prototype.toString.call(a) == '[object Array]' && Object.prototype.toString.call(b) == '[object Array]') {
+  else if (Array.isArray(a) && Array.isArray(b)) {
     var ab = a.map(function (num, i) {
-      return num + b[i];
+      return num*b[i];
     });
-    var total = ab.reduce(function(sum, current) {
+    var lenght = ab.reduce(function(sum, current) {
       return sum + current;
       });
-      console.log('Я прошел ' + total + ' шагов');
+      console.log('Я прошел ' + lenght + ' метров');
   }
 
   else if (typeof a === "number") {
