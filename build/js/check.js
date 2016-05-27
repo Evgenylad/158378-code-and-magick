@@ -10,8 +10,8 @@ function getMessage(a,b) {
       console.log('Я прошел ' + total + ' шагов');
   }
   else if (Object.prototype.toString.call(a) == '[object Array]' && Object.prototype.toString.call(b) == '[object Array]') {
-    var ab = a.map(function (num, idx) {
-      return num + b[idx];
+    var ab = a.map(function (num, i) {
+      return num + b[i];
     });
     var total = ab.reduce(function(sum, current) {
       return sum + current;
