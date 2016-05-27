@@ -3,12 +3,12 @@ function getMessage(a,b) {
     console.log('Я попал в ' + b);
   }
 
-  else if (a instanceof Array) {
+  else if (Object.prototype.toString.call(a) == '[object Array]') {
     var total = a.reduce(function(sum, current) {
       return sum + current;
       });
       console.log('Я прошел ' + total + ' шагов');
-  }   
+  }
 
   else if (typeof a === "number") {
     console.log('Я прыгнул на ' + a*100 + ' сантиметров');
