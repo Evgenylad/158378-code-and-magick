@@ -3,7 +3,6 @@
 * Студент: [Evgeny Ladyzhenskiy](https://up.htmlacademy.ru/javascript/5/user/158378).
 
 * Наставник: [Андрей Алексеев](https://htmlacademy.ru/profile/id4596).
->>>>>>> master
 
 ---
 
