@@ -4,9 +4,11 @@ function getMessage(a,b) {
   }
 
   else if (a instanceof Array) {
-    for (var i = 0, sum = 0; i < a.length; sum += a[i++]);
-    console.log('Я прошел ' + sum + ' шагов');
-  }
+    var total = a.reduce(function(sum, current) {
+      return sum + current;
+      });
+      console.log('Я прошел ' + total + ' шагов');
+  }   
 
   else if (typeof a === "number") {
     console.log('Я прыгнул на ' + a*100 + ' сантиметров');
