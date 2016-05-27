@@ -9,6 +9,15 @@ function getMessage(a,b) {
       });
       console.log('Я прошел ' + total + ' шагов');
   }
+  else if (Object.prototype.toString.call(a) == '[object Array]' && Object.prototype.toString.call(b) == '[object Array]') {
+    var ab = a.map(function (num, idx) {
+      return num + b[idx];
+    });
+    var total = ab.reduce(function(sum, current) {
+      return sum + current;
+      });
+      console.log('Я прошел ' + total + ' шагов');
+  }
 
   else if (typeof a === "number") {
     console.log('Я прыгнул на ' + a*100 + ' сантиметров');
