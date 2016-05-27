@@ -3,7 +3,7 @@ function getMessage(a,b) {
     console.log('Я попал в ' + b);
   }
 
-  else if (typeof a.isArray) {
+  else if (typeof a === "object") {
     for (var i = 0, sum = 0; i < a.length; sum += a[i++]);
     console.log('Я прошел ' + sum + ' шагов');
   }
@@ -11,7 +11,7 @@ function getMessage(a,b) {
   else if (typeof a === "number") {
     console.log('Я прыгнул на ' + a*100 + ' сантиметров');
   }
-
+  
   else {
     console.log('Я никуда не попал');
   }
