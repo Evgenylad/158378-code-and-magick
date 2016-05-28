@@ -16,27 +16,24 @@ function getMessage(a,b) {
       else {
         break;
       }
-    case "string":
-      break;
 
     default:
-    if (Array.isArray(a) && !Array.isArray(b)) {
-      var total = a.reduce(function(sum, current) {
-        return sum + current;
-       });
-       return('Я прошел ' + total + ' шагов');
-      }
-    else if (Array.isArray(a) && Array.isArray(b)){
-      var ab = a.map(function (num, i) {
-        return num*b[i];
-      });
-      var length = ab.reduce(function(sum, current) {
-        return sum + current;
-      });
+    if (Array.isArray(a)) {
+      if (Array.isArray(b)) {
+        var ab = a.map(function (num, i) {
+          return num*b[i];
+        });
+        var length = ab.reduce(function(sum, current) {
+          return sum + current;
+        });
         return('Я прошел ' + length + ' метров');
-    }
-    else {
-      break;
+      }
+      else {
+        var total = a.reduce(function(sum, current) {
+          return sum + current;
+         });
+         return('Я прошел ' + total + ' шагов');
+      }
     }
   }
 }
