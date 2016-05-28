@@ -20,7 +20,13 @@ function getMessage(a,b) {
       break;
 
     default:
-    if (Array.isArray(a) && Array.isArray(b)){
+    if (Array.isArray(a) && !Array.isArray(b)) {
+      var total = a.reduce(function(sum, current) {
+        return sum + current;
+       });
+       return('Я прошел ' + total + ' шагов');
+      }
+    else if (Array.isArray(a) && Array.isArray(b)){
       var ab = a.map(function (num, i) {
         return num*b[i];
       });
@@ -29,12 +35,6 @@ function getMessage(a,b) {
       });
         return('Я прошел ' + length + ' метров');
     }
-    else if (Array.isArray(a)) {
-      var total = a.reduce(function(sum, current) {
-        return sum + current;
-       });
-       return('Я прошел ' + total + ' шагов');
-      }
     else {
       break;
     }
