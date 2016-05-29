@@ -406,10 +406,11 @@
           this.ctx.fillStyle = '#000000';
           this.ctx.font = '16px PT Mono';
 
-          this.ctx.fillText('Yo-ho!', 230, 165);
-          this.ctx.fillText('What I see?!', 230, 185);
-          this.ctx.fillText('You beat me', 230, 205);
+          this.ctx.fillText('Yo-ho!', 250, 165);
+          this.ctx.fillText('What I see?!', 250, 185);
+          this.ctx.fillText('You beat me !!!', 250, 205);
           break;
+
         case Verdict.FAIL:
           this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
           this.ctx.beginPath();
@@ -466,8 +467,12 @@
           this.ctx.fillStyle = '#000000';
           this.ctx.font = '16px PT Mono';
 
-          this.ctx.fillText('Why did you paused me?', 230, 165);
-          this.ctx.fillText('Press SPACE and play NOW !', 230, 185);
+          var screenMessage = ['Why did you paused me?','Press SPACE and play NOW !'];
+
+          for (i=0; i<screenMessage.length; i++) {
+            this.ctx.fillText('screenMessage[]', 230, 155);
+          }
+
           break;
         case Verdict.INTRO:
           this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -494,12 +499,14 @@
 
           this.ctx.fillStyle = '#000000';
           this.ctx.font = '16px PT Mono';
-          
-          this.ctx.fillText('My Dear user!', 230, 135);
-          this.ctx.fillText('I\'m Pendalf. Let\'s play', 230, 155);
-          this.ctx.fillText('Use arrows to move and jump.', 230, 175);
-          this.ctx.fillText('Also you can push SHIFT', 230, 195);
-          this.ctx.fillText('and set the fireball !!!', 230, 215);
+
+          var arrayOfScreenMessages = ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.', 'Also you can push SHIFT', 'and set the fireball !!!'];
+          for (i = 0; i < arrayOfScreenMessages.length; i++) {
+            for (y = 135; i < arrayOfScreenMessages.length; y += 20) {
+            this.ctx.fillText(screenMessage[i], 230, y);
+          }
+        }
+
           break;
       }
     },
