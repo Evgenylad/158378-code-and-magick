@@ -378,18 +378,41 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.beginPath();
+      this.ctx.moveTo(210,110);
+      this.ctx.lineTo(230,260);
+      this.ctx.lineTo(510,260);
+      this.ctx.lineTo(530,110);
+      this.ctx.lineTo(210,110);
+      this.ctx.closePath();
+      this.ctx.stroke();
+      this.ctx.fill();
+
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.beginPath();
+      this.ctx.moveTo(200,100);
+      this.ctx.lineTo(220,250);
+      this.ctx.lineTo(500,250);
+      this.ctx.lineTo(520,100);
+      this.ctx.lineTo(200,100);
+      this.ctx.closePath();
+      this.ctx.stroke();
+      this.ctx.fill();
+
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          return ('you have won!');
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          return ('you have failed!');
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          return ('game is on pause!');
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          return ('welcome to the game! Press Space to start');
           break;
       }
     },
