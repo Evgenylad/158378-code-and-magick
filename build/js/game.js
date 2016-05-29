@@ -378,41 +378,59 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+
+      function polygonsPainting() {
       this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
       this.ctx.beginPath();
-      this.ctx.moveTo(210,110);
-      this.ctx.lineTo(230,260);
-      this.ctx.lineTo(510,260);
-      this.ctx.lineTo(530,110);
-      this.ctx.lineTo(210,110);
+      this.ctx.moveTo(210, 110);
+      this.ctx.lineTo(230, 260);
+      this.ctx.lineTo(510, 260);
+      this.ctx.lineTo(530, 110);
+      this.ctx.lineTo(210, 110);
       this.ctx.closePath();
       this.ctx.stroke();
       this.ctx.fill();
 
       this.ctx.fillStyle = '#ffffff';
       this.ctx.beginPath();
-      this.ctx.moveTo(200,100);
-      this.ctx.lineTo(220,250);
-      this.ctx.lineTo(500,250);
-      this.ctx.lineTo(520,100);
-      this.ctx.lineTo(200,100);
+      this.ctx.moveTo(200, 100);
+      this.ctx.lineTo(220, 250);
+      this.ctx.lineTo(500, 250);
+      this.ctx.lineTo(520, 100);
+      this.ctx.lineTo(200, 100);
       this.ctx.closePath();
       this.ctx.stroke();
       this.ctx.fill();
 
+      this.ctx.fillStyle = '#000000';
+      this.ctx.font = '16px PT Mono'
+    }
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          return ('you have won!');
+          polygonsPainting.call();
+          this.ctx.fillText ('Yo-ho!', 230, 165);
+          this.ctx.fillText ('What I see?!', 230, 185);
+          this.ctx.fillText ('You beat me', 230, 205);
           break;
         case Verdict.FAIL:
-          return ('you have failed!');
+          polygonsPainting.call();
+          this.ctx.fillText ('Boo-ga-ga!', 230, 165);
+          this.ctx.fillText ('You just failed', 230, 185);
+          this.ctx.fillText ('Try again, my Game-Monster', 230, 205);
           break;
         case Verdict.PAUSE:
-          return ('game is on pause!');
+          polygonsPainting.call();
+          this.ctx.fillText('Why did you paused me?', 230, 165);
+          this.ctx.fillText('Press SPACE and play NOW !', 230, 185);
           break;
         case Verdict.INTRO:
-          return ('welcome to the game! Press Space to start');
+          polygonsPainting.call();
+          this.ctx.fillText('My Dear user!', 230, 135);
+          this.ctx.fillText('I\'m Pendalf. Let\'s play', 230, 155);
+          this.ctx.fillText('Use arrows to move and jump.', 230, 175);
+          this.ctx.fillText('Also you can push SHIFT', 230, 195);
+          this.ctx.fillText('and set the fireball !!!', 230, 215);
           break;
       }
     },
