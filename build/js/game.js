@@ -68,7 +68,16 @@
     UP: 4,
     DOWN: 8
   };
-
+  /**
+   * Константы сообщений.
+   * @enum {array}
+   */
+   var Message = {
+     'INTRO': ['Why did you paused me?', 'Press SPACE and play NOW !'],
+     'PAUSE': ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.', 'Also you can push SHIFT', 'and set the fireball !!!'],
+     'WIN': ['Yo-ho!', 'What I see?!', 'You beat me !!!'],
+     'FAIL': ['Boo-ga-ga!', 'You just failed', 'Try again, my Game-Monster']
+   };
   /**
    * Правила перерисовки объектов в зависимости от состояния игры.
    * @type {Object.<ObjectType, function(Object, Object, number): Object>}
@@ -404,34 +413,17 @@
         this.ctx.fillStyle = '#000000';
         this.ctx.font = '16px PT Mono';
 
-      switch (this.state.currentStatus) {
-        case Verdict.WIN:
-          var arrayOfScreenMessages = ['Yo-ho!','What I see?!', 'You beat me !!!'];
-          for (var i = 0, y = 130; i < arrayOfScreenMessages.length; i++) {
-            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
-        }
-          break;
 
-        case Verdict.FAIL:
-          var arrayOfScreenMessages = ['Boo-ga-ga!','You just failed', 'Try again, my Game-Monster'];
-          for (var i = 0, y = 130; i < arrayOfScreenMessages.length; i++) {
-            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
-        }
-          break;
+        Verdict.WIN ===  Message.WIN;
+        Verdict.FAIL === Message.FAIL;
+        Verdict.PAUSE === Message.PAUSE;
+        Verdict.INTRO === Message.INTRO;
 
-        case Verdict.PAUSE:
-          var arrayOfScreenMessages = ['Why did you paused me?','Press SPACE and play NOW !'];
-          for (var i = 0, y = 135; i < arrayOfScreenMessages.length; i++) {
-            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
-        }
-          break;
-
-        case Verdict.INTRO:
-          var arrayOfScreenMessages = ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.', 'Also you can push SHIFT', 'and set the fireball !!!'];
-          for (var i = 0, y = 120; i < arrayOfScreenMessages.length; i++) {
-            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
-        }
-          break;
+        var arrayOfScreenMessages = ['Why did you paused me?','Press SPACE and play NOW !'];
+        for (var i = 0, y = 135; i < arrayOfScreenMessages.length; i++) {
+          this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
+      }
+        break;
       }
     },
 
