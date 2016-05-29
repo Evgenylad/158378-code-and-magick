@@ -379,134 +379,58 @@
      */
     _drawPauseScreen: function() {
 
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.beginPath();
+        this.ctx.moveTo(210, 110);
+        this.ctx.lineTo(230, 260);
+        this.ctx.lineTo(510, 260);
+        this.ctx.lineTo(530, 110);
+        this.ctx.lineTo(210, 110);
+        this.ctx.closePath();
+        this.ctx.stroke();
+        this.ctx.fill();
+
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.beginPath();
+        this.ctx.moveTo(200, 100);
+        this.ctx.lineTo(220, 250);
+        this.ctx.lineTo(500, 250);
+        this.ctx.lineTo(520, 100);
+        this.ctx.lineTo(200, 100);
+        this.ctx.closePath();
+        this.ctx.stroke();
+        this.ctx.fill();
+
+        this.ctx.fillStyle = '#000000';
+        this.ctx.font = '16px PT Mono';
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.beginPath();
-          this.ctx.moveTo(210, 110);
-          this.ctx.lineTo(230, 260);
-          this.ctx.lineTo(510, 260);
-          this.ctx.lineTo(530, 110);
-          this.ctx.lineTo(210, 110);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#ffffff';
-          this.ctx.beginPath();
-          this.ctx.moveTo(200, 100);
-          this.ctx.lineTo(220, 250);
-          this.ctx.lineTo(500, 250);
-          this.ctx.lineTo(520, 100);
-          this.ctx.lineTo(200, 100);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#000000';
-          this.ctx.font = '16px PT Mono';
-
-          this.ctx.fillText('Yo-ho!', 250, 165);
-          this.ctx.fillText('What I see?!', 250, 185);
-          this.ctx.fillText('You beat me !!!', 250, 205);
+          var arrayOfScreenMessages = ['Yo-ho!','What I see?!', 'You beat me !!!'];
+          for (var i = 0, y = 130; i < arrayOfScreenMessages.length; i++) {
+            this.ctx.fillText(arrayOfScreenMessages[i], 230, 135);
+        }
           break;
 
         case Verdict.FAIL:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.beginPath();
-          this.ctx.moveTo(210, 110);
-          this.ctx.lineTo(230, 260);
-          this.ctx.lineTo(510, 260);
-          this.ctx.lineTo(530, 110);
-          this.ctx.lineTo(210, 110);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#ffffff';
-          this.ctx.beginPath();
-          this.ctx.moveTo(200, 100);
-          this.ctx.lineTo(220, 250);
-          this.ctx.lineTo(500, 250);
-          this.ctx.lineTo(520, 100);
-          this.ctx.lineTo(200, 100);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#000000';
-          this.ctx.font = '16px PT Mono';
-
-          this.ctx.fillText('Boo-ga-ga!', 230, 165);
-          this.ctx.fillText('You just failed', 230, 185);
-          this.ctx.fillText('Try again, my Game-Monster', 230, 205);
-          break;
-        case Verdict.PAUSE:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.beginPath();
-          this.ctx.moveTo(210, 110);
-          this.ctx.lineTo(230, 260);
-          this.ctx.lineTo(510, 260);
-          this.ctx.lineTo(530, 110);
-          this.ctx.lineTo(210, 110);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#ffffff';
-          this.ctx.beginPath();
-          this.ctx.moveTo(200, 100);
-          this.ctx.lineTo(220, 250);
-          this.ctx.lineTo(500, 250);
-          this.ctx.lineTo(520, 100);
-          this.ctx.lineTo(200, 100);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#000000';
-          this.ctx.font = '16px PT Mono';
-
-          var screenMessage = ['Why did you paused me?','Press SPACE and play NOW !'];
-
-          for (i=0; i<screenMessage.length; i++) {
-            this.ctx.fillText('screenMessage[]', 230, 155);
-          }
-
-          break;
-        case Verdict.INTRO:
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.beginPath();
-          this.ctx.moveTo(210, 110);
-          this.ctx.lineTo(230, 260);
-          this.ctx.lineTo(510, 260);
-          this.ctx.lineTo(530, 110);
-          this.ctx.lineTo(210, 110);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#ffffff';
-          this.ctx.beginPath();
-          this.ctx.moveTo(200, 100);
-          this.ctx.lineTo(220, 250);
-          this.ctx.lineTo(500, 250);
-          this.ctx.lineTo(520, 100);
-          this.ctx.lineTo(200, 100);
-          this.ctx.closePath();
-          this.ctx.stroke();
-          this.ctx.fill();
-
-          this.ctx.fillStyle = '#000000';
-          this.ctx.font = '16px PT Mono';
-
-          var arrayOfScreenMessages = ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.', 'Also you can push SHIFT', 'and set the fireball !!!'];
-          for (i = 0; i < arrayOfScreenMessages.length; i++) {
-            for (y = 135; i < arrayOfScreenMessages.length; y += 20) {
-            this.ctx.fillText(screenMessage[i], 230, y);
-          }
+          var arrayOfScreenMessages = ['Boo-ga-ga!','You just failed', 'Try again, my Game-Monster'];
+          for (var i = 0, y = 130; i < arrayOfScreenMessages.length; i++) {
+            this.ctx.fillText(arrayOfScreenMessages[i], 230, 135);
         }
+          break;
 
+        case Verdict.PAUSE:
+          var arrayOfScreenMessages = ['Why did you paused me?','Press SPACE and play NOW !'];
+          for (var i = 0, y = 135; i < arrayOfScreenMessages.length; i++) {
+            this.ctx.fillText(arrayOfScreenMessages[i], 230, 135);
+        }
+          break;
+
+        case Verdict.INTRO:
+          var arrayOfScreenMessages = ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.', 'Also you can push SHIFT', 'and set the fireball !!!'];
+          for (var i = 0, y = 120; i < arrayOfScreenMessages.length; i++) {
+            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
+        }
           break;
       }
     },
