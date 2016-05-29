@@ -408,21 +408,21 @@
         case Verdict.WIN:
           var arrayOfScreenMessages = ['Yo-ho!','What I see?!', 'You beat me !!!'];
           for (var i = 0, y = 130; i < arrayOfScreenMessages.length; i++) {
-            this.ctx.fillText(arrayOfScreenMessages[i], 230, 135);
+            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
         }
           break;
 
         case Verdict.FAIL:
           var arrayOfScreenMessages = ['Boo-ga-ga!','You just failed', 'Try again, my Game-Monster'];
           for (var i = 0, y = 130; i < arrayOfScreenMessages.length; i++) {
-            this.ctx.fillText(arrayOfScreenMessages[i], 230, 135);
+            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
         }
           break;
 
         case Verdict.PAUSE:
           var arrayOfScreenMessages = ['Why did you paused me?','Press SPACE and play NOW !'];
           for (var i = 0, y = 135; i < arrayOfScreenMessages.length; i++) {
-            this.ctx.fillText(arrayOfScreenMessages[i], 230, 135);
+            this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
         }
           break;
 
