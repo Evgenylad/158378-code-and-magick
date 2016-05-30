@@ -426,16 +426,16 @@
             }
           ctx.fillText(line, x, y);
         }
-        var pauseScreenWidth=x3 - x0;
-        var maxWidth=pauseScreenWidth - 20;
-        var lineHeight=20;
-        var x=235;
-        var y=155;
+        var pauseScreenWidth = x3 - x0;
+        var maxWidth = pauseScreenWidth - 20;
+        var lineHeight = 20;
+        var x = 235;
+        var y = 155;
 
         this.ctx.fillStyle='#000000';
         this.ctx.font='16px PT Mono';
-        this.ctx.shadowOffsetX=0;
-        this.ctx.shadowOffsetY=0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
