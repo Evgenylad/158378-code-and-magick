@@ -73,10 +73,10 @@
    * @enum {Array.<string>}
    */
    var Message = {
-     'INTRO': ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.' , 'Also you can push SHIFT' , 'and set the fireball !!!'],
-     'PAUSE': ['Why did you paused me?','Press SPACE and play NOW !'],
-     'WIN': ['Yo-ho!', 'What I see?!','You beat me !!!'],
-     'FAIL': ['Boo-ga-ga!','You just failed','Try again, my Game-Monster']
+     'INTRO': 'My Dear user! I\'m Pendalf. Let\'s play. Use arrows to move and jump. Also you can push SHIFT and set the fireball !!!',
+     'PAUSE': 'Why did you paused me? Press SPACE and play NOW !',
+     'WIN': 'Yo-ho! What I see?! You beat me !!!',
+     'FAIL': 'Boo-ga-ga! You just failed Try again my Game-Monster'
    }
   /**
    * Правила перерисовки объектов в зависимости от состояния игры.
@@ -389,14 +389,17 @@
     _drawPauseScreen: function() {
         var x = 210;
         var y = 110;
-
+        var x1 = x + 20, y1 = y + 150;
+        var x2 = x1 + 270, y2 = y1;
+        var x3 = x2 + 20, y3 = y2 - 150;
+        var x4=x3-60, y4=y3;
         this.ctx.fillStyle = '#ffffff';
         this.ctx.beginPath();
         this.ctx.moveTo(x, y);
-        this.ctx.lineTo(x+=20, y+=150);
-        this.ctx.lineTo(x+=270, y);
-        this.ctx.lineTo(x+=20, y-=150);
-        this.ctx.lineTo(x-=60, y);
+        this.ctx.lineTo(x1=x+20, y1=y+150);
+        this.ctx.lineTo(x2=x1+270, y2=y1);
+        this.ctx.lineTo(x3=x2+20, y3=y2-150);
+        this.ctx.lineTo(x4=x3-60, y4=y3);
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
         this.ctx.shadowOffsetX = 10;
         this.ctx.shadowOffsetY = 10;
@@ -404,37 +407,55 @@
         this.ctx.stroke();
         this.ctx.fill();
 
+        function wrapMessage(ctx, screenMessage, x, y, maxWidth, lineHeight) {
+          var words = screenMessage.split(' ');
+          var line = '';
+
+          for(var n = 0; n < words.length; n++) {
+            var testLine = line + words[n] + ' ';
+            var metrics = ctx.measureText(testLine);
+            var testWidth = metrics.width;
+              if (testWidth > maxWidth && n > 0) {
+                ctx.fillText(line, x, y);
+                line = words[n] + ' ';
+                y += lineHeight;
+              }
+              else {
+                line = testLine;
+              }
+            }
+          this.ctx.fillText(line, x, y);
+        }
+        var pauseScreenWidth = x3 - x4;
+        var maxWidth = pauseScreenWidth - 10;
+        var lineHeight = 25;
+        var x = 230;
+        var y = 135;
 
         this.ctx.fillStyle = '#000000';
         this.ctx.font = '16px PT Mono';
-
-        function drawText(ctx) {
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            for (var i = 0, y = 135; i < arrayOfScreenMessages.length; i++) {
-            ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
-         }
-        }
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          var arrayOfScreenMessages = Message.WIN;
-          drawText(this.ctx);
+          var screenMessage = Message.WIN;
+          wrapText(ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.FAIL:
-          var arrayOfScreenMessages = Message.FAIL;
-          drawText(this.ctx);
+          var ScreenMessage = Message.FAIL;
+          wrapText(ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.PAUSE:
-          var arrayOfScreenMessages = Message.PAUSE;
-          drawText(this.ctx);
+          var ScreenMessage = Message.PAUSE;
+          wrapText(ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.INTRO:
-          arrayOfScreenMessages = Message.INTRO;
-          drawText(this.ctx);
+          var ScreenMessage = Message.INTRO;
+          wrapText();
       }
     },
 
