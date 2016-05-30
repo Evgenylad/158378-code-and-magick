@@ -407,6 +407,9 @@
       this.ctx.stroke();
       this.ctx.fill();
 
+      /**
+      *Wrap text depending of pauseScreen Width
+      */
       function wrapMessage(ctx, screenMessage, x, y, maxWidth, lineHeight) {
         var arrayOfWords = screenMessage.split(' ');
         var line = '';
@@ -439,23 +442,21 @@
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           var screenMessage = Message.WIN;
-          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.FAIL:
           screenMessage = Message.FAIL;
-          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.PAUSE:
           screenMessage = Message.PAUSE;
-          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.INTRO:
           screenMessage = Message.INTRO;
-          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
+          break;
       }
+      wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
     },
 
     /**
