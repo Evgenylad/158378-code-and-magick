@@ -387,19 +387,19 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-        var x = 210;
-        var y = 110;
-        var x1 = x + 20, y1 = y + 150;
+        var x0 = 210;
+        var y0 = 110;
+        var x1 = x0 + 20, y1 = y0 + 150;
         var x2 = x1 + 270, y2 = y1;
         var x3 = x2 + 20, y3 = y2 - 150;
         var x4=x3-60, y4=y3;
         this.ctx.fillStyle = '#ffffff';
         this.ctx.beginPath();
-        this.ctx.moveTo(x, y);
-        this.ctx.lineTo(x1=x+20, y1=y+150);
-        this.ctx.lineTo(x2=x1+270, y2=y1);
-        this.ctx.lineTo(x3=x2+20, y3=y2-150);
-        this.ctx.lineTo(x4=x3-60, y4=y3);
+        this.ctx.moveTo(x0, y0);
+        this.ctx.lineTo(x1, y1);
+        this.ctx.lineTo(x2, y2);
+        this.ctx.lineTo(x3, y3);
+        this.ctx.lineTo(x4, y4);
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
         this.ctx.shadowOffsetX = 10;
         this.ctx.shadowOffsetY = 10;
@@ -408,16 +408,16 @@
         this.ctx.fill();
 
         function wrapMessage(ctx, screenMessage, x, y, maxWidth, lineHeight) {
-          var words = screenMessage.split(' ');
+          var arrayOfWords = screenMessage.split(' ');
           var line = '';
 
-          for(var n = 0; n < words.length; n++) {
-            var testLine = line + words[n] + ' ';
+          for(var n = 0; n < arrayOfWords.length; n++) {
+            var testLine = line + arrayOfWords[n] + ' ';
             var metrics = ctx.measureText(testLine);
             var testWidth = metrics.width;
               if (testWidth > maxWidth && n > 0) {
                 ctx.fillText(line, x, y);
-                line = words[n] + ' ';
+                line = arrayOfWords[n] + ' ';
                 y += lineHeight;
               }
               else {
@@ -440,22 +440,22 @@
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           var screenMessage = Message.WIN;
-          wrapText(ctx, screenMessage, x, y, maxWidth, lineHeight);
+          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.FAIL:
-          var ScreenMessage = Message.FAIL;
-          wrapText(ctx, screenMessage, x, y, maxWidth, lineHeight);
+          var screenMessage = Message.FAIL;
+          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.PAUSE:
-          var ScreenMessage = Message.PAUSE;
-          wrapText(ctx, screenMessage, x, y, maxWidth, lineHeight);
+          var screenMessage = Message.PAUSE;
+          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.INTRO:
-          var ScreenMessage = Message.INTRO;
-          wrapText();
+          var screenMessage = Message.INTRO;
+          wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
       }
     },
 
