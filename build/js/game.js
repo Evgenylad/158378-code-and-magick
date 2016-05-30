@@ -419,8 +419,7 @@
             ctx.fillText(line, x, y);
             line = arrayOfWords[n] + ' ';
             y += lineHeight;
-          }
-          else {
+          } else {
             line = testLine;
           }
         }
