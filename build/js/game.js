@@ -392,14 +392,14 @@
         var x1 = x0 + 20, y1 = y0 + 150;
         var x2 = x1 + 270, y2 = y1;
         var x3 = x2 + 20, y3 = y2 - 150;
-        var x4=x3-60, y4=y3;
+
         this.ctx.fillStyle = '#ffffff';
         this.ctx.beginPath();
         this.ctx.moveTo(x0, y0);
         this.ctx.lineTo(x1, y1);
         this.ctx.lineTo(x2, y2);
         this.ctx.lineTo(x3, y3);
-        this.ctx.lineTo(x4, y4);
+        this.ctx.lineTo(x0, y0);
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
         this.ctx.shadowOffsetX = 10;
         this.ctx.shadowOffsetY = 10;
@@ -424,13 +424,13 @@
                 line = testLine;
               }
             }
-          this.ctx.fillText(line, x, y);
+          ctx.fillText(line, x, y);
         }
-        var pauseScreenWidth = x3 - x4;
-        var maxWidth = pauseScreenWidth - 10;
-        var lineHeight = 25;
-        var x = 230;
-        var y = 135;
+        var pauseScreenWidth = x3 - x0;
+        var maxWidth = pauseScreenWidth - 20;
+        var lineHeight = 20;
+        var x = 235;
+        var y = 155;
 
         this.ctx.fillStyle = '#000000';
         this.ctx.font = '16px PT Mono';
