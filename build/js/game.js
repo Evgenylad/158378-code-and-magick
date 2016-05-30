@@ -77,7 +77,7 @@
      'PAUSE': 'Why did you paused me? Press SPACE and play NOW !',
      'WIN': 'Yo-ho! What I see?! You beat me !!!',
      'FAIL': 'Boo-ga-ga! You just failed Try again my Game-Monster'
-   }
+   };
   /**
    * Правила перерисовки объектов в зависимости от состояния игры.
    * @type {Object.<ObjectType, function(Object, Object, number): Object>}
@@ -426,16 +426,16 @@
             }
           ctx.fillText(line, x, y);
         }
-        var pauseScreenWidth = x3 - x0;
-        var maxWidth = pauseScreenWidth - 20;
-        var lineHeight = 20;
-        var x = 235;
-        var y = 155;
+        var pauseScreenWidth=x3 - x0;
+        var maxWidth=pauseScreenWidth - 20;
+        var lineHeight=20;
+        var x=235;
+        var y=155;
 
-        this.ctx.fillStyle = '#000000';
-        this.ctx.font = '16px PT Mono';
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = 0;
+        this.ctx.fillStyle='#000000';
+        this.ctx.font='16px PT Mono';
+        this.ctx.shadowOffsetX=0;
+        this.ctx.shadowOffsetY=0;
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
@@ -444,17 +444,17 @@
           break;
 
         case Verdict.FAIL:
-          var screenMessage = Message.FAIL;
+          screenMessage = Message.FAIL;
           wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.PAUSE:
-          var screenMessage = Message.PAUSE;
+          screenMessage = Message.PAUSE;
           wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
           break;
 
         case Verdict.INTRO:
-          var screenMessage = Message.INTRO;
+          screenMessage = Message.INTRO;
           wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
       }
     },
