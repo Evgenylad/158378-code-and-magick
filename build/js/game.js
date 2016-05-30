@@ -387,14 +387,16 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+        var x = 210;
+        var y = 110;
 
         this.ctx.fillStyle = '#ffffff';
         this.ctx.beginPath();
-        this.ctx.moveTo(210, 110);
-        this.ctx.lineTo(230, 260);
-        this.ctx.lineTo(510, 260);
-        this.ctx.lineTo(530, 110);
-        this.ctx.lineTo(210, 110);
+        this.ctx.moveTo(x, y);
+        this.ctx.lineTo(x+=20, y+=150);
+        this.ctx.lineTo(x+=270, y);
+        this.ctx.lineTo(x+=20, y-=150);
+        this.ctx.lineTo(x-=60, y);
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
         this.ctx.shadowOffsetX = 10;
         this.ctx.shadowOffsetY = 10;
@@ -407,8 +409,11 @@
         this.ctx.font = '16px PT Mono';
 
         function drawText(ctx) {
-            this.ctx.fillText('какой-то текст', 230, y += 20);
-            console.log(this.ctx);
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            for (var i = 0, y = 135; i < arrayOfScreenMessages.length; i++) {
+            ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
+         }
         }
 
       switch (this.state.currentStatus) {
