@@ -70,14 +70,14 @@
   };
   /**
    * Константы сообщений.
-   * @enum {array}
+   * @enum {Array.<string>}
    */
    var Message = {
-     'INTRO': ['Why did you paused me?', 'Press SPACE and play NOW !'],
-     'PAUSE': ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.', 'Also you can push SHIFT', 'and set the fireball !!!'],
-     'WIN': ['Yo-ho!', 'What I see?!', 'You beat me !!!'],
-     'FAIL': ['Boo-ga-ga!', 'You just failed', 'Try again, my Game-Monster']
-   };
+     'INTRO': ['My Dear user!', 'I\'m Pendalf. Let\'s play', 'Use arrows to move and jump.' , 'Also you can push SHIFT' , 'and set the fireball !!!'],
+     'PAUSE': ['Why did you paused me?','Press SPACE and play NOW !'],
+     'WIN': ['Yo-ho!', 'What I see?!','You beat me !!!'],
+     'FAIL': ['Boo-ga-ga!','You just failed','Try again, my Game-Monster']
+   }
   /**
    * Правила перерисовки объектов в зависимости от состояния игры.
    * @type {Object.<ObjectType, function(Object, Object, number): Object>}
@@ -388,42 +388,48 @@
      */
     _drawPauseScreen: function() {
 
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.fillStyle = '#ffffff';
         this.ctx.beginPath();
         this.ctx.moveTo(210, 110);
         this.ctx.lineTo(230, 260);
         this.ctx.lineTo(510, 260);
         this.ctx.lineTo(530, 110);
         this.ctx.lineTo(210, 110);
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.shadowOffsetX = 10;
+        this.ctx.shadowOffsetY = 10;
         this.ctx.closePath();
         this.ctx.stroke();
         this.ctx.fill();
 
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.beginPath();
-        this.ctx.moveTo(200, 100);
-        this.ctx.lineTo(220, 250);
-        this.ctx.lineTo(500, 250);
-        this.ctx.lineTo(520, 100);
-        this.ctx.lineTo(200, 100);
-        this.ctx.closePath();
-        this.ctx.stroke();
-        this.ctx.fill();
 
         this.ctx.fillStyle = '#000000';
         this.ctx.font = '16px PT Mono';
 
+        function drawText(ctx) {
+            this.ctx.fillText('какой-то текст', 230, y += 20);
+            console.log(this.ctx);
+        }
 
-        Verdict.WIN ===  Message.WIN;
-        Verdict.FAIL === Message.FAIL;
-        Verdict.PAUSE === Message.PAUSE;
-        Verdict.INTRO === Message.INTRO;
+      switch (this.state.currentStatus) {
+        case Verdict.WIN:
+          var arrayOfScreenMessages = Message.WIN;
+          drawText(this.ctx);
+          break;
 
-        var arrayOfScreenMessages = ['Why did you paused me?','Press SPACE and play NOW !'];
-        for (var i = 0, y = 135; i < arrayOfScreenMessages.length; i++) {
-          this.ctx.fillText(arrayOfScreenMessages[i], 230, y += 20);
-      }
-        break;
+        case Verdict.FAIL:
+          var arrayOfScreenMessages = Message.FAIL;
+          drawText(this.ctx);
+          break;
+
+        case Verdict.PAUSE:
+          var arrayOfScreenMessages = Message.PAUSE;
+          drawText(this.ctx);
+          break;
+
+        case Verdict.INTRO:
+          arrayOfScreenMessages = Message.INTRO;
+          drawText(this.ctx);
       }
     },
 
