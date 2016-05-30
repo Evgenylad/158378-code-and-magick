@@ -72,12 +72,12 @@
    * Константы сообщений.
    * @enum {Array.<string>}
    */
-   var Message = {
-     'INTRO': 'My Dear user! I\'m Pendalf. Let\'s play. Use arrows to move and jump. Also you can push SHIFT and set the fireball !!!',
-     'PAUSE': 'Why did you paused me? Press SPACE and play NOW !',
-     'WIN': 'Yo-ho! What I see?! You beat me !!!',
-     'FAIL': 'Boo-ga-ga! You just failed Try again my Game-Monster'
-   };
+  var Message = {
+    'INTRO': 'My Dear user! I\'m Pendalf. Let\'s play. Use arrows to move and jump. Also you can push SHIFT and set the fireball !!!',
+    'PAUSE': 'Why did you paused me? Press SPACE and play NOW !',
+    'WIN': 'Yo-ho! What I see?! You beat me !!!',
+    'FAIL': 'Boo-ga-ga! You just failed Try again my Game-Monster'
+  };
   /**
    * Правила перерисовки объектов в зависимости от состояния игры.
    * @type {Object.<ObjectType, function(Object, Object, number): Object>}
@@ -387,55 +387,55 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-        var x0 = 210;
-        var y0 = 110;
-        var x1 = x0 + 20, y1 = y0 + 150;
-        var x2 = x1 + 270, y2 = y1;
-        var x3 = x2 + 20, y3 = y2 - 150;
+      var x0 = 210;
+      var y0 = 110;
+      var x1 = x0 + 20, y1 = y0 + 150;
+      var x2 = x1 + 270, y2 = y1;
+      var x3 = x2 + 20, y3 = y2 - 150;
 
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.beginPath();
-        this.ctx.moveTo(x0, y0);
-        this.ctx.lineTo(x1, y1);
-        this.ctx.lineTo(x2, y2);
-        this.ctx.lineTo(x3, y3);
-        this.ctx.lineTo(x0, y0);
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-        this.ctx.shadowOffsetX = 10;
-        this.ctx.shadowOffsetY = 10;
-        this.ctx.closePath();
-        this.ctx.stroke();
-        this.ctx.fill();
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.beginPath();
+      this.ctx.moveTo(x0, y0);
+      this.ctx.lineTo(x1, y1);
+      this.ctx.lineTo(x2, y2);
+      this.ctx.lineTo(x3, y3);
+      this.ctx.lineTo(x0, y0);
+      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.shadowOffsetX = 10;
+      this.ctx.shadowOffsetY = 10;
+      this.ctx.closePath();
+      this.ctx.stroke();
+      this.ctx.fill();
 
-        function wrapMessage(ctx, screenMessage, x, y, maxWidth, lineHeight) {
-          var arrayOfWords = screenMessage.split(' ');
-          var line = '';
+      function wrapMessage(ctx, screenMessage, x, y, maxWidth, lineHeight) {
+        var arrayOfWords = screenMessage.split(' ');
+        var line = '';
 
-          for(var n = 0; n < arrayOfWords.length; n++) {
-            var testLine = line + arrayOfWords[n] + ' ';
-            var metrics = ctx.measureText(testLine);
-            var testWidth = metrics.width;
-              if (testWidth > maxWidth && n > 0) {
-                ctx.fillText(line, x, y);
-                line = arrayOfWords[n] + ' ';
-                y += lineHeight;
-              }
-              else {
-                line = testLine;
-              }
-            }
-          ctx.fillText(line, x, y);
+        for(var n = 0; n < arrayOfWords.length; n++) {
+          var testLine = line + arrayOfWords[n] + ' ';
+          var metrics = ctx.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            ctx.fillText(line, x, y);
+            line = arrayOfWords[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
         }
-        var pauseScreenWidth = x3 - x0;
-        var maxWidth = pauseScreenWidth - 20;
-        var lineHeight = 20;
-        var x = 235;
-        var y = 155;
+        ctx.fillText(line, x, y);
+      }
+      var pauseScreenWidth = x3 - x0;
+      var maxWidth = pauseScreenWidth - 20;
+      var lineHeight = 20;
+      var x = 235;
+      var y = 155;
 
-        this.ctx.fillStyle='#000000';
-        this.ctx.font='16px PT Mono';
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = 0;
+      this.ctx.fillStyle = '#000000';
+      this.ctx.font = '16px PT Mono';
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
