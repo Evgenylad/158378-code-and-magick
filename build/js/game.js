@@ -448,14 +448,15 @@
             ctx.fillText(line, x, y);
             line = arrayOfWords[n] + ' ';
             y += lineHeight;
+console.log(testLine);
           } else {
             line = testLine;
-
           }
+
         }
         ctx.fillText(line, x, y);
         var height = y;
-        console.log(height);
+
       }
       wrapMessage(this.ctx, screenMessage, maxWidth, lineHeight);
     },
