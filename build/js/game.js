@@ -387,11 +387,18 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var arrayOfWords;
+      var height;
       var x0 = 210;
       var y0 = 110;
-      var x1 = x0 + 20, y1 = y0 + 150;
+      var x1 = x0 + 20, y1;
       var x2 = x1 + 270, y2 = y1;
-      var x3 = x2 + 20, y3 = y2 - 150;
+      var x3 = x2 + 20, y3;
+      var pauseScreenWidth = x3 - x0;
+      var maxWidth = pauseScreenWidth - 20;
+      var lineHeight = 20;
+      var x = 235;
+      var y = 155;
 
       this.ctx.fillStyle = '#ffffff';
       this.ctx.beginPath();
@@ -404,35 +411,7 @@
       this.ctx.shadowOffsetX = 10;
       this.ctx.shadowOffsetY = 10;
       this.ctx.closePath();
-      this.ctx.stroke();
       this.ctx.fill();
-
-      /**
-      *Wrap text depending of pauseScreen Width
-      */
-      function wrapMessage(ctx, screenMessage, x, y, maxWidth, lineHeight) {
-        var arrayOfWords = screenMessage.split(' ');
-        var line = '';
-
-        for(var n = 0; n < arrayOfWords.length; n++) {
-          var testLine = line + arrayOfWords[n] + ' ';
-          var metrics = ctx.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
-            ctx.fillText(line, x, y);
-            line = arrayOfWords[n] + ' ';
-            y += lineHeight;
-          } else {
-            line = testLine;
-          }
-        }
-        ctx.fillText(line, x, y);
-      }
-      var pauseScreenWidth = x3 - x0;
-      var maxWidth = pauseScreenWidth - 20;
-      var lineHeight = 20;
-      var x = 235;
-      var y = 155;
 
       this.ctx.fillStyle = '#000000';
       this.ctx.font = '16px PT Mono';
@@ -456,7 +435,35 @@
           screenMessage = Message.INTRO;
           break;
       }
+      /**
+      *Wrap text depending of pauseScreen Width
+      */
+      function wrapMessage(ctx, screenMessage, x, y, maxWidth, lineHeight) {
+        arrayOfWords = screenMessage.split(' ');
+        var line = '';
+        for(var n = 0; n < arrayOfWords.length; n++) {
+          var testLine = line + arrayOfWords[n] + ' ';
+          var metrics = ctx.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            ctx.fillText(line, x, y);
+            line = arrayOfWords[n] + ' ';
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, x, y);
+      }
+
+      function changePauseScreenWidth(lineHeight, arrayOfWords, y0, y2) {
+        height = arrayOfWords.length * lineHeight;
+        y1 = y0 + height;
+        y3 = y2 - height;
+      }
+
       wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
+      changePauseScreenWidth(lineHeight, arrayOfWords, y0, y2);
     },
 
     /**
