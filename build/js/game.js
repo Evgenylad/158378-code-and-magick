@@ -449,8 +449,8 @@
           if (testWidth > maxWidth && n > 0) {
             ctx.fillText(line, x, y);
             line = arrayOfWords[n] + ' ';
-            y += lineHeight;
             console.log(fillText);
+            y += lineHeight;
           } else {
             line = testLine;
           }
