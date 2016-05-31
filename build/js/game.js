@@ -388,6 +388,7 @@
      */
     _drawPauseScreen: function() {
       var arrayOfWords;
+      var screenMessage;
       var x0 = 210;
       var y0 = 110;
       var x1 = x0 + 20, y1 = y0 + 150;
@@ -402,7 +403,7 @@
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          var screenMessage = Message.WIN;
+          screenMessage = Message.WIN;
           break;
 
         case Verdict.FAIL:
@@ -417,6 +418,7 @@
           screenMessage = Message.INTRO;
           break;
       }
+      wrapMessage(this.ctx);
       /**
       *Wrap text depending of pauseScreen Width
       */
@@ -448,17 +450,14 @@
             ctx.fillText(line, x, y);
             line = arrayOfWords[n] + ' ';
             y += lineHeight;
-console.log(testLine);
+            console.log(fillText);
           } else {
             line = testLine;
           }
-
         }
         ctx.fillText(line, x, y);
         var height = y;
-
       }
-      wrapMessage(this.ctx, screenMessage, maxWidth, lineHeight);
     },
 
     /**
