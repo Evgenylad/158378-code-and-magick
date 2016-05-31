@@ -390,6 +390,7 @@
       var arrayOfWords;
       var arrayOfLines = [];
       var screenMessage;
+      var textHeight;
       var x = 210;
       var y = 110;
       var maxWidth = 290;
@@ -414,6 +415,7 @@
           break;
       }
       wrapMessage(this.ctx);
+      drawingBackground(this.ctx);
       drawingMessage(this.ctx);
       /**
       *Wrap text depending of pauseScreen Width
@@ -435,7 +437,10 @@
           }
         }
         var arrayOfLinesLength = arrayOfLines.push(line);
-        var textHeight = arrayOfLinesLength * lineHeight;
+        textHeight = arrayOfLinesLength * lineHeight;
+      }
+
+      function drawingBackground(ctx) {
         y = y - lineHeight * 5;
         var y1 = y + textHeight, x1 = x;
         var y2 = y1, x2 = x + maxWidth;
@@ -459,8 +464,10 @@
       }
 
       function drawingMessage(ctx) {
-        var line = arrayOfLines[j];
+        var line;
         for(var j = 0; j < arrayOfLines.lenght; j++) {
+          line = arrayOfLines[j];
+          console.log(line);
           ctx.fillText(line, x, y);
           console.log(line);
         }
