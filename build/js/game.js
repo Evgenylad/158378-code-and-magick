@@ -388,35 +388,17 @@
      */
     _drawPauseScreen: function() {
       var arrayOfWords;
-      var height = 50;
       var x0 = 210;
       var y0 = 110;
-      var x1 = x0 + 20, y1 = y0 + height;
+      var x1 = x0 + 20, y1 = y0 + 150;
       var x2 = x1 + 270, y2 = y1;
-      var x3 = x2 + 20, y3 = y2 - height;
+      var x3 = x2 + 20, y3 = y2 - 150;
       var pauseScreenWidth = x3 - x0;
       var maxWidth = pauseScreenWidth - 20;
       var lineHeight = 20;
       var x = 235;
       var y = 155;
 
-      this.ctx.fillStyle = '#ffffff';
-      this.ctx.beginPath();
-      this.ctx.moveTo(x0, y0);
-      this.ctx.lineTo(x1, y1);
-      this.ctx.lineTo(x2, y2);
-      this.ctx.lineTo(x3, y3);
-      this.ctx.lineTo(x0, y0);
-      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-      this.ctx.shadowOffsetX = 10;
-      this.ctx.shadowOffsetY = 10;
-      this.ctx.closePath();
-      this.ctx.fill();
-
-      this.ctx.fillStyle = '#000000';
-      this.ctx.font = '16px PT Mono';
-      this.ctx.shadowOffsetX = 0;
-      this.ctx.shadowOffsetY = 0;
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
@@ -441,6 +423,23 @@
       function wrapMessage(ctx) {
         arrayOfWords = screenMessage.split(' ');
         var line = '';
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x3, y3);
+        ctx.lineTo(x0, y0);
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        ctx.shadowOffsetX = 10;
+        ctx.shadowOffsetY = 10;
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#000000';
+        ctx.font = '16px PT Mono';
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         for(var n = 0; n < arrayOfWords.length; n++) {
           var testLine = line + arrayOfWords[n] + ' ';
           var metrics = ctx.measureText(testLine);
@@ -451,11 +450,14 @@
             y += lineHeight;
           } else {
             line = testLine;
+
           }
         }
         ctx.fillText(line, x, y);
+        var height = y;
+        console.log(height);
       }
-      wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
+      wrapMessage(this.ctx, screenMessage, maxWidth, lineHeight);
     },
 
     /**
