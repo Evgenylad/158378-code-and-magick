@@ -448,8 +448,8 @@
           var testWidth = metrics.width;
           if (testWidth > maxWidth && n > 0) {
             ctx.fillText(line, x, y);
-            line = arrayOfWords[n] + ' ';
             console.log(fillText);
+            line = arrayOfWords[n] + ' ';
             y += lineHeight;
           } else {
             line = testLine;
