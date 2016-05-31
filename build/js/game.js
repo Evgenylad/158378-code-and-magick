@@ -391,32 +391,14 @@
       var height;
       var x0 = 210;
       var y0 = 110;
-      var x1 = x0 + 20, y1;
-      var x2 = x1 + 270, y2 = y1;
-      var x3 = x2 + 20, y3;
-      var pauseScreenWidth = x3 - x0;
+      var pauseScreenWidth = 310;
       var maxWidth = pauseScreenWidth - 20;
       var lineHeight = 20;
       var x = 235;
       var y = 155;
 
-      this.ctx.fillStyle = '#ffffff';
-      this.ctx.beginPath();
-      this.ctx.moveTo(x0, y0);
-      this.ctx.lineTo(x1, y1);
-      this.ctx.lineTo(x2, y2);
-      this.ctx.lineTo(x3, y3);
-      this.ctx.lineTo(x0, y0);
-      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-      this.ctx.shadowOffsetX = 10;
-      this.ctx.shadowOffsetY = 10;
-      this.ctx.closePath();
-      this.ctx.fill();
-
       this.ctx.fillStyle = '#000000';
       this.ctx.font = '16px PT Mono';
-      this.ctx.shadowOffsetX = 0;
-      this.ctx.shadowOffsetY = 0;
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
@@ -456,14 +438,30 @@
         ctx.fillText(line, x, y);
       }
 
-      function changePauseScreenWidth(lineHeight, arrayOfWords, y0, y2) {
+      function changePauseScreenWidth(ctx, lineHeight, arrayOfWords, x0, y0) {
         height = arrayOfWords.length * lineHeight;
-        y1 = y0 + height;
-        y3 = y2 - height;
+        var x1 = x0 + 20;
+        var y1 = y0 + height;
+        var x2 = x1 + 270, y2 = y1;
+        var x3 = x2 + 20, y3 = y2 - height;
+
+        ctx.beginPath();
+
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x3, y3);
+        ctx.lineTo(x0, y0);
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        ctx.shadowOffsetX = 10;
+        ctx.shadowOffsetY = 10;
+        ctx.closePath();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
       }
 
       wrapMessage(this.ctx, screenMessage, x, y, maxWidth, lineHeight);
-      changePauseScreenWidth(lineHeight, arrayOfWords, y0, y2);
+      changePauseScreenWidth(this.ctx, lineHeight, arrayOfWords, x0, y0);
     },
 
     /**
