@@ -439,7 +439,9 @@
         var arrayOfLinesLength = arrayOfLines.push(line);
         textHeight = arrayOfLinesLength * lineHeight;
       }
-
+      /**
+      *Drawing background based on text height
+      */
       function drawingBackground(ctx) {
         y = y - lineHeight * 5;
         var y1 = y + textHeight, x1 = x;
@@ -462,12 +464,15 @@
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
       }
-
+      /**
+      *Drawing screen Message
+      */
       function drawingMessage(ctx) {
         var line;
+        ctx.fillStyle = '#000000';
         for(var j = 0; j < arrayOfLines.lenght; j++) {
           line = arrayOfLines[j];
-          console.log(line);
+          console.log(j);
           ctx.fillText(line, x, y);
           console.log(line);
         }
