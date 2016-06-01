@@ -414,8 +414,8 @@
       }
       var arrayOfLines = splitMessage(this.ctx, screenMessage, maxWidth);
       textHeight = arrayOfLines.length * lineHeight;
-      drawingBackground(this.ctx, lineHeight, maxWidth, y, textHeight);
-      drawingMessage(this.ctx, lineHeight, arrayOfLines);
+      drawingBackground(this.ctx, lineHeight, maxWidth, textHeight, x, y);
+      drawingMessage(this.ctx, lineHeight, arrayOfLines, x, y);
       /**
       *Wrap text depending of pauseScreen Width
       */
@@ -440,19 +440,19 @@
       /**
       *Drawing background based on text height
       */
-      function drawingBackground(ctx, height, width, coordinateY, totalHeight) {
-        y = coordinateY - height * 5;
-        var y1 = y - totalHeight - 5, x1 = x - 20;
+      function drawingBackground(ctx, height, width, totalHeight, xStart, yStart) {
+        yStart = yStart - height * 5;
+        var y1 = yStart - totalHeight - 5, x1 = xStart - 20;
         var y2 = y1, x2 = x + width;
         var y3 = y2 + totalHeight + 5, x3 = x2 - 20;
 
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.moveTo(x, y);
+        ctx.moveTo(xStart, yStart);
         ctx.lineTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.lineTo(x3, y3);
-        ctx.lineTo(x, y);
+        ctx.lineTo(xStart, yStart);
         ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
         ctx.shadowOffsetX = 10;
         ctx.shadowOffsetY = 10;
@@ -466,16 +466,16 @@
       /**
       *Drawing screen Message
       */
-      function drawingMessage(ctx, height, array) {
+      function drawingMessage(ctx, height, array, xStart, yStart) {
         var line;
         ctx.font = '16px PT Mono';
-        y = y - height / 3;
-        x = x + 8;
+        yStart = yStart - height / 3;
+        xStart = xStart + 8;
         for(var j = array.length - 1; j >= 0; j--) {
           line = array[j] + ' ';
           ctx.fillStyle = '#000000';
-          ctx.fillText(line, x, y);
-          y -= height;
+          ctx.fillText(line, xStart, yStart);
+          yStart -= height;
         }
       }
     },
