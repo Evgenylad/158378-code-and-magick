@@ -389,6 +389,7 @@
     _drawPauseScreen: function() {
       var arrayOfWords;
       var arrayOfLines = [];
+      var arrayOfLinesLength;
       var screenMessage;
       var textHeight;
       var x = 210;
@@ -436,7 +437,7 @@
             line = testLine;
           }
         }
-        var arrayOfLinesLength = arrayOfLines.push(line);
+        arrayOfLinesLength = arrayOfLines.push(line);
         textHeight = arrayOfLinesLength * lineHeight;
       }
       /**
@@ -464,17 +465,19 @@
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
       }
+
       /**
       *Drawing screen Message
       */
       function drawingMessage(ctx) {
         var line;
-        ctx.fillStyle = '#000000';
-        for(var j = 0; j < arrayOfLines.lenght; j++) {
-          line = arrayOfLines[j];
-          console.log(j);
+        y = y + lineHeight;
+        console.log(arrayOfLinesLength);
+        for(var j = 0; j < arrayOfLinesLength; j++) {
+          line = arrayOfLines[j] + ' ';
+          ctx.fillStyle = '#000000';
           ctx.fillText(line, x, y);
-          console.log(line);
+          y += lineHeight;
         }
       }
     },
