@@ -413,9 +413,10 @@
           break;
       }
       var arrayOfLines = splitMessage(this.ctx, screenMessage, maxWidth);
+      var arrayOfLinesLenght = arrayOfLines.length;
       textHeight = arrayOfLines.length * lineHeight;
-      drawingBackground(this.ctx, lineHeight, maxWidth, textHeight, x, y);
-      drawingMessage(this.ctx, lineHeight, arrayOfLines, x, y);
+      drawingBackground(this.ctx, lineHeight, maxWidth, textHeight, x, y, arrayOfLinesLenght);
+      drawingMessage(this.ctx, lineHeight, arrayOfLines, x, y - textHeight);
       /**
       *Wrap text depending of pauseScreen Width
       */
@@ -440,8 +441,8 @@
       /**
       *Drawing background based on text height
       */
-      function drawingBackground(ctx, height, width, totalHeight, xStart, yStart) {
-        yStart = yStart - height * 5;
+      function drawingBackground(ctx, height, width, totalHeight, xStart, yStart, lines) {
+        yStart = yStart - height * lines;
         var y1 = yStart - totalHeight - 5, x1 = xStart - 20;
         var y2 = y1, x2 = x + width;
         var y3 = y2 + totalHeight + 5, x3 = x2 - 20;
@@ -469,7 +470,7 @@
       function drawingMessage(ctx, height, array, xStart, yStart) {
         var line;
         ctx.font = '16px PT Mono';
-        yStart = yStart - height / 3;
+        yStart = Math.floor(yStart - height / 3);
         xStart = xStart + 8;
         for(var j = array.length - 1; j >= 0; j--) {
           line = array[j] + ' ';
