@@ -387,16 +387,13 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-      var arrayOfWords;
-      var arrayOfLines = [];
-      var arrayOfLinesLength;
       var screenMessage;
       var textHeight;
       var x = 210;
-      var y = 110;
+      var y = 300;
       var maxWidth = 290;
       var lineHeight = 20;
-
+      this.ctx.font = '16px PT Mono';
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
@@ -415,39 +412,40 @@
           screenMessage = Message.INTRO;
           break;
       }
-      wrapMessage(this.ctx);
+      var arrayOfLines = splitMessage(this.ctx);
+      console.log(arrayOfLines);
+      textHeight = arrayOfLines.length * lineHeight;
       drawingBackground(this.ctx);
       drawingMessage(this.ctx);
       /**
       *Wrap text depending of pauseScreen Width
       */
-      function wrapMessage(ctx) {
-        ctx.font = '16px PT Mono';
-        arrayOfWords = screenMessage.split(' ');
+      function splitMessage(ctx) {
+        var resultArray = [];
+        var arrayOfWords = screenMessage.split(' ');
         var line = '';
         for(var n = 0; n < arrayOfWords.length; n++) {
           var testLine = line + arrayOfWords[n] + ' ';
           var metrics = ctx.measureText(testLine);
           var testWidth = metrics.width;
           if (testWidth > maxWidth && n > 0) {
-            arrayOfLines.push(line);
+            resultArray.push(line);
             line = arrayOfWords[n] + ' ';
-            y += lineHeight;
           } else {
             line = testLine;
           }
         }
-        arrayOfLinesLength = arrayOfLines.push(line);
-        textHeight = arrayOfLinesLength * lineHeight;
+        resultArray.push(line);
+        return resultArray;
       }
       /**
       *Drawing background based on text height
       */
       function drawingBackground(ctx) {
         y = y - lineHeight * 5;
-        var y1 = y + textHeight, x1 = x;
+        var y1 = y - textHeight - 5, x1 = x - 20;
         var y2 = y1, x2 = x + maxWidth;
-        var y3 = y2 - textHeight, x3 = x2;
+        var y3 = y2 + textHeight + 5, x3 = x2 - 20;
 
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
@@ -471,13 +469,14 @@
       */
       function drawingMessage(ctx) {
         var line;
-        y = y + lineHeight;
-        console.log(arrayOfLinesLength);
-        for(var j = 0; j < arrayOfLinesLength; j++) {
+        ctx.font = '16px PT Mono';
+        y = y - lineHeight / 3;
+        x = x + 8;
+        for(var j = arrayOfLines.length - 1; j >= 0; j--) {
           line = arrayOfLines[j] + ' ';
           ctx.fillStyle = '#000000';
           ctx.fillText(line, x, y);
-          y += lineHeight;
+          y -= lineHeight;
         }
       }
     },
