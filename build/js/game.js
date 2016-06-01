@@ -413,7 +413,6 @@
           break;
       }
       var arrayOfLines = splitMessage(this.ctx, screenMessage, maxWidth);
-      console.log(arrayOfLines);
       textHeight = arrayOfLines.length * lineHeight;
       drawingBackground(this.ctx, lineHeight, maxWidth, y, textHeight);
       drawingMessage(this.ctx, lineHeight, arrayOfLines);
@@ -442,7 +441,7 @@
       *Drawing background based on text height
       */
       function drawingBackground(ctx, height, width, coordinateY, totalHeight) {
-        y = y - height * 5;
+        y = coordinateY - height * 5;
         var y1 = y - totalHeight - 5, x1 = x - 20;
         var y2 = y1, x2 = x + width;
         var y3 = y2 + totalHeight + 5, x3 = x2 - 20;
