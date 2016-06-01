@@ -412,7 +412,7 @@
           screenMessage = Message.INTRO;
           break;
       }
-      var arrayOfLines = splitMessage(this.ctx);
+      var arrayOfLines = splitMessage(this.ctx, screenMessage, maxWidth);
       console.log(arrayOfLines);
       textHeight = arrayOfLines.length * lineHeight;
       drawingBackground(this.ctx);
@@ -420,15 +420,15 @@
       /**
       *Wrap text depending of pauseScreen Width
       */
-      function splitMessage(ctx) {
+      function splitMessage(ctx, message, width) {
         var resultArray = [];
-        var arrayOfWords = screenMessage.split(' ');
+        var arrayOfWords = message.split(' ');
         var line = '';
         for(var n = 0; n < arrayOfWords.length; n++) {
           var testLine = line + arrayOfWords[n] + ' ';
           var metrics = ctx.measureText(testLine);
           var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
+          if (testWidth > width && n > 0) {
             resultArray.push(line);
             line = arrayOfWords[n] + ' ';
           } else {
