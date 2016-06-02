@@ -390,7 +390,7 @@
       var screenMessage;
       var textHeight;
       var x = 210;
-      var y = 300;
+      var y = 230;
       var maxWidth = 290;
       var lineHeight = 20;
       this.ctx.font = '16px PT Mono';
