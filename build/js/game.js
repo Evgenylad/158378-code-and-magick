@@ -68,7 +68,16 @@
     UP: 4,
     DOWN: 8
   };
-
+  /**
+   * Константы сообщений.
+   * @enum {Array.<string>}
+   */
+  var Message = {
+    'INTRO': 'My Dear user! I\'m Pendalf. Let\'s play. Use arrows to move and jump. Also you can push SHIFT and set the fireball !!!',
+    'PAUSE': 'Why did you paused me? Press SPACE and play NOW !',
+    'WIN': 'Yo-ho! What I see?! You beat me !!!',
+    'FAIL': 'Boo-ga-ga! You just failed Try again my Game-Monster'
+  };
   /**
    * Правила перерисовки объектов в зависимости от состояния игры.
    * @type {Object.<ObjectType, function(Object, Object, number): Object>}
@@ -378,19 +387,97 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var screenMessage;
+      var textHeight;
+      var x = 210;
+      var y = 230;
+      var maxWidth = 290;
+      var lineHeight = 20;
+      this.ctx.font = '16px PT Mono';
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          screenMessage = Message.WIN;
           break;
+
         case Verdict.FAIL:
-          console.log('you have failed!');
+          screenMessage = Message.FAIL;
           break;
+
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          screenMessage = Message.PAUSE;
           break;
+
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          screenMessage = Message.INTRO;
           break;
+      }
+      var arrayOfLines = splitMessage(this.ctx, screenMessage, maxWidth);
+      var arrayOfLinesLenght = arrayOfLines.length;
+      textHeight = arrayOfLines.length * lineHeight;
+      drawingBackground(this.ctx, lineHeight, maxWidth, textHeight, x, y, arrayOfLinesLenght);
+      drawingMessage(this.ctx, lineHeight, arrayOfLines, x, y - textHeight);
+      /**
+      *Wrap text depending of pauseScreen Width
+      */
+      function splitMessage(ctx, message, width) {
+        var resultArray = [];
+        var arrayOfWords = message.split(' ');
+        var line = '';
+        for(var n = 0; n < arrayOfWords.length; n++) {
+          var testLine = line + arrayOfWords[n] + ' ';
+          var metrics = ctx.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > width && n > 0) {
+            resultArray.push(line);
+            line = arrayOfWords[n] + ' ';
+          } else {
+            line = testLine;
+          }
+        }
+        resultArray.push(line);
+        return resultArray;
+      }
+      /**
+      *Drawing background based on text height
+      */
+      function drawingBackground(ctx, height, width, totalHeight, xStart, yStart, lines) {
+        yStart = yStart - height * lines;
+        var y1 = yStart - totalHeight - 5, x1 = xStart - 20;
+        var y2 = y1, x2 = x + width;
+        var y3 = y2 + totalHeight + 5, x3 = x2 - 20;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(xStart, yStart);
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x3, y3);
+        ctx.lineTo(xStart, yStart);
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        ctx.shadowOffsetX = 10;
+        ctx.shadowOffsetY = 10;
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+      }
+
+      /**
+      *Drawing screen Message
+      */
+      function drawingMessage(ctx, height, array, xStart, yStart) {
+        var line;
+        ctx.font = '16px PT Mono';
+        yStart = Math.floor(yStart - height / 3);
+        xStart = xStart + 8;
+        for(var j = array.length - 1; j >= 0; j--) {
+          line = array[j] + ' ';
+          ctx.fillStyle = '#000000';
+          ctx.fillText(line, xStart, yStart);
+          yStart -= height;
+        }
       }
     },
 
