@@ -17,16 +17,13 @@
 
   var range = document.getElementsByName('review-mark');
   var text = document.getElementById('review-text');
-  var checkingRange = function() {
-    for(var i = 0; i < range.length; i++) {
-      var rangeOfElement = range[i].value;
-      console.log(range[i].value);
-      if(rangeOfElement < 3) {
+  for(var i = 0; i < range.length; i++) {
+    var rangeOfElement = range[i].value;
+    var rangeOfElementInt = parseInt(rangeOfElement, 10);
+    if(rangeOfElementInt < 3) {
+      range[i].onclick = function() {
         text.removeAttribute('disabled');
-      }
+      };
     }
-  };
-
-  checkingRange();
-
+  }
 })();
