@@ -18,6 +18,7 @@
   var range = document.getElementsByName('review-mark');
   var text = document.getElementById('review-text');
   var name = form.querySelector('.review-form-field-name');
+  var button = form.querySelector('.review-submit');
 
   for(var i = 0; i < range.length; i++) {
     var rangeOfElement = range[i].value;
@@ -38,6 +39,8 @@
       };
       hideNameLabel();
       console.log(name);
+    } else {
+      button.setAttribute('disabled', 'disabled');
     }
   };
 
@@ -50,6 +53,9 @@
       };
       hideTextLabel();
       console.log(name);
+    }
+    else {
+      button.setAttribute('disabled', 'disabled');
     }
   };
 })();
