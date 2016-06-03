@@ -19,6 +19,7 @@
   var text = document.getElementById('review-text');
   var name = form.querySelector('.review-form-field-name');
   var button = form.querySelector('.review-submit');
+  var review = form.querySelector('.review-fields');
 
   for(var i = 0; i < range.length; i++) {
     var rangeOfElement = range[i].value;
@@ -53,9 +54,18 @@
       };
       hideTextLabel();
       console.log(name);
-    }
-    else {
+    } else {
       button.setAttribute('disabled', 'disabled');
     }
   };
+
+  var hideReview = function() {
+    if (text.validity === true && name.validity === true) {
+      review.setAttribute('visibility', true);
+      review.style.visibility = 'hidden';
+    }
+  };
+
+  hideReview();
+  console.log(hideReview);
 })();
