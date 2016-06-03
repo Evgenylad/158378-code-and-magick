@@ -14,9 +14,11 @@
     evt.preventDefault();
     formContainer.classList.add('invisible');
   };
-
+  var form = document.querySelector('.review-form');
   var range = document.getElementsByName('review-mark');
   var text = document.getElementById('review-text');
+  var name = form.querySelector('.review-form-field-name');
+
   for(var i = 0; i < range.length; i++) {
     var rangeOfElement = range[i].value;
     var rangeOfElementInt = parseInt(rangeOfElement, 10);
@@ -26,4 +28,28 @@
       };
     }
   }
+
+  name.oninput = function() {
+    if (name.checkValidity() === true) {
+      var hideNameLabel = function() {
+        var nameLabel = form.querySelector('.review-fields-name');
+        nameLabel.setAttribute('visibility', true);
+        nameLabel.style.visibility = 'hidden';
+      };
+      hideNameLabel();
+      console.log(name);
+    }
+  };
+
+  text.oninput = function() {
+    if (text.checkValidity() === true) {
+      var hideTextLabel = function() {
+        var textLabel = form.querySelector('.review-fields-text');
+        textLabel.setAttribute('visibility', true);
+        textLabel.style.visibility = 'hidden';
+      };
+      hideTextLabel();
+      console.log(name);
+    }
+  };
 })();
