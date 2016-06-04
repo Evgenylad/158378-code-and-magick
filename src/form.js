@@ -22,7 +22,6 @@
   };
   var form = document.querySelector('.review-form');
   var ratingRadioButtons = document.getElementsByName('review-mark');
-  var inputFields = document.getElementsByClassName('review-form-field');
   var textInput = document.getElementById('review-text');
   var nameInput = document.getElementById('review-name');
   var submitButton = form.querySelector('.review-submit');
@@ -32,6 +31,7 @@
   var textLabel = form.querySelector('.review-fields-text');
 
   nameInput.setAttribute('required', true);
+
   _disableElement(submitButton);
   for(var i = 0; i < ratingRadioButtons.length; i++) {
     ratingRadioButtons[i].onchange = function() {
@@ -59,13 +59,14 @@
     if (textInput.checkValidity()) {
       _validation(textInput, textLabel);
       _enableElement(submitButton);
+      inputFieldsOninput();
     } else {
       _disableElement(submitButton);
     }
   };
 
   var inputFieldsOninput = function() {
-    if (textInput.checkValidity() && nameInput.checkValidity()) {
+    if (textInput.checkValidity() || nameInput.checkValidity()) {
       reviewFieldsContainer.style.visibility = 'hidden';
     }
   };
@@ -77,11 +78,6 @@
 // Enabling element
   function _enableElement(enableElement) {
     enableElement.removeAttribute('disabled');
-  }
-
-// Validating and hiding .review-fields if true.
-  function _hideLabelBlok() {
-    reviewFieldsContainer.style.visibility = 'hidden';
   }
 // Validating and hiding .review-fields's children label if true.
   function _validation(input, label) {
