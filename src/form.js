@@ -8,16 +8,16 @@
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
-    textInput.addEventListener('input', nameInputOninput);
-    nameInput.addEventListener('input', textInputOninput);
+    textInput.addEventListener('input', textInputOninput);
+    nameInput.addEventListener('input', nameInputOninput);
   //  addEventListener('input', inputFieldsOninput);
   };
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.add('invisible');
-    textInput.removeEventListener('input', nameInputOninput);
-    nameInput.removeEventListener('input', textInputOninput);
+    textInput.removeEventListener('input', textInputOninput);
+    nameInput.removeEventListener('input', nameInputOninput);
   //  addEventListener('input', inputFieldsOninput);
   };
   var form = document.querySelector('.review-form');
@@ -32,8 +32,6 @@
   var textLabel = form.querySelector('.review-fields-text');
 
   nameInput.setAttribute('required', true);
-  textInput.setCustomValidity('Please tell us your real name');
-  textInput.setCustomValidity('We\'d like to know why did you give us so low rating. Please fill the form.');
   _disableElement(submitButton);
   for(var i = 0; i < ratingRadioButtons.length; i++) {
     ratingRadioButtons[i].onchange = function() {
@@ -63,7 +61,6 @@
       _enableElement(submitButton);
     } else {
       _disableElement(submitButton);
-      textInput.setCustomValidity('We\'d like to know why did you give us so low rating. Please fill the form.');
     }
   };
 
@@ -82,10 +79,12 @@
     enableElement.removeAttribute('disabled');
   }
 
-// Validating and hiding children label if .review-fields if true.
+// Validating and hiding .review-fields if true.
+  function _hideLabelBlok() {
+    reviewFieldsContainer.style.visibility = 'hidden';
+  }
+// Validating and hiding .review-fields's children label if true.
   function _validation(input, label) {
-    if (input.checkValidity()) {
-      label.style.visibility = 'hidden';
-    }
+    label.style.visibility = 'hidden';
   }
 })();
