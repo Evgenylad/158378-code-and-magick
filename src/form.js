@@ -8,11 +8,17 @@
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
+    textInput.addEventListener('input', nameInputOninput);
+    nameInput.addEventListener('input', textInputOninput);
+  //  addEventListener('input', inputFieldsOninput);
   };
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.add('invisible');
+    textInput.removeEventListener('input', nameInputOninput);
+    nameInput.removeEventListener('input', textInputOninput);
+  //  addEventListener('input', inputFieldsOninput);
   };
   var form = document.querySelector('.review-form');
   var ratingRadioButtons = document.getElementsByName('review-mark');
@@ -41,7 +47,7 @@
     };
   }
 
-  nameInput.oninput = function() {
+  var nameInputOninput = function() {
     if (nameInput.checkValidity()) {
       _validation(nameInput, nameLabel);
       _enableElement(submitButton);
@@ -51,7 +57,7 @@
     }
   };
 
-  textInput.oninput = function() {
+  var textInputOninput = function() {
     if (textInput.checkValidity()) {
       _validation(textInput, textLabel);
       _enableElement(submitButton);
@@ -61,7 +67,7 @@
     }
   };
 
-  inputFields.oninput = function() {
+  var inputFieldsOninput = function() {
     if (textInput.checkValidity() && nameInput.checkValidity()) {
       reviewFieldsContainer.style.visibility = 'hidden';
     }
