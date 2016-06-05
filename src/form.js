@@ -31,7 +31,8 @@
   var textLabel = form.querySelector('.review-fields-text');
 
   nameInput.setAttribute('required', true);
-
+// name.setCustomValidity('Please tell us your real name');
+//textInput.setCustomValidity('We\'d like to know why did you give us so low rating. Please fill the form.');
   _disableElement(submitButton);
   for(var i = 0; i < ratingRadioButtons.length; i++) {
     ratingRadioButtons[i].onchange = function() {
@@ -59,13 +60,13 @@
     if (textInput.checkValidity()) {
       _validation(textInput, textLabel);
       _enableElement(submitButton);
-      inputFieldsOninput();
+      hideReviewField();
     } else {
       _disableElement(submitButton);
     }
   };
 
-  var inputFieldsOninput = function() {
+  var hideReviewField = function() {
     if (textInput.checkValidity() || nameInput.checkValidity()) {
       reviewFieldsContainer.style.visibility = 'hidden';
     }
