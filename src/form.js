@@ -47,30 +47,40 @@
   }
 
   var nameInputOninput = function() {
-    if (nameInput.checkValidity()) {
+    var nameInputLength = nameInput.value.length;
+    if (nameInputLength > 0) {
       _validation(nameInput, nameLabel);
+    } else if (nameInputLength > 0 && textInputLength > 0) {
+      hideReviewField();
       _enableElement(submitButton);
     } else {
-      console.log(nameInput);
       _disableElement(submitButton);
+      nameLabel.style.visibility = 'visible';
+      nameInput.setCustomValidity('Please tell us your real name');
+      reviewFieldsContainer.style.visibility = 'visible';
     }
   };
 
   var textInputOninput = function() {
-    if (textInput.checkValidity()) {
+    var textInputLength = textInput.value.length;
+    if (textInputLength > 0 && textInput.required) {
+      _validation(textInput, textLabel);
+      hideReviewField();
+    } else if (textInputLength > 0) {
       _validation(textInput, textLabel);
       _enableElement(submitButton);
-      hideReviewField();
     } else {
+      textInput.setCustomValidity('We\'d like to know why did you give us so low rating. Please fill the form.');
       _disableElement(submitButton);
+      textLabel.style.visibility = 'visible';
+      reviewFieldsContainer.style.visibility = 'visible';
     }
   };
 
   var hideReviewField = function() {
-    if (textInput.checkValidity() || nameInput.checkValidity()) {
-      reviewFieldsContainer.style.visibility = 'hidden';
-    }
+    reviewFieldsContainer.style.visibility = 'hidden';
   };
+
 
 // Disabling element
   function _disableElement(disabledElement) {
