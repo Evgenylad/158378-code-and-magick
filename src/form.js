@@ -51,12 +51,12 @@
   }
 
   function _addEventListeners() {
-    nameInput.addEventListener('focusout', validateNameInput);
+
     for(var i = 0; i < ratingRadioButtons.length; i++) {
       ratingRadioButtons[i].onchange = onRadioChange;
     }
-    textInput.addEventListener('focusout', validateTextInput);
-    nameInput.addEventListener('focusout', validateNameInput);
+    textInput.oninput = validateTextInput;
+    nameInput.oninput = validateNameInput;
   }
 
   function _removeEventListeners() {
@@ -64,8 +64,8 @@
     for(var i = 0; i < ratingRadioButtons.length; i++) {
       ratingRadioButtons[i].onchange = null;
     }
-    textInput.removeEventListener('focusout', validateTextInput);
-    nameInput.removeEventListener('focusout', validateNameInput);
+    textInput.oninput = null;
+    textInput.oninput = null;
   }
 
   function validateNameInput() {
@@ -88,6 +88,8 @@
 
     if (_checkField(textInput)) {
       textLabel.style.display = 'none';
+
+      textInput.setCustomValidity('');
     } else {
       textLabel.style.display = defaultLabelDisplay;
 
@@ -103,6 +105,8 @@
       _enableForm();
     } else {
       _disableForm();
+      nameLabel.style.display = defaultLabelDisplay;
+      nameLabel.style.display = defaultLabelDisplay;
     }
   }
 
