@@ -8,13 +8,13 @@
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
-    _addEventListeners();
+    _addListeners();
   };
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.add('invisible');
-    _removeEventListeners();
+    _removeListeners();
   //  addEventListener('input', inputFieldsOninput);
   };
 
@@ -50,7 +50,7 @@
     validateForm();
   }
 
-  function _addEventListeners() {
+  function _addListeners() {
 
     for(var i = 0; i < ratingRadioButtons.length; i++) {
       ratingRadioButtons[i].onchange = onRadioChange;
@@ -59,7 +59,7 @@
     nameInput.oninput = validateNameInput;
   }
 
-  function _removeEventListeners() {
+  function _removeListeners() {
 
     for(var i = 0; i < ratingRadioButtons.length; i++) {
       ratingRadioButtons[i].onchange = null;
