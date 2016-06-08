@@ -40,12 +40,12 @@
 
   var today = new Date();
   var dateOfBirth = new Date('1979-10-14');
-  var expires = today - dateOfBirth - parseInt((today - dateOfBirth) / 365 / 24 / 60 / 60 / 1000, 10);
-  console.log(expires);
-
+  var expires = today.valueOf() - dateOfBirth.valueOf();
+  var formatedDateToExpire = new Date(expires).toUTCString();
+  console.log(formatedDateToExpire);
   form.onsubmit = function() {
-    browserCookies.set('nameInput', nameInput.value, { expires: expires });
-    browserCookies.set('reviewMarkInput', reviewMarkInput.value);
+    document.cookie = 'nameInput=' + nameInput.value + ';expires=' + formatedDateToExpire;
+    document.cookie = 'nameInput=' + reviewMarkInput.value + ';expires=' + formatedDateToExpire;
     this.submit();
   };
 
