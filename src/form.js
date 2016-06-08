@@ -44,7 +44,8 @@
   var expires = myBirthday - today;
   var formatedDateToExpire = new Date(expires).toUTCString();
   console.log(expires);
-  form.onsubmit = function() {
+  form.onsubmit = function(evt) {
+    evt.preventDefault();
     document.cookie = 'nameInput=' + nameInput.value + ';expires=' + formatedDateToExpire;
     document.cookie = 'reviewMarkInput=' + reviewMarkInput.value + ';expires=' + formatedDateToExpire;
     this.submit();
