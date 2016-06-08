@@ -37,13 +37,17 @@
   var browserCookies = require('browser-cookies');
   reviewMarkInput.value = browserCookies.get('reviewMarkInput') || reviewMarkInput.value;
   nameInput.value = browserCookies.get('nameInput') || nameInput.value;
+
+  var today = new Date();
+  var dateOfBirth = new Date('1979-10-14');
+  var expires = today - dateOfBirth - parseInt((today - dateOfBirth) / 365 / 24 / 60 / 60 / 1000, 10);
+  console.log(expires);
+
   form.onsubmit = function() {
-    browserCookies.set('nameInput', nameInput.value);
-    console.log(reviewMarkInput);
+    browserCookies.set('nameInput', nameInput.value, { expires: expires });
     browserCookies.set('reviewMarkInput', reviewMarkInput.value);
     this.submit();
   };
-  console.log(document.browserCookies);
 
   nameInput.setAttribute('required', true);
   _disableForm();
