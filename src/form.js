@@ -46,7 +46,7 @@
   console.log(expires);
   form.onsubmit = function() {
     document.cookie = 'nameInput=' + nameInput.value + ';expires=' + formatedDateToExpire;
-    document.cookie = 'nameInput=' + reviewMarkInput.value + ';expires=' + formatedDateToExpire;
+    document.cookie = 'reviewMarkInput=' + reviewMarkInput.value + ';expires=' + formatedDateToExpire;
     this.submit();
   };
 
