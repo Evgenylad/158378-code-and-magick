@@ -34,6 +34,16 @@
   var submitButton = form.querySelector('.review-submit');
   var reviewMarkInput = form.elements['review-mark'];
 
+  var browserCookies = require('browser-cookies');
+  reviewMarkInput.value = browserCookies.get('reviewMarkInput') || reviewMarkInput.value;
+  nameInput.value = browserCookies.get('nameInput') || nameInput.value;
+  form.onsubmit = function() {
+    browserCookies.set('nameInput', nameInput.value);
+    console.log(reviewMarkInput);
+    browserCookies.set('reviewMarkInput', reviewMarkInput.value);
+    this.submit();
+  };
+  console.log(document.browserCookies);
 
   nameInput.setAttribute('required', true);
   _disableForm();
