@@ -39,10 +39,11 @@
   nameInput.value = browserCookies.get('nameInput') || nameInput.value;
 
   var today = new Date();
-  var dateOfBirth = new Date('1979-10-14');
-  var expires = today.valueOf() - dateOfBirth.valueOf();
+  var thisYear = today.getFullYear();
+  var myBirthday = new Date(thisYear, 9, 14);
+  var expires = myBirthday - today;
   var formatedDateToExpire = new Date(expires).toUTCString();
-  console.log(formatedDateToExpire);
+  console.log(expires);
   form.onsubmit = function() {
     document.cookie = 'nameInput=' + nameInput.value + ';expires=' + formatedDateToExpire;
     document.cookie = 'nameInput=' + reviewMarkInput.value + ';expires=' + formatedDateToExpire;
