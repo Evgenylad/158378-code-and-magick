@@ -41,9 +41,8 @@
   var today = new Date();
   var thisYear = today.getFullYear();
   var myBirthday = new Date(thisYear, 9, 14);
-  var expires = (myBirthday - today) / 24 / 60 / 60 / 1000;
+  var expires = Math.round(Math.abs((myBirthday - today) / 24 / 60 / 60 / 1000));
 
-  console.log(expires);
   form.onsubmit = function() {
     browserCookies.set('nameInput', nameInput.value, {expires: expires});
     browserCookies.set('reviewMarkInput', reviewMarkInput.value, {expires: expires});
