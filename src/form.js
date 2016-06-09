@@ -41,13 +41,12 @@
   var today = new Date();
   var thisYear = today.getFullYear();
   var myBirthday = new Date(thisYear, 9, 14);
-  var expires = myBirthday - today;
+  var expires = (myBirthday - today) / 24 / 60 / 60 / 1000;
   var formatedDateToExpire = new Date(expires).toUTCString();
   console.log(expires);
-  form.onsubmit = function(evt) {
-    evt.preventDefault();
-    document.cookie = 'nameInput=' + nameInput.value + ';expires=' + formatedDateToExpire;
-    document.cookie = 'reviewMarkInput=' + reviewMarkInput.value + ';expires=' + formatedDateToExpire;
+  form.onsubmit = function() {
+    browserCookies = 'nameInput=' + nameInput.value + ';expires=' + formatedDateToExpire;
+    browserCookies = 'reviewMarkInput=' + reviewMarkInput.value + ';expires=' + formatedDateToExpire;
     this.submit();
   };
 
