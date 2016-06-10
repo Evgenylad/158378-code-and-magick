@@ -34,14 +34,14 @@
   var submitButton = form.querySelector('.review-submit');
   var reviewMarkInput = form.elements['review-mark'];
 
+  var monthOfBirth = 9;
+  var dayOfBirth = 14;
+
+  var expires = getDaysFromLastBirthday(monthOfBirth, dayOfBirth);
+
   var browserCookies = require('browser-cookies');
   reviewMarkInput.value = browserCookies.get('reviewMarkInput') || reviewMarkInput.value;
   nameInput.value = browserCookies.get('nameInput') || nameInput.value;
-
-  var today = new Date();
-  var thisYear = today.getFullYear();
-  var myBirthday = new Date(thisYear, 9, 14);
-  var expires = Math.round(Math.abs((myBirthday - today) / 24 / 60 / 60 / 1000));
 
   form.onsubmit = function() {
     browserCookies.set('nameInput', nameInput.value, {expires: expires});
@@ -51,6 +51,29 @@
 
   nameInput.setAttribute('required', true);
   _disableForm();
+
+  /**
+ * get days from last birthday
+ * @param  {month:number, day:number} month, day — your last birthday
+ * @return {number} days from last birthday
+ */
+
+  function getDaysFromLastBirthday(month, day) {
+    var today = new Date();
+    var thisYear = today.getFullYear();
+    var todayChecked = isLeapYear(thisYear);
+    function isLeapYear(year) {
+      if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
+        return today;
+      } else {
+        return today++;
+      }
+    }
+    var myBirthday = new Date(thisYear, month, day);
+    var daysFromLastBirsday = Math.round(Math.abs((myBirthday - todayChecked) / 24 / 60 / 60 / 1000));
+
+    return daysFromLastBirsday;
+  }
 
   function onRadioChange() {
     var currentValue = parseInt(reviewMarkInput.value, 10);
