@@ -34,8 +34,8 @@
   var submitButton = form.querySelector('.review-submit');
   var reviewMarkInput = form.elements['review-mark'];
 
-  var monthOfBirth = 9;
-  var dayOfBirth = 14;
+  var monthOfBirth = 5;
+  var dayOfBirth = 12;
 
   var expires = getDaysFromLastBirthday(monthOfBirth, dayOfBirth);
 
@@ -49,6 +49,7 @@
     this.submit();
   };
 
+console.log(expires);
   nameInput.setAttribute('required', true);
   _disableForm();
 
@@ -70,9 +71,13 @@
       }
     }
     var myBirthday = new Date(thisYear, month, day);
-    var daysFromLastBirsday = Math.round(Math.abs((myBirthday - todayChecked) / 24 / 60 / 60 / 1000));
-
-    return daysFromLastBirsday;
+    if (myBirthday > todayChecked) {
+      myBirthday = myBirthday - 1000 * 60 * 60 * 24 * 12 * 365;
+      var daysFromLastBirthday = Math.round(Math.abs((myBirthday - todayChecked) / 24 / 60 / 60 / 1000));
+      console.log(myBirthday);
+    }
+    daysFromLastBirthday = Math.round(Math.abs((todayChecked - myBirthday) / 24 / 60 / 60 / 1000));
+    return daysFromLastBirthday;
   }
 
   function onRadioChange() {
