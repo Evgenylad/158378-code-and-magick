@@ -35,7 +35,7 @@
   var reviewMarkInput = form.elements['review-mark'];
 
   var monthOfBirth = 5;
-  var dayOfBirth = 12;
+  var dayOfBirth = 11;
 
   var expires = getDaysFromLastBirthday(monthOfBirth, dayOfBirth);
 
@@ -48,8 +48,6 @@
     browserCookies.set('reviewMarkInput', reviewMarkInput.value, {expires: expires});
     this.submit();
   };
-
-  console.log(expires);
 
   nameInput.setAttribute('required', true);
   _disableForm();
@@ -71,16 +69,10 @@
 
     if (myBirthday > todayFormated) {
       myBirthday = new Date(thisYear - 1, month, day);
-      daysFromLastBirthday = Math.floor((myBirthday - todayFormated) / 24 / 60 / 60 / 1000);
-    } else if (myBirthday === todayFormated) {
-      return 0;
     }
     daysFromLastBirthday = Math.floor((todayFormated - myBirthday) / 24 / 60 / 60 / 1000);
     return daysFromLastBirthday;
   }
-
-  console.log('getDaysFromLastBirthday(5,13) --- ' + getDaysFromLastBirthday(5,13));
-  console.log('getDaysFromLastBirthday(5,9) --- ' + getDaysFromLastBirthday(5,9));
 
   function onRadioChange() {
     var currentValue = parseInt(reviewMarkInput.value, 10);
