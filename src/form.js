@@ -79,6 +79,8 @@
     return daysFromLastBirthday;
   }
 
+  console.log('getDaysFromLastBirthday(5,13) --- ' + getDaysFromLastBirthday(5,13));
+  console.log('getDaysFromLastBirthday(5,9) --- ' + getDaysFromLastBirthday(5,9));
 
   function onRadioChange() {
     var currentValue = parseInt(reviewMarkInput.value, 10);
