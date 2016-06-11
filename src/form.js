@@ -34,9 +34,45 @@
   var submitButton = form.querySelector('.review-submit');
   var reviewMarkInput = form.elements['review-mark'];
 
+  var monthOfBirth = 5;
+  var dayOfBirth = 11;
+
+  var expires = getDaysFromLastBirthday(monthOfBirth, dayOfBirth);
+
+  var browserCookies = require('browser-cookies');
+  reviewMarkInput.value = browserCookies.get('reviewMarkInput') || reviewMarkInput.value;
+  nameInput.value = browserCookies.get('nameInput') || nameInput.value;
+
+  form.onsubmit = function() {
+    browserCookies.set('nameInput', nameInput.value, {expires: expires});
+    browserCookies.set('reviewMarkInput', reviewMarkInput.value, {expires: expires});
+    this.submit();
+  };
 
   nameInput.setAttribute('required', true);
   _disableForm();
+
+  /**
+ * get days from last birthday
+ * @param  {month:number, day:number} month, day — your last birthday
+ * @return {number} days from last birthday
+ */
+
+  function getDaysFromLastBirthday(month, day) {
+    var today = new Date();
+    var thisYear = today.getFullYear();
+    var todayMonth = today.getMonth();
+    var todayDay = today.getDate();
+    var todayFormated = new Date(thisYear, todayMonth, todayDay);
+    var myBirthday = new Date(thisYear, month, day);
+    var daysFromLastBirthday;
+
+    if (myBirthday > todayFormated) {
+      myBirthday = new Date(thisYear - 1, month, day);
+    }
+    daysFromLastBirthday = Math.floor((todayFormated - myBirthday) / 24 / 60 / 60 / 1000);
+    return daysFromLastBirthday;
+  }
 
   function onRadioChange() {
     var currentValue = parseInt(reviewMarkInput.value, 10);
