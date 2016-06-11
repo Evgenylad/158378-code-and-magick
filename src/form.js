@@ -35,7 +35,7 @@
   var reviewMarkInput = form.elements['review-mark'];
 
   var monthOfBirth = 5;
-  var dayOfBirth = 10;
+  var dayOfBirth = 12;
 
   var expires = getDaysFromLastBirthday(monthOfBirth, dayOfBirth);
 
@@ -62,21 +62,20 @@
 
   function getDaysFromLastBirthday(month, day) {
     var today = new Date();
-    console.log(today);
-    var todayWithoutHours = Math.floor(today / 24 / 60 / 60 / 1000);
-    console.log(todayWithoutHours);
     var thisYear = today.getFullYear();
-    var myBirthday = new Date(thisYear, month, day, 12);
-    console.log(myBirthday);
-    var myBirthdayWithoutHours = Math.floor(myBirthday / 24 / 60 / 60 / 1000);
-    console.log(myBirthdayWithoutHours);
-    if (myBirthdayWithoutHours > todayWithoutHours) {
-      myBirthdayWithoutHours = new Date(thisYear - 1, month, day);
-      var daysFromLastBirthday = Math.floor(Math.abs((myBirthdayWithoutHours - todayWithoutHours)));
-    } else if (myBirthdayWithoutHours === todayWithoutHours) {
+    var todayMonth = today.getMonth();
+    var todayDay = today.getDate();
+    var todayFormated = new Date(thisYear, todayMonth, todayDay);
+    var myBirthday = new Date(thisYear, month, day);
+    var daysFromLastBirthday;
+
+    if (myBirthday > todayFormated) {
+      myBirthday = new Date(thisYear - 1, month, day);
+      daysFromLastBirthday = Math.floor(Math.abs((myBirthday - todayFormated) / 24 / 60 / 60 / 1000));
+    } else if (myBirthday === todayFormated) {
       return 0;
     }
-    daysFromLastBirthday = Math.floor(Math.abs((todayWithoutHours - myBirthdayWithoutHours)));
+    daysFromLastBirthday = Math.floor((todayFormated - myBirthday) / 24 / 60 / 60 / 1000);
     return daysFromLastBirthday;
   }
 
