@@ -71,7 +71,7 @@
 
     if (myBirthday > todayFormated) {
       myBirthday = new Date(thisYear - 1, month, day);
-      daysFromLastBirthday = Math.floor(Math.abs((myBirthday - todayFormated) / 24 / 60 / 60 / 1000));
+      daysFromLastBirthday = Math.floor((myBirthday - todayFormated) / 24 / 60 / 60 / 1000);
     } else if (myBirthday === todayFormated) {
       return 0;
     }
