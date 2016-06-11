@@ -35,7 +35,7 @@
   var reviewMarkInput = form.elements['review-mark'];
 
   var monthOfBirth = 5;
-  var dayOfBirth = 12;
+  var dayOfBirth = 10;
 
   var expires = getDaysFromLastBirthday(monthOfBirth, dayOfBirth);
 
@@ -50,6 +50,7 @@
   };
 
 console.log(expires);
+
   nameInput.setAttribute('required', true);
   _disableForm();
 
@@ -61,24 +62,24 @@ console.log(expires);
 
   function getDaysFromLastBirthday(month, day) {
     var today = new Date();
+    console.log(today);
+    var todayWithoutHours = Math.floor(today / 24 / 60 / 60 / 1000);
+    console.log(todayWithoutHours);
     var thisYear = today.getFullYear();
-    var todayChecked = isLeapYear(thisYear);
-    function isLeapYear(year) {
-      if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
-        return today;
-      } else {
-        return today++;
-      }
-    }
     var myBirthday = new Date(thisYear, month, day);
-    if (myBirthday > todayChecked) {
-      myBirthday = myBirthday - 1000 * 60 * 60 * 24 * 12 * 365;
-      var daysFromLastBirthday = Math.round(Math.abs((myBirthday - todayChecked) / 24 / 60 / 60 / 1000));
-      console.log(myBirthday);
+    console.log(myBirthday);
+    var myBirthdayWithoutHours = Math.floor(myBirthday / 24 / 60 / 60 / 1000);
+    console.log(myBirthdayWithoutHours);
+    if (myBirthdayWithoutHours > todayWithoutHours) {
+      myBirthdayWithoutHours = new Date(thisYear - 1, month, day);
+      var daysFromLastBirthday = Math.floor(Math.abs((myBirthdayWithoutHours - todayWithoutHours)));
+    } else if (myBirthdayWithoutHours === todayWithoutHours) {
+      return 0;
     }
-    daysFromLastBirthday = Math.round(Math.abs((todayChecked - myBirthday) / 24 / 60 / 60 / 1000));
+    daysFromLastBirthday = Math.floor(Math.abs((todayWithoutHours - myBirthdayWithoutHours)));
     return daysFromLastBirthday;
   }
+
 
   function onRadioChange() {
     var currentValue = parseInt(reviewMarkInput.value, 10);
