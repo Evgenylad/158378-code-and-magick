@@ -49,7 +49,7 @@
     this.submit();
   };
 
-console.log(expires);
+  console.log(expires);
 
   nameInput.setAttribute('required', true);
   _disableForm();
