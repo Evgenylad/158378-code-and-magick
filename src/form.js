@@ -66,7 +66,7 @@
     var todayWithoutHours = Math.floor(today / 24 / 60 / 60 / 1000);
     console.log(todayWithoutHours);
     var thisYear = today.getFullYear();
-    var myBirthday = new Date(thisYear, month, day);
+    var myBirthday = new Date(thisYear, month, day, 12);
     console.log(myBirthday);
     var myBirthdayWithoutHours = Math.floor(myBirthday / 24 / 60 / 60 / 1000);
     console.log(myBirthdayWithoutHours);
