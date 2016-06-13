@@ -7,10 +7,6 @@ var elementToClone;
 
 reviewsFiltersHide();
 
-function reviewsFiltersHide() {
-  reviewsFilter.classList.add('invisible');
-}
-
 if ('content' in templateElement) {
   elementToClone = templateElement.content.querySelector('.review');
 } else {
@@ -36,9 +32,24 @@ var getReviewElement = function(data, container) {
     element.querySelector('.review-author').height = '124';
     container.appendChild(element);
   };
+
+  avatarImage.onerror = function() {
+    element.classList.add('review-load-failure');
+  };
+
   avatarImage.src = data.author.picture;
   return element;
 };
 window.reviews.forEach(function(review) {
   getReviewElement(review, reviewsContainer);
 });
+
+reviewsFiltersShow();
+
+function reviewsFiltersHide() {
+  reviewsFilter.classList.add('invisible');
+}
+
+function reviewsFiltersShow() {
+  reviewsFilter.classList.remove('invisible');
+}
