@@ -35,6 +35,7 @@ var getHotelElement = function(data, container) {
     picture.src = data.picture;
     picture.width = '124';
     picture.height = '124';
+    container.appendChild(picture);
   };
   avatarImage.src = data.picture;
 
