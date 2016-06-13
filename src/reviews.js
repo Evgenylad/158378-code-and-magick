@@ -9,7 +9,6 @@ reviewsFiltersHide();
 
 function reviewsFiltersHide() {
   reviewsFilter.classList.add('invisible');
-  console.log(reviewsFilter);
 }
 
 if ('content' in templateElement) {
@@ -28,6 +27,17 @@ var getHotelElement = function(data, container) {
   var element = elementToClone.cloneNode(true);
   element.querySelector('.review-text').textContent = data.description;
   container.appendChild(element);
+
+
+  var avatarImage = new Image();
+  avatarImage.onload = function() {
+    var picture = elementToClone.querySelector('.review-author');
+    picture.src = data.picture;
+    picture.width = '124';
+    picture.height = '124';
+  };
+  avatarImage.src = data.picture;
+
   return element;
 };
 window.reviews.forEach(function(review) {
