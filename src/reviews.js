@@ -23,7 +23,7 @@ if ('content' in templateElement) {
 *@return {HTMLElement}
 */
 
-var getHotelElement = function(data, container) {
+var getReviewElement = function(data, container) {
   var element = elementToClone.cloneNode(true);
   element.querySelector('.review-text').textContent = data.description;
   container.appendChild(element);
@@ -31,16 +31,14 @@ var getHotelElement = function(data, container) {
 
   var avatarImage = new Image();
   avatarImage.onload = function() {
-    var picture = elementToClone.querySelector('.review-author');
-    picture.src = data.picture;
-    picture.width = '124';
-    picture.height = '124';
-    container.appendChild(picture);
+    element.querySelector('.review-author').src = data.author.picture;
+    element.querySelector('.review-author').width = '124';
+    element.querySelector('.review-author').height = '124';
+    container.appendChild(element);
   };
-  avatarImage.src = data.picture;
-
+  avatarImage.src = data.author.picture;
   return element;
 };
 window.reviews.forEach(function(review) {
-  getHotelElement(review, reviewsContainer);
+  getReviewElement(review, reviewsContainer);
 });
