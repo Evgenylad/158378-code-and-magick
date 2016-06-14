@@ -119,22 +119,22 @@
   </article>
 </template>
 
- <script>
-  var reviews = [];
-  __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js');
+<script>
+ var reviews = [];
+ __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js');
 
-  function __loadCallback(src) {
-    var dataStorageLink = document.createElement('script');
-    document.body.appendChild(dataStorageLink);
-    dataStorageLink.src = src;
+ function __loadCallback(src) {
+   var dataStorageLink = document.createElement('script');
+   document.body.appendChild(dataStorageLink);
+   dataStorageLink.src = src;
 
-    window.__reviewsLoadCallback = function(data) {
-       window.reviews = data;
-       window.reviews.forEach(function(review) {
-         getReviewElement(review, reviewsContainer);
-       });
-     };
-  };
+   window.__reviewsLoadCallback = function(data) {
+      window.reviews = data;
+      window.reviews.forEach(function(review) {
+        getReviewElement(review, reviewsContainer);
+      });
+    };
+ };
 
 </script>
 
