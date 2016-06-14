@@ -121,19 +121,22 @@
 
  <script>
   var reviews = [];
-  __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js');
+  __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function __reviewsLoadCallback(data) {
+     window.reviews = data;
+     window.reviews.forEach(function(review) {
+       getReviewElement(review, reviewsContainer);
+     });
+   });
 
-  function __loadCallback(src) {
+  function __loadCallback(src, callback) {
     var dataStorageLink = document.createElement('script');
     document.body.appendChild(dataStorageLink);
     dataStorageLink.src = src;
 
-    window.__reviewsLoadCallback = function __reviewsLoadCallback(data) {
-       reviews = data;
-       window.reviews.forEach(function(review) {
-         getReviewElement(review, reviewsContainer);
-       });
-     };
+    window.__reviewsLoadCallback = callback;
+    dataStorageLink.onload = function() {
+      callback(reviews);
+    }
   };
 
 </script>
