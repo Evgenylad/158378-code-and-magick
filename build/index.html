@@ -120,7 +120,14 @@
 </template>
 
 <script>
-  var someArray = []; // Пустой массив, в который сохраним позднее данные с сервера.
+  var reviews = [];
+  function __reviewsLoadCallback(data) {
+     reviews = data;
+   };
+ </script>
+
+ <script src="//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js">
+/*  var someArray = []; // Пустой массив, в который сохраним позднее данные с сервера.
 
   __reviewsLoadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
     someArray = data;
@@ -135,8 +142,9 @@
     dataStorageLink.src = src;
     var existingScript = document.getElementsByTagName('script')[0];
     existingScript.parentNode.insertBefore(dataStorageLink, existingScript);
-    callback(__reviewsLoadCallback);
-  };
+    var newCallback = callback;
+    callback(newCallback);
+  };*/
 </script>
 
 <script src="js/main.js"></script>
