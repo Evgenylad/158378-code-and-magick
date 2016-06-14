@@ -134,9 +134,9 @@
 
   function __loadCallback(src) {
     var dataStorageLink = document.createElement('script');
-    document.body.appendChild(dataStorageLink);
+    var existingScript = document.getElementsByTagName('script')[1];
+    document.body.insertBefore(dataStorageLink, existingScript);
     dataStorageLink.src = src;
-    console.log(dataStorageLink);
   };
 
 </script>
