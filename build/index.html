@@ -119,34 +119,33 @@
   </article>
 </template>
 
+<script>
+  var reviews = [];
+
+ </script>
+
  <script>
 // var someArray = []; // Пустой массив, в который сохраним позднее данные с сервера.
-    window.reviews = [];
 
-  __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function __reviewsLoadCallback(data) {
-     reviews = data;
-   });
+  __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js');
 
-
-  function __loadCallback(src, callback) {
+  function __loadCallback(src) {
     var dataStorageLink = document.createElement('script');
-    var existingScript = document.getElementsByTagName('script')[1];
-    document.body.insertBefore(dataStorageLink, existingScript);
+    document.body.appendChild(dataStorageLink);
     dataStorageLink.src = src;
-    window.__reviewsLoadCallback = callback;
-    console.log(callback);
-    dataStorageLink.onload = function() {
-      callback();
-      console.log('Привет!');
-      debugger;
-    }
-    console.log(reviews);
+
+    window.__reviewsLoadCallback = function __reviewsLoadCallback(data) {
+       reviews = data;
+       window.reviews.forEach(function(review) {
+         getReviewElement(review, reviewsContainer);
+       });
+     };
   };
 
 </script>
 
 <script src="js/main.js">
-
+  console.log(reviews);
 </script>
 
 
