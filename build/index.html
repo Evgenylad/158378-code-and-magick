@@ -120,14 +120,25 @@
 </template>
 
 <script>
-  var reviews = [];
-  function __reviewsLoadCallback(data) {
-    reviews = data;
+  var someArray = []; // Пустой массив, в который сохраним позднее данные с сервера.
+
+  __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
+    someArray = data;
+  }); // Вызываем функцию, которая обращается к серверу по адресу в аргументе 1 и передает в вызваную функцию
+      // в аргументе 2.
+      // Функция в аргументе 2 записывает данные с сервера в подготовленный ранее пустой массив.
+      // Название функции в аргументе 2 должно соответствовать вызову функции на сервере.
+
+
+  function __loadCallback(src, callback) {
+    var dataStorageLink = document.createElement('script');
+    dataStorageLink.src = src;
+    var existingScript = document.getElementsByTagName('script')[0];
+    existingScript.parentNode.insertBefore(dataStorageLink, existingScript);
+    callback();
   };
 </script>
-<script src="//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js">
 
-</script>
 <script src="js/main.js"></script>
 
 
