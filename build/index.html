@@ -128,8 +128,8 @@
     document.body.appendChild(dataStorageLink);
     dataStorageLink.src = src;
 
-    window.__reviewsLoadCallback = function __reviewsLoadCallback(data) {
-       reviews = data;
+    window.__reviewsLoadCallback = function(data) {
+       window.reviews = data;
        window.reviews.forEach(function(review) {
          getReviewElement(review, reviewsContainer);
        });
