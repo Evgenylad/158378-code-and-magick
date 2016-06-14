@@ -21,23 +21,44 @@ if ('content' in templateElement) {
 
 var getReviewElement = function(data, container) {
   var element = elementToClone.cloneNode(true);
+  var picture = element.querySelector('.review-author');
   element.querySelector('.review-text').textContent = data.description;
   container.appendChild(element);
 
+  function loadImage(url, onSuccess, onFailure) {
+    // грузим картинку
+    avatarImage.src = data.author.picture;
+    // если всё хорошо
+    avatarImage.onload = function() {
+      onSuccess();
+    };
+
+    // если всё плохо
+    avatarImage.onerror = function() {
+      onFailure();
+    };
+  }
 
   var avatarImage = new Image();
-  avatarImage.onload = function() {
-    element.querySelector('.review-author').src = data.author.picture;
-    element.querySelector('.review-author').width = '124';
-    element.querySelector('.review-author').height = '124';
-    container.appendChild(element);
+
+  loadImage(data.author.picture, function() {
+    picture.src = data.author.picture;
+    picture.width = '124';
+    picture.height = '124';
+  }, function() {
+    element.classList.add('review-load-failure');
+  });
+
+/*  avatarImage.onload = function() {
+    picture.src = data.author.picture;
+    picture.width = '124';
+    picture.height = '124';
   };
 
   avatarImage.onerror = function() {
     element.classList.add('review-load-failure');
   };
-
-  avatarImage.src = data.author.picture;
+*/
   return element;
 };
 window.reviews.forEach(function(review) {
