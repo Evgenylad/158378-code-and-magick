@@ -57,6 +57,8 @@ __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', funct
   });
 });
 
+reviewsFiltersShow();
+
 function __loadCallback(src, callback) {
   var dataStorageLink = document.createElement('script');
   document.body.appendChild(dataStorageLink);
@@ -67,8 +69,6 @@ function __loadCallback(src, callback) {
     callback(data);
   };
 }
-
-reviewsFiltersShow();
 
 function reviewsFiltersHide() {
   reviewsFilter.classList.add('invisible');
