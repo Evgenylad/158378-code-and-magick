@@ -50,8 +50,24 @@ var getReviewElement = function(data, container) {
 
   return element;
 };
-window.getReviewElement = getReviewElement;
-window.reviewsContainer = reviewsContainer;
+__loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
+  window.reviews = data;
+  window.reviews.forEach(function(review) {
+    getReviewElement(review, reviewsContainer);
+  });
+});
+
+function __loadCallback(src, callback) {
+  var dataStorageLink = document.createElement('script');
+  document.body.appendChild(dataStorageLink);
+  dataStorageLink.src = src;
+
+  window.__reviewsLoadCallback = function(data) {
+    delete window.__reviewsLoadCallback;
+    callback(data);
+  };
+}
+
 reviewsFiltersShow();
 
 function reviewsFiltersHide() {
