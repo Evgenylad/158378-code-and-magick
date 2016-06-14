@@ -49,16 +49,6 @@ var getReviewElement = function(data, container) {
     element.classList.add('review-load-failure');
   });
 
-/*  avatarImage.onload = function() {
-    picture.src = data.author.picture;
-    picture.width = '124';
-    picture.height = '124';
-  };
-
-  avatarImage.onerror = function() {
-    element.classList.add('review-load-failure');
-  };
-*/
   return element;
 };
 window.reviews.forEach(function(review) {
