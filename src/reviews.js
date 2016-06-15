@@ -7,6 +7,7 @@ var elementToClone;
 var imageToLoadIn;
 var IMAGE_TIMEOUT = 10000;
 
+
 reviewsFiltersHide();
 
 if ('content' in templateElement) {
@@ -36,10 +37,10 @@ var getReviewElement = function(data, container) {
     picture.height = '124';
   }, function() {
     element.classList.add('review-load-failure');
-  }, function() {
-    imageToLoadIn.src = '';
+  }, setTimeout(function() {
+    picture.src = '';
     element.classList.add('review-load-failure');
-  });
+  }, IMAGE_TIMEOUT));
   return element;
 };
 
@@ -56,9 +57,7 @@ var loadImage = function(url, onSuccess, onFailure, imageLoadTimeout) {
     onFailure();
   };
 
-  imageLoadTimeout = setTimeout(function() {
-    imageLoadTimeout();
-  }, IMAGE_TIMEOUT);
+  window.imageLoadTimeout = imageLoadTimeout;
 };
 
 __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
