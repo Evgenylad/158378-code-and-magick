@@ -4,7 +4,6 @@ var reviewsFilter = document.querySelector('.reviews-filter');
 var reviewsContainer = document.querySelector('.reviews-list');
 var templateElement = document.querySelector('template');
 var elementToClone;
-var imageToLoadIn;
 var LOAD_IMAGE_TIMEOUT = 10000;
 
 
@@ -42,8 +41,6 @@ var getReviewElement = function(data, container) {
   }
   container.appendChild(element);
 
-  imageToLoadIn = new Image();
-
   loadImage(data.author.picture, function() {
     picture.src = data.author.picture;
     picture.width = '124';
@@ -55,7 +52,7 @@ var getReviewElement = function(data, container) {
 };
 
 var loadImage = function(url, onSuccess, onFailure) {
-  imageToLoadIn = new Image();
+  var imageToLoadIn = new Image();
   // грузим картинку
   imageToLoadIn.src = url;
 
@@ -67,12 +64,15 @@ var loadImage = function(url, onSuccess, onFailure) {
 
   // если всё плохо
   imageToLoadIn.onerror = function() {
+    imageToLoadIn.src = '';
     onFailure();
+    clearTimeout(imageToLoadInTimeout);
   };
 
   var imageToLoadInTimeout = setTimeout(function() {
     imageToLoadIn.src = '';
     onFailure();
+    clearTimeout(imageToLoadInTimeout);
   }, LOAD_IMAGE_TIMEOUT);
 };
 
@@ -109,7 +109,7 @@ loadImage('http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'
   var img = document.createElement('img');
   document.body.appendChild(img);
   img.src = 'http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg';
-}, null);
+});
 // загрузка очень большой картинки (24мб)
 loadImage('http://photojournal.jpl.nasa.gov/jpeg/PIA13932.jpg', null, function() {
   console.log('Ошибка! Должен сработать таймер 10 секунд');
