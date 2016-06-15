@@ -55,19 +55,19 @@ var getReviewElement = function(data, container) {
 };
 
 var loadImage = function(url, onSuccess, onFailure) {
+  imageToLoadIn = new Image();
   // грузим картинку
   imageToLoadIn.src = url;
+
   // если всё хорошо
   imageToLoadIn.onload = function() {
     onSuccess();
     clearTimeout(imageToLoadInTimeout);
-    imageToLoadIn.src = '';
   };
 
   // если всё плохо
   imageToLoadIn.onerror = function() {
     onFailure();
-    imageToLoadIn.src = '';
   };
 
   var imageToLoadInTimeout = setTimeout(function() {
@@ -103,3 +103,14 @@ function reviewsFiltersHide() {
 function reviewsFiltersShow() {
   reviewsFilter.classList.remove('invisible');
 }
+
+// обычная загрузка картинки
+loadImage('http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg', function() {
+  var img = document.createElement('img');
+  document.body.appendChild(img);
+  img.src = 'http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg';
+}, null);
+// загрузка очень большой картинки (24мб)
+loadImage('http://photojournal.jpl.nasa.gov/jpeg/PIA13932.jpg', null, function() {
+  console.log('Ошибка! Должен сработать таймер 10 секунд');
+});
