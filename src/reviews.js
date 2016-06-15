@@ -5,7 +5,7 @@ var reviewsContainer = document.querySelector('.reviews-list');
 var templateElement = document.querySelector('template');
 var elementToClone;
 var imageToLoadIn;
-var IMAGE_TIMEOUT = 10000;
+var LOAD_IMAGE_TIMEOUT = 10000;
 
 
 reviewsFiltersHide();
@@ -57,7 +57,7 @@ var loadImage = function(url, onSuccess, onFailure) {
   setTimeout(function() {
     imageToLoadIn.src = '';
     onFailure();
-  }, IMAGE_TIMEOUT);
+  }, LOAD_IMAGE_TIMEOUT);
 };
 
 __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
