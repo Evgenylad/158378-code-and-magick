@@ -55,8 +55,8 @@ var loadImage = function(url, onSuccess, onFailure) {
   };
 
   setTimeout(function() {
-    window.picture.src = '';
-    window.element.classList.add('review-load-failure');
+    imageToLoadIn.src = '';
+    onFailure();
   }, IMAGE_TIMEOUT);
 };
 
