@@ -5,6 +5,7 @@ var reviewsContainer = document.querySelector('.reviews-list');
 var templateElement = document.querySelector('template');
 var elementToClone;
 var imageToLoadIn;
+var IMAGE_TIMEOUT = 10000;
 
 reviewsFiltersHide();
 
@@ -34,12 +35,14 @@ var getReviewElement = function(data, container) {
     picture.height = '124';
   }, function() {
     element.classList.add('review-load-failure');
+  }, function() {
+    imageToLoadIn.src = '';
+    element.classList.add('review-load-failure');
   });
   return element;
 };
-console.log(loadImage);
-console.log(imageToLoadIn);
-var loadImage = function(url, onSuccess, onFailure) {
+
+var loadImage = function(url, onSuccess, onFailure, imageLoadTimeout) {
   // грузим картинку
   imageToLoadIn.src = url;
   // если всё хорошо
@@ -51,6 +54,10 @@ var loadImage = function(url, onSuccess, onFailure) {
   imageToLoadIn.onerror = function() {
     onFailure();
   };
+
+  imageLoadTimeout = setTimeout(function() {
+    imageLoadTimeout();
+  }, IMAGE_TIMEOUT);
 };
 
 __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
