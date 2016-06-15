@@ -37,14 +37,11 @@ var getReviewElement = function(data, container) {
     picture.height = '124';
   }, function() {
     element.classList.add('review-load-failure');
-  }, setTimeout(function() {
-    picture.src = '';
-    element.classList.add('review-load-failure');
-  }, IMAGE_TIMEOUT));
+  });
   return element;
 };
 
-var loadImage = function(url, onSuccess, onFailure, imageLoadTimeout) {
+var loadImage = function(url, onSuccess, onFailure) {
   // грузим картинку
   imageToLoadIn.src = url;
   // если всё хорошо
@@ -57,7 +54,10 @@ var loadImage = function(url, onSuccess, onFailure, imageLoadTimeout) {
     onFailure();
   };
 
-  window.imageLoadTimeout = imageLoadTimeout;
+  setTimeout(function() {
+    window.picture.src = '';
+    window.element.classList.add('review-load-failure');
+  }, IMAGE_TIMEOUT);
 };
 
 __loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
