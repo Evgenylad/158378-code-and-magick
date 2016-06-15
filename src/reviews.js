@@ -60,14 +60,17 @@ var loadImage = function(url, onSuccess, onFailure) {
   // если всё хорошо
   imageToLoadIn.onload = function() {
     onSuccess();
+    clearTimeout(imageToLoadInTimeout);
+    imageToLoadIn.src = '';
   };
 
   // если всё плохо
   imageToLoadIn.onerror = function() {
     onFailure();
+    imageToLoadIn.src = '';
   };
 
-  setTimeout(function() {
+  var imageToLoadInTimeout = setTimeout(function() {
     imageToLoadIn.src = '';
     onFailure();
   }, LOAD_IMAGE_TIMEOUT);
