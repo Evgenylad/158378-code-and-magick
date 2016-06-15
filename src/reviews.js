@@ -26,7 +26,20 @@ var getReviewElement = function(data, container) {
   var element = elementToClone.cloneNode(true);
   var picture = element.querySelector('.review-author');
   element.querySelector('.review-text').textContent = data.description;
-  element.querySelector('.review-rating').textContent = data.rating;
+  var rating = element.querySelector('.review-rating');
+
+  switch (data.rating) {
+    case 2: rating.classList.add('review-rating-two');
+      break;
+    case 3: rating.classList.add('review-rating-three');
+      break;
+    case 4: rating.classList.add('review-rating-four');
+      break;
+    case 5: rating.classList.add('review-rating-five');
+      break;
+    default:
+      break;
+  }
   container.appendChild(element);
 
   imageToLoadIn = new Image();
