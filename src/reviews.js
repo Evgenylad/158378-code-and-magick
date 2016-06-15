@@ -25,6 +25,7 @@ var getReviewElement = function(data, container) {
   var element = elementToClone.cloneNode(true);
   var picture = element.querySelector('.review-author');
   element.querySelector('.review-text').textContent = data.description;
+  element.querySelector('.review-rating').textContent = data.rating;
   container.appendChild(element);
 
   imageToLoadIn = new Image();
