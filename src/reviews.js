@@ -103,6 +103,6 @@ loadImage('http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'
 });
 
 // загрузка очень большой картинки (24мб)
-loadImage('http://photojournal.jpl.nasa.gov/jpeg/PIA13932.jpg', null, function() {
+loadImage('http://photojournal.jpl.nasa.gov/jpeg/PIA13932.jpg', function() {}, function() {
   console.log('Ошибка! Должен сработать таймер 10 секунд');
 });
