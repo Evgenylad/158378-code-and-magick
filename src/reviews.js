@@ -27,18 +27,12 @@ var getReviewElement = function(data, container) {
   element.querySelector('.review-text').textContent = data.description;
   var rating = element.querySelector('.review-rating');
 
-  switch (data.rating) {
-    case 2: rating.classList.add('review-rating-two');
-      break;
-    case 3: rating.classList.add('review-rating-three');
-      break;
-    case 4: rating.classList.add('review-rating-four');
-      break;
-    case 5: rating.classList.add('review-rating-five');
-      break;
-    default:
-      break;
+  var ratingValue = data.rating;
+  var ratingNames = ['', '', 'two', 'three', 'four', 'five'];
+  if(ratingValue >= 2 && ratingValue <= 5) {
+    rating.classList.add('review-rating-' + ratingNames[ratingValue]);
   }
+
   container.appendChild(element);
 
   loadImage(data.author.picture, function() {
@@ -58,21 +52,18 @@ var loadImage = function(url, onSuccess, onFailure) {
 
   // если всё хорошо
   imageToLoadIn.onload = function() {
-    onSuccess();
     clearTimeout(imageToLoadInTimeout);
+    onSuccess();
   };
 
   // если всё плохо
   imageToLoadIn.onerror = function() {
-    imageToLoadIn.src = '';
-    onFailure();
     clearTimeout(imageToLoadInTimeout);
+    onFailure();
   };
 
   var imageToLoadInTimeout = setTimeout(function() {
-    imageToLoadIn.src = '';
     onFailure();
-    clearTimeout(imageToLoadInTimeout);
   }, LOAD_IMAGE_TIMEOUT);
 };
 
@@ -110,6 +101,7 @@ loadImage('http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'
   document.body.appendChild(img);
   img.src = 'http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg';
 });
+
 // загрузка очень большой картинки (24мб)
 loadImage('http://photojournal.jpl.nasa.gov/jpeg/PIA13932.jpg', null, function() {
   console.log('Ошибка! Должен сработать таймер 10 секунд');
