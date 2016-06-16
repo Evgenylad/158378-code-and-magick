@@ -4,8 +4,12 @@ var reviewsFilter = document.querySelector('.reviews-filter');
 var reviewsContainer = document.querySelector('.reviews-list');
 var templateElement = document.querySelector('template');
 var elementToClone;
+
+/** @constant {number} */
 var LOAD_IMAGE_TIMEOUT = 10000;
 
+/** @constant {string} */
+var REVIEWS_LOAD_URL = '//o0.github.io/assets/json/reviews.json';
 
 reviewsFiltersHide();
 
@@ -68,25 +72,35 @@ var loadImage = function(url, onSuccess, onFailure) {
   }, LOAD_IMAGE_TIMEOUT);
 };
 
-__loadCallback('//up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js', function(data) {
-  window.reviews = data;
-  window.reviews.forEach(function(review) {
+/** @param {function(Array.<Object>)} callback */
+var getReviews = function(callback) {
+  var xhr = new XMLHttpRequest();
+
+  /** @param {ProgressEvent} */
+  xhr.onload = function(evt) {
+    var loadedData = JSON.parse(evt.target.response);
+    callback(loadedData);
+  };
+
+  xhr.open('GET', REVIEWS_LOAD_URL);
+  xhr.send();
+};
+
+/** @param {Array.<Object>} reviews */
+var renderReviews = function(reviews) {
+  reviews.forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
+};
+
+getReviews(function(loadedData) {
+  var reviews = [];
+  reviews = loadedData;
+  renderReviews(reviews);
 });
 
 reviewsFiltersShow();
 
-function __loadCallback(src, callback) {
-  var dataStorageLink = document.createElement('script');
-  document.body.appendChild(dataStorageLink);
-  dataStorageLink.src = src;
-
-  window.__reviewsLoadCallback = function(data) {
-    delete window.__reviewsLoadCallback;
-    callback(data);
-  };
-}
 
 function reviewsFiltersHide() {
   reviewsFilter.classList.add('invisible');
