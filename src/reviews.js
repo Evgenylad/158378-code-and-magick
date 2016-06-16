@@ -58,11 +58,11 @@ var loadImage = function(url, onSuccess, onFailure) {
 
   // если всё плохо
   imageToLoadIn.onerror = function() {
-    clearTimeout(imageToLoadInTimeout);
     onFailure();
   };
 
   var imageToLoadInTimeout = setTimeout(function() {
+    imageToLoadIn.src = '';
     onFailure();
   }, LOAD_IMAGE_TIMEOUT);
 };
