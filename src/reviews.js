@@ -74,10 +74,13 @@ var loadImage = function(url, onSuccess, onFailure) {
 
 /** @param {function(Array.<Object>)} callback */
 var getReviews = function(callback) {
+  var reviewsPreloader = document.querySelector('.reviews');
+
   var xhr = new XMLHttpRequest();
 
   /** @param {ProgressEvent} */
   xhr.onload = function(evt) {
+    reviewsPreloader.classList.add('.reviews-list-loading');
     var loadedData = JSON.parse(evt.target.response);
     callback(loadedData);
   };
