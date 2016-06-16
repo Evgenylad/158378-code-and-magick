@@ -58,6 +58,7 @@ var loadImage = function(url, onSuccess, onFailure) {
 
   // если всё плохо
   imageToLoadIn.onerror = function() {
+    clearTimeout(imageToLoadInTimeout);
     onFailure();
   };
 
@@ -94,15 +95,3 @@ function reviewsFiltersHide() {
 function reviewsFiltersShow() {
   reviewsFilter.classList.remove('invisible');
 }
-
-// обычная загрузка картинки
-loadImage('http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg', function() {
-  var img = document.createElement('img');
-  document.body.appendChild(img);
-  img.src = 'http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg';
-});
-
-// загрузка очень большой картинки (24мб)
-loadImage('http://photojournal.jpl.nasa.gov/jpeg/PIA13932.jpg', function() {}, function() {
-  console.log('Ошибка! Должен сработать таймер 10 секунд');
-});
