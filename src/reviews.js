@@ -116,18 +116,23 @@ var getFilteredReviews = function(reviews, filter) {
     case 'reviews-all':
       break;
     case 'reviews-recent':
-      var reviewsRecent = reviewsToFilter.filter(function(review) {
-        for(var i = 0; i < reviews.length; i++) {
-          var lastFourDays = 1000 * 60 * 60 * 24 * 4;
-          var today = new Date();
-          if(review.date >= (today - lastFourDays)) {
-            return true;
-          }
-        }
-        return reviewsRecent;
+      var reviewsRecent = reviewsToFilter.filter(function(number) {
+        var lastFourDays = 1000 * 60 * 60 * 24 * 4;
+        return (Date.now() - Date.parse(number.date)) < lastFourDays;
       });
+      reviewsRecent.sort(function(a, b) {
+        return Date.parse(b.date) - Date.parse(a.date);
+      });
+      reviewsToFilter = reviewsRecent;
+      break;
   }
   return reviewsToFilter;
+};
+
+//Фильтруем reviews и отрисовываем список при клике на кнопку
+var setFilter = function(filter) {
+  var filteredReviews = getFilteredReviews(reviews, filter);
+  renderReviews(filteredReviews);
 };
 
 //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
@@ -140,11 +145,6 @@ var setFilterEnabled = function() {
       setFilter(this.id);
     };
   }
-};
-
-var setFilter = function(filter) {
-  var filteredReviews = getFilteredReviews(reviews, filter);
-  renderReviews(filteredReviews);
 };
 
 //При вызове функции getReviews в качестве аргумента передается функция,
