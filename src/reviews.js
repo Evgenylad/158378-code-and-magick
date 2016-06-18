@@ -73,33 +73,72 @@ var loadImage = function(url, onSuccess, onFailure) {
 };
 
 /** @param {function(Array.<Object>)} callback */
+//При описании функции getReviews в качестве параметра указывается функция с аргументом loadedData, которая описывается
+//в МОМЕНТ вызова функции getReviews. Таким образом действия (методы внутри функции), которые вызываются функцией могут меняться
+//от кода к коду на лету и в зависимости от текущей необходимости.
 var getReviews = function(callback) {
-  var reviewsPreloader = document.querySelector('.reviews');
-
+  var reviewsBlock = document.querySelector('.reviews');
+  reviewsBlock.classList.add('.reviews-list-loading'); //Adding preLoader
   var xhr = new XMLHttpRequest();
 
   /** @param {ProgressEvent} */
   xhr.onload = function(evt) {
-    reviewsPreloader.classList.add('.reviews-list-loading');
     var loadedData = JSON.parse(evt.target.response);
+    reviewsBlock.classList.remove('.reviews-list-loading'); //Removing preLoader in case of success
     callback(loadedData);
   };
-
+  xhr.onerror = function() {
+    reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
+    reviewsBlock.querySelector('.reviews').classList.add('reviews-load-failure');
+  };
   xhr.open('GET', REVIEWS_LOAD_URL);
   xhr.send();
 };
 
 /** @param {Array.<Object>} reviews */
+//Функциия renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
+//создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
 var renderReviews = function(reviews) {
   reviews.forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
 };
+//Создадим массив с фильтрами, где каждый элемент соответствует id фильтра в разметке
+var arrayOfFilters = ['reviews-all', 'reviews-recent', 'reviews-good', 'reviews-bad', 'reviews-popular'];
 
+//Создадим функцию, которая будет получать на вход массив reviews и проверять каждый элемент
+//на предмет соответствия критериям заданным описании фильтра.
+//Для этого в фунцкцию также нужно передавать фильтр, который будет проверять функция.
+
+var checkReviews = function(reviews, filter) {
+  var reviewsToFilter = reviews.slice(0); // создаем копию массива, чтобы не повредить reviews при фильтрации
+  switch(filter) {
+    case 'reviews-all':
+      break;
+    case 'reviews-recent':
+      var reviewsRecent = reviewsToFilter.filter(function(review) {
+        for(var i = 0; i < reviews.length; i++) {
+          var lastFourDays = 1000 * 60 * 60 * 24 * 4;
+          var today = new Date();
+          if(review.date >= (today - lastFourDays)) {
+            return true;
+          }
+        }
+        return reviewsRecent;
+      });
+  }
+  return reviewsToFilter;
+};
+
+//При вызове функции getReviews в качестве аргумента передается функция,
+//которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
+//Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
 getReviews(function(loadedData) {
   var reviews = [];
   reviews = loadedData;
   renderReviews(reviews);
+  checkReviews(reviews, 'reviews-recent');
+  console.log(reviewsRecent);
 });
 
 reviewsFiltersShow();
