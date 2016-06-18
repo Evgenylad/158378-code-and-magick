@@ -110,7 +110,7 @@ var arrayOfFilters = ['reviews-all', 'reviews-recent', 'reviews-good', 'reviews-
 //на предмет соответствия критериям заданным описании фильтра.
 //Для этого в фунцкцию также нужно передавать фильтр, который будет проверять функция.
 
-var checkReviews = function(reviews, filter) {
+var getFilteredReviews = function(reviews, filter) {
   var reviewsToFilter = reviews.slice(0); // создаем копию массива, чтобы не повредить reviews при фильтрации
   switch(filter) {
     case 'reviews-all':
@@ -130,15 +130,31 @@ var checkReviews = function(reviews, filter) {
   return reviewsToFilter;
 };
 
+//Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
+//и включает фильтр для выбраного в данный момент по id. Фильтрация происходит в момент вызова setFilter.
+var setFilterEnabled = function() {
+  var filtersForm = document.forms[0];
+  var filters = filtersForm.elements.reviews;
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].onclick = function() {
+      setFilter(this.id);
+    };
+  }
+};
+
+var setFilter = function(filter) {
+  var filteredReviews = getFilteredReviews(reviews, filter);
+  renderReviews(filteredReviews);
+};
+
 //При вызове функции getReviews в качестве аргумента передается функция,
 //которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
 //Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
 getReviews(function(loadedData) {
   var reviews = [];
   reviews = loadedData;
+  setFilterEnabled();
   renderReviews(reviews);
-  checkReviews(reviews, 'reviews-recent'); //временный вызов функции для проверки работы фильтра
-  console.log(reviewsRecent);
 });
 
 reviewsFiltersShow();
