@@ -5,11 +5,19 @@ var reviewsContainer = document.querySelector('.reviews-list');
 var templateElement = document.querySelector('template');
 var elementToClone;
 
+
 /** @constant {number} */
 var LOAD_IMAGE_TIMEOUT = 10000;
 
 /** @constant {string} */
 var REVIEWS_LOAD_URL = '//o0.github.io/assets/json/reviews.json';
+
+/** @constant {integer} */
+var LAST_FOUR_DAYS = 4;
+
+/** @type {Array.<Object>} */
+var reviews = [];
+
 
 reviewsFiltersHide();
 
@@ -26,6 +34,7 @@ if ('content' in templateElement) {
 */
 
 var getReviewElement = function(data, container) {
+
   var element = elementToClone.cloneNode(true);
   var picture = element.querySelector('.review-author');
   element.querySelector('.review-text').textContent = data.description;
@@ -95,11 +104,13 @@ var getReviews = function(callback) {
   xhr.send();
 };
 
-/** @param {Array.<Object>} reviews */
-//Функциия renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
+/** @param {Array.<Object>} loadedReviews */
+//Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
 //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
-var renderReviews = function(reviews) {
-  reviews.forEach(function(review) {
+var renderReviews = function(loadedReviews) {
+  reviewsContainer.innerHTML = '';
+
+  loadedReviews.forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
 };
@@ -110,20 +121,46 @@ var arrayOfFilters = ['reviews-all', 'reviews-recent', 'reviews-good', 'reviews-
 //на предмет соответствия критериям заданным описании фильтра.
 //Для этого в фунцкцию также нужно передавать фильтр, который будет проверять функция.
 
-var getFilteredReviews = function(reviews, filter) {
+var getFilteredReviews = function(loadedReviews, filter) {
   var reviewsToFilter = reviews.slice(0); // создаем копию массива, чтобы не повредить reviews при фильтрации
   switch(filter) {
     case 'reviews-all':
       break;
     case 'reviews-recent':
-      var reviewsRecent = reviewsToFilter.filter(function(number) {
-        var lastFourDays = 1000 * 60 * 60 * 24 * 4;
-        return (Date.now() - Date.parse(number.date)) < lastFourDays;
+      var today = new Date();
+      var dateToCompare = today.setDate(today.getDate() - LAST_FOUR_DAYS);
+      var reviewsRecent = reviewsToFilter.filter(function(review) {
+        return (dateToCompare < Date.parse(review.date));
+
       });
       reviewsRecent.sort(function(a, b) {
         return Date.parse(b.date) - Date.parse(a.date);
       });
       reviewsToFilter = reviewsRecent;
+      break;
+    case 'reviews-good':
+      var reviewsGood = reviewsToFilter.filter(function(review) {
+        return (review.rating >= 3);
+      });
+      reviewsGood.sort(function(a, b) {
+        return Date.parse(b.rating) - Date.parse(a.rating);
+      });
+      reviewsToFilter = reviewsGood;
+      break;
+    case 'reviews-bad':
+      var reviewsBad = reviewsToFilter.filter(function(review) {
+        return (review.rating <= 2);
+      });
+      reviewsBad.sort(function(a, b) {
+        return Date.parse(a.rating) - Date.parse(b.rating);
+      });
+      reviewsToFilter = reviewsBad;
+      break;
+    case 'reviews-popular':
+      var reviewsPopular = reviewsToFilter.sort(function(a, b) {
+        return Date.parse(b.review_usefulness) - Date.parse(a.review_usefulness);
+      });
+      reviewsToFilter = reviewsPopular;
       break;
   }
   return reviewsToFilter;
@@ -138,8 +175,7 @@ var setFilter = function(filter) {
 //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
 //и включает фильтр для выбраного в данный момент по id. Фильтрация происходит в момент вызова setFilter.
 var setFilterEnabled = function() {
-  var filtersForm = document.forms[0];
-  var filters = filtersForm.elements.reviews;
+  var filters = document.getElementsByName('reviews');
   for (var i = 0; i < filters.length; i++) {
     filters[i].onclick = function() {
       setFilter(this.id);
@@ -150,10 +186,9 @@ var setFilterEnabled = function() {
 //При вызове функции getReviews в качестве аргумента передается функция,
 //которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
 //Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
-getReviews(function(loadedData) {
-  var reviews = [];
-  reviews = loadedData;
-  setFilterEnabled();
+getReviews(function(loadedReviews) {
+  reviews = loadedReviews;
+  setFilterEnabled(true);
   renderReviews(reviews);
 });
 
