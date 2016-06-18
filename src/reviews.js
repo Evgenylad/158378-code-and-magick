@@ -18,6 +18,15 @@ var LAST_FOUR_DAYS = 4;
 /** @type {Array.<Object>} */
 var reviews = [];
 
+/** @enum {number} */
+var Filter = {
+  'ALL': 'reviews-all',
+  'RECENT': 'reviews-recent',
+  'GOOD': 'reviews-good',
+  'BAD': 'reviews-bad',
+  'POPULAR': 'reviews-popular'
+};
+
 
 reviewsFiltersHide();
 
@@ -124,39 +133,41 @@ var arrayOfFilters = ['reviews-all', 'reviews-recent', 'reviews-good', 'reviews-
 var getFilteredReviews = function(loadedReviews, filter) {
   var reviewsToFilter = reviews.slice(0); // создаем копию массива, чтобы не повредить reviews при фильтрации
   switch(filter) {
-    case 'reviews-all':
+    case Filter.ALL:
       break;
-    case 'reviews-recent':
+    case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - LAST_FOUR_DAYS);
       var reviewsRecent = reviewsToFilter.filter(function(review) {
         return (dateToCompare < Date.parse(review.date));
-
-      });
-      reviewsRecent.sort(function(a, b) {
+      })
+      .sort(function(a, b) {
         return Date.parse(b.date) - Date.parse(a.date);
       });
       reviewsToFilter = reviewsRecent;
       break;
-    case 'reviews-good':
+
+    case Filter.GOOD:
       var reviewsGood = reviewsToFilter.filter(function(review) {
         return (review.rating >= 3);
-      });
-      reviewsGood.sort(function(a, b) {
+      })
+      .sort(function(a, b) {
         return Date.parse(b.rating) - Date.parse(a.rating);
       });
       reviewsToFilter = reviewsGood;
       break;
-    case 'reviews-bad':
+
+    case Filter.BAD:
       var reviewsBad = reviewsToFilter.filter(function(review) {
         return (review.rating <= 2);
-      });
-      reviewsBad.sort(function(a, b) {
+      })
+      .sort(function(a, b) {
         return Date.parse(a.rating) - Date.parse(b.rating);
       });
       reviewsToFilter = reviewsBad;
       break;
-    case 'reviews-popular':
+
+    case Filter.POPULAR:
       var reviewsPopular = reviewsToFilter.sort(function(a, b) {
         return Date.parse(b.review_usefulness) - Date.parse(a.review_usefulness);
       });
