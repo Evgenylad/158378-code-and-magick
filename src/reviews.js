@@ -137,7 +137,7 @@ getReviews(function(loadedData) {
   var reviews = [];
   reviews = loadedData;
   renderReviews(reviews);
-  checkReviews(reviews, 'reviews-recent');
+  checkReviews(reviews, 'reviews-recent'); //временный вызов функции для проверки работы фильтра
   console.log(reviewsRecent);
 });
 
