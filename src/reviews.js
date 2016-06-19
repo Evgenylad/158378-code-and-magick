@@ -138,13 +138,19 @@ var getFilteredReviews = function(loadedReviews, filter) {
     case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - LAST_FOUR_DAYS);
-      var reviewsRecent = reviewsToFilter.filter(function(review) {
+      if(reviews.some(function(review) {
         return (dateToCompare < Date.parse(review.date));
-      })
+      })) {
+        var reviewsRecent = reviewsToFilter.filter(function(review) {
+          return (dateToCompare < Date.parse(review.date));
+        })
       .sort(function(a, b) {
         return Date.parse(b.date) - Date.parse(a.date);
       });
-      reviewsToFilter = reviewsRecent;
+        reviewsToFilter = reviewsRecent;
+      } else {
+        addNothinFoundDiv();
+      }
       break;
 
     case Filter.GOOD:
@@ -165,6 +171,7 @@ var getFilteredReviews = function(loadedReviews, filter) {
 
     case Filter.BAD:
       if(reviews.some(function(review) {
+        removeNothingFoundDiv();
         return (review.rating <= 0);
       })) {
         var reviewsBad = reviewsToFilter.filter(function(review) {
@@ -197,6 +204,10 @@ var addNothinFoundDiv = function() {
   alert.style.textAlign = 'center';
   alert.style.margin = '20px';
   alert.style.fontSize = '220%';
+};
+
+var removeNothingFoundDiv = function() {
+  reviewsFilter.removeChild(alert);
 };
 
 //Фильтруем reviews и отрисовываем список при клике на кнопку
