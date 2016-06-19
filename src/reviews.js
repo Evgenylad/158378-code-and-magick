@@ -117,8 +117,12 @@ var getReviews = function(callback) {
 //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
 //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
 var renderReviews = function(loadedReviews) {
-  reviewsContainer.innerHTML = '';
-
+  if(loadedReviews.length < 1) {
+    reviewsContainer.innerHTML = '';
+    addNothinFoundDiv();
+  } else {
+    reviewsContainer.innerHTML = '';
+  }
   loadedReviews.forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
@@ -138,52 +142,33 @@ var getFilteredReviews = function(loadedReviews, filter) {
     case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - LAST_FOUR_DAYS);
-      if(reviews.some(function(review) {
+      var reviewsRecent = reviewsToFilter.filter(function(review) {
         return (dateToCompare < Date.parse(review.date));
-      })) {
-        var reviewsRecent = reviewsToFilter.filter(function(review) {
-          return (dateToCompare < Date.parse(review.date));
-        })
-      .sort(function(a, b) {
-        return Date.parse(b.date) - Date.parse(a.date);
-      });
-        reviewsToFilter = reviewsRecent;
-      } else {
-        addNothinFoundDiv();
-      }
+      })
+    .sort(function(a, b) {
+      return Date.parse(b.date) - Date.parse(a.date);
+    });
+      reviewsToFilter = reviewsRecent;
       break;
 
     case Filter.GOOD:
-      if(reviews.some(function(review) {
-        return (review.rating >= 3);
-      })) {
-        var reviewsGood = reviewsToFilter.filter(function(review) {
-          return (review.rating >= 3);
-        })
-        .sort(function(a, b) {
-          return Date.parse(b.rating) - Date.parse(a.rating);
-        });
-        reviewsToFilter = reviewsGood;
-      } else {
-        addNothinFoundDiv();
-      }
+      var reviewsGood = reviewsToFilter.filter(function(review) {
+        return (review.rating >= 6);
+      })
+      .sort(function(a, b) {
+        return Date.parse(b.rating) - Date.parse(a.rating);
+      });
+      reviewsToFilter = reviewsGood;
       break;
 
     case Filter.BAD:
-      if(reviews.some(function(review) {
-        removeNothingFoundDiv();
+      var reviewsBad = reviewsToFilter.filter(function(review) {
         return (review.rating <= 0);
-      })) {
-        var reviewsBad = reviewsToFilter.filter(function(review) {
-          return (review.rating <= 2);
-        })
+      })
         .sort(function(a, b) {
           return Date.parse(a.rating) - Date.parse(b.rating);
         });
-        reviewsToFilter = reviewsBad;
-      } else {
-        addNothinFoundDiv();
-      }
+      reviewsToFilter = reviewsBad;
       break;
 
     case Filter.POPULAR:
@@ -198,16 +183,13 @@ var getFilteredReviews = function(loadedReviews, filter) {
 
 var addNothinFoundDiv = function() {
   var alert = document.createElement('div');
-  reviewsFilter.appendChild(alert);
+  reviewsContainer.appendChild(alert);
+  alert.classList.add('nothing-found');
   alert.textContent = 'Ничего не найдено...';
   alert.style.color = 'white';
   alert.style.textAlign = 'center';
   alert.style.margin = '20px';
   alert.style.fontSize = '220%';
-};
-
-var removeNothingFoundDiv = function() {
-  reviewsFilter.removeChild(alert);
 };
 
 //Фильтруем reviews и отрисовываем список при клике на кнопку
