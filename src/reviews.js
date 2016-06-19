@@ -148,13 +148,19 @@ var getFilteredReviews = function(loadedReviews, filter) {
       break;
 
     case Filter.GOOD:
-      var reviewsGood = reviewsToFilter.filter(function(review) {
+      if(reviews.some(function(review) {
         return (review.rating >= 3);
-      })
-      .sort(function(a, b) {
-        return Date.parse(b.rating) - Date.parse(a.rating);
-      });
-      reviewsToFilter = reviewsGood;
+      })) {
+        var reviewsGood = reviewsToFilter.filter(function(review) {
+          return (review.rating >= 3);
+        })
+        .sort(function(a, b) {
+          return Date.parse(b.rating) - Date.parse(a.rating);
+        });
+        reviewsToFilter = reviewsGood;
+      } else {
+        addNothinFoundDiv();
+      }
       break;
 
     case Filter.BAD:
@@ -169,13 +175,7 @@ var getFilteredReviews = function(loadedReviews, filter) {
         });
         reviewsToFilter = reviewsBad;
       } else {
-        var alert = document.createElement('div');
-        reviewsFilter.appendChild(alert);
-        alert.textContent = 'Ничего не найдено...';
-        alert.style.color = 'white';
-        alert.style.textAlign = 'center';
-        alert.style.margin = '20px';
-        alert.style.fontSize = '220%';
+        addNothinFoundDiv();
       }
       break;
 
@@ -187,6 +187,16 @@ var getFilteredReviews = function(loadedReviews, filter) {
       break;
   }
   return reviewsToFilter;
+};
+
+var addNothinFoundDiv = function() {
+  var alert = document.createElement('div');
+  reviewsFilter.appendChild(alert);
+  alert.textContent = 'Ничего не найдено...';
+  alert.style.color = 'white';
+  alert.style.textAlign = 'center';
+  alert.style.margin = '20px';
+  alert.style.fontSize = '220%';
 };
 
 //Фильтруем reviews и отрисовываем список при клике на кнопку
