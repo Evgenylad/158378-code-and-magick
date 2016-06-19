@@ -127,8 +127,6 @@ var renderReviews = function(loadedReviews) {
     getReviewElement(review, reviewsContainer);
   });
 };
-//Создадим массив с фильтрами, где каждый элемент соответствует id фильтра в разметке
-var arrayOfFilters = ['reviews-all', 'reviews-recent', 'reviews-good', 'reviews-bad', 'reviews-popular'];
 
 //Создадим функцию, которая будет получать на вход массив reviews и проверять каждый элемент
 //на предмет соответствия критериям заданным описании фильтра.
@@ -142,41 +140,33 @@ var getFilteredReviews = function(loadedReviews, filter) {
     case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - LAST_FOUR_DAYS);
-      var reviewsRecent = reviewsToFilter.filter(function(review) {
+      return reviewsToFilter.filter(function(review) {
         return (dateToCompare < Date.parse(review.date));
       })
     .sort(function(a, b) {
       return Date.parse(b.date) - Date.parse(a.date);
     });
-      reviewsToFilter = reviewsRecent;
-      break;
 
     case Filter.GOOD:
-      var reviewsGood = reviewsToFilter.filter(function(review) {
+      return reviewsToFilter.filter(function(review) {
         return (review.rating >= 6);
       })
       .sort(function(a, b) {
         return Date.parse(b.rating) - Date.parse(a.rating);
       });
-      reviewsToFilter = reviewsGood;
-      break;
 
     case Filter.BAD:
-      var reviewsBad = reviewsToFilter.filter(function(review) {
+      return reviewsToFilter.filter(function(review) {
         return (review.rating <= 0);
       })
         .sort(function(a, b) {
           return Date.parse(a.rating) - Date.parse(b.rating);
         });
-      reviewsToFilter = reviewsBad;
-      break;
 
     case Filter.POPULAR:
-      var reviewsPopular = reviewsToFilter.sort(function(a, b) {
+      return reviewsToFilter.sort(function(a, b) {
         return Date.parse(b.review_usefulness) - Date.parse(a.review_usefulness);
       });
-      reviewsToFilter = reviewsPopular;
-      break;
   }
   return reviewsToFilter;
 };
@@ -195,6 +185,7 @@ var addNothinFoundDiv = function() {
 //Фильтруем reviews и отрисовываем список при клике на кнопку
 var setFilter = function(filter) {
   var filteredReviews = getFilteredReviews(reviews, filter);
+  console.log(filteredReviews.lenght);
   renderReviews(filteredReviews);
 };
 
@@ -203,6 +194,14 @@ var setFilter = function(filter) {
 var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   for (var i = 0; i < filters.length; i++) {
+    var filter = filters[i].defaultValue;
+    console.log(filter);
+    var filteredReviews = getFilteredReviews(reviews, filter);
+    var reviewsListLength = filteredReviews.length;
+    var sup = document.createElement('sup');
+    filters[i].labels[0].appendChild(sup);
+    filters[i].labels[0].getElementsByTagName('sup')[0].textContent = reviewsListLength;
+    filters[i].labels[0].getElementsByTagName('sup')[0].style.color = 'white';
     filters[i].onclick = function() {
       setFilter(this.id);
     };
