@@ -194,6 +194,10 @@ main {
   cursor: pointer;
 }
 
+.reviews-filter-item-blocked + .reviews-filter-item {
+  background-color: red;
+}
+
 .reviews-filter input {
   position: absolute;
   left: -1200em;

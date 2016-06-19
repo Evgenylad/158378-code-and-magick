@@ -13,7 +13,7 @@ var LOAD_IMAGE_TIMEOUT = 10000;
 var REVIEWS_LOAD_URL = '//o0.github.io/assets/json/reviews.json';
 
 /** @constant {integer} */
-var LAST_FOUR_DAYS = 4;
+var RECENT_PERIOD = 4;
 
 /** @type {Array.<Object>} */
 var reviews = [];
@@ -96,13 +96,13 @@ var loadImage = function(url, onSuccess, onFailure) {
 //от кода к коду на лету и в зависимости от текущей необходимости.
 var getReviews = function(callback) {
   var reviewsBlock = document.querySelector('.reviews');
-  reviewsBlock.classList.add('.reviews-list-loading'); //Adding preLoader
+  reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
   var xhr = new XMLHttpRequest();
 
   /** @param {ProgressEvent} */
   xhr.onload = function(evt) {
     var loadedData = JSON.parse(evt.target.response);
-    reviewsBlock.classList.remove('.reviews-list-loading'); //Removing preLoader in case of success
+    reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
     callback(loadedData);
   };
   xhr.onerror = function() {
@@ -139,7 +139,7 @@ var getFilteredReviews = function(loadedReviews, filter) {
       break;
     case Filter.RECENT:
       var today = new Date();
-      var dateToCompare = today.setDate(today.getDate() - LAST_FOUR_DAYS);
+      var dateToCompare = today.setDate(today.getDate() - RECENT_PERIOD);
       return reviewsToFilter.filter(function(review) {
         return (dateToCompare < Date.parse(review.date));
       })
@@ -195,13 +195,16 @@ var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   for (var i = 0; i < filters.length; i++) {
     var filter = filters[i].defaultValue;
-    console.log(filter);
     var filteredReviews = getFilteredReviews(reviews, filter);
     var reviewsListLength = filteredReviews.length;
     var sup = document.createElement('sup');
     filters[i].labels[0].appendChild(sup);
     filters[i].labels[0].getElementsByTagName('sup')[0].textContent = reviewsListLength;
     filters[i].labels[0].getElementsByTagName('sup')[0].style.color = 'white';
+    if(reviewsListLength < 1) {
+      filters[i].classList.add('reviews-filter-item-blocked');
+      filters[i].setAttribute('disabled', 'disabled');
+    }
     filters[i].onclick = function() {
       setFilter(this.id);
     };
