@@ -158,13 +158,25 @@ var getFilteredReviews = function(loadedReviews, filter) {
       break;
 
     case Filter.BAD:
-      var reviewsBad = reviewsToFilter.filter(function(review) {
-        return (review.rating <= 2);
-      })
-      .sort(function(a, b) {
-        return Date.parse(a.rating) - Date.parse(b.rating);
-      });
-      reviewsToFilter = reviewsBad;
+      if(reviews.some(function(review) {
+        return (review.rating <= 0);
+      })) {
+        var reviewsBad = reviewsToFilter.filter(function(review) {
+          return (review.rating <= 2);
+        })
+        .sort(function(a, b) {
+          return Date.parse(a.rating) - Date.parse(b.rating);
+        });
+        reviewsToFilter = reviewsBad;
+      } else {
+        var alert = document.createElement('div');
+        reviewsFilter.appendChild(alert);
+        alert.textContent = 'Ничего не найдено...';
+        alert.style.color = 'white';
+        alert.style.textAlign = 'center';
+        alert.style.margin = '20px';
+        alert.style.fontSize = '220%';
+      }
       break;
 
     case Filter.POPULAR:
