@@ -4,7 +4,7 @@ var reviewsFilter = document.querySelector('.reviews-filter');
 var reviewsContainer = document.querySelector('.reviews-list');
 var templateElement = document.querySelector('template');
 var elementToClone;
-
+var reviewsBlock = document.querySelector('.reviews');
 
 /** @constant {number} */
 var LOAD_IMAGE_TIMEOUT = 10000;
@@ -89,21 +89,24 @@ var loadImage = function(url, onSuccess, onFailure) {
 //При описании функции getReviews в качестве параметра указывается функция с аргументом loadedData, которая описывается
 //в МОМЕНТ вызова функции getReviews. Таким образом действия (методы внутри функции), которые вызываются функцией могут меняться
 //от кода к коду на лету и в зависимости от текущей необходимости.
-var getReviews = function(callback) {
-  var reviewsBlock = document.querySelector('.reviews');
-  reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
+var getReviews = function(callbackSuccess, callbackError) {
   var xhr = new XMLHttpRequest();
+  xhr.timeout = 30000;
 
   /** @param {ProgressEvent} */
   xhr.onload = function(evt) {
     var loadedData = JSON.parse(evt.target.response);
-    reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
-    callback(loadedData);
+    callbackSuccess(loadedData);
+    reviewsFiltersShow();
   };
   xhr.onerror = function() {
-    reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
-    reviewsBlock.querySelector('.reviews').classList.add('reviews-load-failure');
+    callbackError();
   };
+
+  xhr.ontimeout = function() {
+    callbackError();
+  };
+
   xhr.open('GET', REVIEWS_LOAD_URL);
   xhr.send();
 };
@@ -175,8 +178,7 @@ var addNothinFoundDiv = function() {
   alert.style.fontSize = '220%';
 };
 
-var amountOfComments = function(filteredReviews, filter) {
-  console.log(filter);
+var amountOfComments = function(filter) {
   var filtersLabel = filter.id;
   var filteredReviews = getFilteredReviews(reviews, filtersLabel);
   var reviewsListLength = filteredReviews.length;
@@ -200,9 +202,8 @@ var setFilter = function(filter) {
 var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   for (var i = 0; i < filters.length; i++) {
+    amountOfComments(filters[i]);
     filters[i].onclick = function() {
-      amountOfComments(filters[i]);
-      console.log(filters[i]);
       setFilter(this.id);
     };
   }
@@ -224,6 +225,8 @@ if ('content' in templateElement) {
   elementToClone = templateElement.querySelector('.review');
 }
 
+reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
+
 //При вызове функции getReviews в качестве аргумента передается функция,
 //которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
 //Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
@@ -231,6 +234,8 @@ getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFilterEnabled(true);
   renderReviews(reviews);
+  reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
+}, function() {
+  reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
+  reviewsBlock.querySelector('.reviews').classList.add('reviews-load-failure');
 });
-
-reviewsFiltersShow();
