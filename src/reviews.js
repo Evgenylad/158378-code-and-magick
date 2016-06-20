@@ -12,13 +12,13 @@ var LOAD_IMAGE_TIMEOUT = 10000;
 /** @constant {string} */
 var REVIEWS_LOAD_URL = '//o0.github.io/assets/json/reviews.json';
 
-/** @constant {integer} */
+/** @constant {number} */
 var RECENT_PERIOD = 4;
 
 /** @type {Array.<Object>} */
 var reviews = [];
 
-/** @enum {number} */
+/** @enum {string} */
 var Filter = {
   'ALL': 'reviews-all',
   'RECENT': 'reviews-recent',
@@ -26,15 +26,6 @@ var Filter = {
   'BAD': 'reviews-bad',
   'POPULAR': 'reviews-popular'
 };
-
-
-reviewsFiltersHide();
-
-if ('content' in templateElement) {
-  elementToClone = templateElement.content.querySelector('.review');
-} else {
-  elementToClone = templateElement.querySelector('.review');
-}
 
 /**
 *@param {Object} data
@@ -90,7 +81,11 @@ var loadImage = function(url, onSuccess, onFailure) {
   }, LOAD_IMAGE_TIMEOUT);
 };
 
-/** @param {function(Array.<Object>)} callback */
+/**
+ * [getReviews description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
 //При описании функции getReviews в качестве параметра указывается функция с аргументом loadedData, которая описывается
 //в МОМЕНТ вызова функции getReviews. Таким образом действия (методы внутри функции), которые вызываются функцией могут меняться
 //от кода к коду на лету и в зависимости от текущей необходимости.
@@ -117,11 +112,9 @@ var getReviews = function(callback) {
 //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
 //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
 var renderReviews = function(loadedReviews) {
+  reviewsContainer.innerHTML = '';
   if(loadedReviews.length < 1) {
-    reviewsContainer.innerHTML = '';
     addNothinFoundDiv();
-  } else {
-    reviewsContainer.innerHTML = '';
   }
   loadedReviews.forEach(function(review) {
     getReviewElement(review, reviewsContainer);
@@ -135,8 +128,8 @@ var renderReviews = function(loadedReviews) {
 var getFilteredReviews = function(loadedReviews, filter) {
   var reviewsToFilter = reviews.slice(0); // создаем копию массива, чтобы не повредить reviews при фильтрации
   switch(filter) {
-    case Filter.ALL:
-      break;
+    /*case Filter.ALL:
+      break;*/
     case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - RECENT_PERIOD);
@@ -144,7 +137,7 @@ var getFilteredReviews = function(loadedReviews, filter) {
         return (dateToCompare < Date.parse(review.date));
       })
     .sort(function(a, b) {
-      return Date.parse(b.date) - Date.parse(a.date);
+      return (b.date - a.date);
     });
 
     case Filter.GOOD:
@@ -152,20 +145,20 @@ var getFilteredReviews = function(loadedReviews, filter) {
         return (review.rating >= 6);
       })
       .sort(function(a, b) {
-        return Date.parse(b.rating) - Date.parse(a.rating);
+        return (b.rating - a.rating);
       });
 
     case Filter.BAD:
       return reviewsToFilter.filter(function(review) {
         return (review.rating <= 0);
       })
-        .sort(function(a, b) {
-          return Date.parse(a.rating) - Date.parse(b.rating);
-        });
+      .sort(function(a, b) {
+        return (a.rating - b.rating);
+      });
 
     case Filter.POPULAR:
       return reviewsToFilter.sort(function(a, b) {
-        return Date.parse(b.review_usefulness) - Date.parse(a.review_usefulness);
+        return (b.review_usefulness - a.review_usefulness);
       });
   }
   return reviewsToFilter;
@@ -182,10 +175,23 @@ var addNothinFoundDiv = function() {
   alert.style.fontSize = '220%';
 };
 
+var amountOfComments = function(filteredReviews, filter) {
+  console.log(filter);
+  var filtersLabel = filter.id;
+  var filteredReviews = getFilteredReviews(reviews, filtersLabel);
+  var reviewsListLength = filteredReviews.length;
+  var sup = document.createElement('sup');
+  filter.labels[0].appendChild(sup);
+  sup.textContent = reviewsListLength;
+  if(reviewsListLength < 1) {
+    filter.classList.add('reviews-filter-item-blocked');
+    filter.setAttribute('disabled', 'disabled');
+  }
+};
+
 //Фильтруем reviews и отрисовываем список при клике на кнопку
 var setFilter = function(filter) {
   var filteredReviews = getFilteredReviews(reviews, filter);
-  console.log(filteredReviews.lenght);
   renderReviews(filteredReviews);
 };
 
@@ -194,22 +200,29 @@ var setFilter = function(filter) {
 var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   for (var i = 0; i < filters.length; i++) {
-    var filter = filters[i].defaultValue;
-    var filteredReviews = getFilteredReviews(reviews, filter);
-    var reviewsListLength = filteredReviews.length;
-    var sup = document.createElement('sup');
-    filters[i].labels[0].appendChild(sup);
-    filters[i].labels[0].getElementsByTagName('sup')[0].textContent = reviewsListLength;
-    filters[i].labels[0].getElementsByTagName('sup')[0].style.color = 'white';
-    if(reviewsListLength < 1) {
-      filters[i].classList.add('reviews-filter-item-blocked');
-      filters[i].setAttribute('disabled', 'disabled');
-    }
     filters[i].onclick = function() {
+      amountOfComments(filters[i]);
+      console.log(filters[i]);
       setFilter(this.id);
     };
   }
 };
+
+function reviewsFiltersHide() {
+  reviewsFilter.classList.add('invisible');
+}
+
+function reviewsFiltersShow() {
+  reviewsFilter.classList.remove('invisible');
+}
+
+reviewsFiltersHide();
+
+if ('content' in templateElement) {
+  elementToClone = templateElement.content.querySelector('.review');
+} else {
+  elementToClone = templateElement.querySelector('.review');
+}
 
 //При вызове функции getReviews в качестве аргумента передается функция,
 //которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
@@ -221,12 +234,3 @@ getReviews(function(loadedReviews) {
 });
 
 reviewsFiltersShow();
-
-
-function reviewsFiltersHide() {
-  reviewsFilter.classList.add('invisible');
-}
-
-function reviewsFiltersShow() {
-  reviewsFilter.classList.remove('invisible');
-}
