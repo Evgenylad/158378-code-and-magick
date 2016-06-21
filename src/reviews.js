@@ -26,6 +26,11 @@ var Filter = {
   'BAD': 'reviews-bad',
   'POPULAR': 'reviews-popular'
 };
+/** @enum {string} */
+var Rating = {
+  'GOOD': 3,
+  'BAD': 2
+};
 
 /**
 *@param {Object} data
@@ -82,9 +87,11 @@ var loadImage = function(url, onSuccess, onFailure) {
 };
 
 /**
- * [getReviews description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * [getReviews - send request to a server for data]
+ * @param  {Function} callbackSuccess [call to the function which is the argument for getReviews after the data
+ * have been loaded]
+ * @param  {Function} callbackError [call to the function which is the argument for getReviews after the data
+ * have NOT been loaded due to an error or timeout]
  */
 //При описании функции getReviews в качестве параметра указывается функция с аргументом loadedData, которая описывается
 //в МОМЕНТ вызова функции getReviews. Таким образом действия (методы внутри функции), которые вызываются функцией могут меняться
@@ -97,15 +104,10 @@ var getReviews = function(callbackSuccess, callbackError) {
   xhr.onload = function(evt) {
     var loadedData = JSON.parse(evt.target.response);
     callbackSuccess(loadedData);
-    reviewsFiltersShow();
   };
-  xhr.onerror = function() {
-    callbackError();
-  };
+  xhr.onerror = callbackError;
 
-  xhr.ontimeout = function() {
-    callbackError();
-  };
+  xhr.ontimeout = callbackError;
 
   xhr.open('GET', REVIEWS_LOAD_URL);
   xhr.send();
@@ -139,25 +141,25 @@ var getFilteredReviews = function(loadedReviews, filter) {
       return reviewsToFilter.filter(function(review) {
         return (dateToCompare < Date.parse(review.date));
       })
-    .sort(function(a, b) {
-      return (b.date - a.date);
-    });
+      .sort(function(a, b) {
+        return (b.date - a.date);
+      });
 
     case Filter.GOOD:
-      return reviewsToFilter.filter(function(review) {
-        return (review.rating >= 6);
+      return reviewsToFilter.filter(function() {
+        return (reviews.rating >= Rating.GOOD);
       })
-      .sort(function(a, b) {
-        return (b.rating - a.rating);
-      });
+        .sort(function(a, b) {
+          return (b.rating - a.rating);
+        });
 
     case Filter.BAD:
-      return reviewsToFilter.filter(function(review) {
-        return (review.rating <= 0);
+      return reviewsToFilter.filter(function() {
+        return (reviews.rating <= Rating.BAD);
       })
-      .sort(function(a, b) {
-        return (a.rating - b.rating);
-      });
+        .sort(function(a, b) {
+          return (a.rating - b.rating);
+        });
 
     case Filter.POPULAR:
       return reviewsToFilter.sort(function(a, b) {
@@ -235,6 +237,7 @@ getReviews(function(loadedReviews) {
   setFilterEnabled(true);
   renderReviews(reviews);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
+  reviewsFiltersShow();
 }, function() {
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
   reviewsBlock.querySelector('.reviews').classList.add('reviews-load-failure');
