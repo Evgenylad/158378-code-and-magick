@@ -148,8 +148,9 @@ var getFilteredReviews = function(loadedReviews, filter) {
 
     case Filter.GOOD:
       return reviewsToFilter
-        .filter(function() {
-          return (reviews.rating >= Rating.GOOD);
+        .filter(function(review) {
+          console.log(reviews.rating);
+          return (review.rating >= Rating.GOOD);
         })
         .sort(function(a, b) {
           return (b.rating - a.rating);
@@ -157,8 +158,8 @@ var getFilteredReviews = function(loadedReviews, filter) {
 
     case Filter.BAD:
       return reviewsToFilter
-        .filter(function() {
-          return (reviews.rating <= Rating.BAD);
+        .filter(function(review) {
+          return (review.rating <= Rating.BAD);
         })
         .sort(function(a, b) {
           return (a.rating - b.rating);
