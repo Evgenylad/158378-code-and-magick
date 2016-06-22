@@ -194,6 +194,10 @@ main {
   cursor: pointer;
 }
 
+.reviews-filter-item-blocked {
+  color: #ffffff;
+}
+
 .reviews-filter-item-blocked + .reviews-filter-item {
   background-color: red;
 }
@@ -227,6 +231,12 @@ input[type=radio]:checked + .reviews-filter-item {
   line-height: 1.4;
 }
 
+.nothing-found {
+  color: #ffffff;
+  text-align: center;
+  margin: 20px;
+  font-size: 30px;
+}
 .reviews-list-loading,
 .reviews-load-failure {
   padding-bottom: 40px;
