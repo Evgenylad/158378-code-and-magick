@@ -237,7 +237,7 @@ reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 //Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
 getReviews(function(loadedReviews) {
   reviews = loadedReviews;
-  setFilterEnabled(true);
+  setFilterEnabled();
   renderReviews(reviews);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   reviewsFiltersShow();
