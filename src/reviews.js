@@ -138,25 +138,28 @@ var getFilteredReviews = function(loadedReviews, filter) {
     case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - RECENT_PERIOD);
-      return reviewsToFilter.filter(function(review) {
-        return (dateToCompare < Date.parse(review.date));
-      })
-      .sort(function(a, b) {
-        return (b.date - a.date);
-      });
+      return reviewsToFilter
+        .filter(function(review) {
+          return (dateToCompare < Date.parse(review.date));
+        })
+        .sort(function(a, b) {
+          return (b.date - a.date);
+        });
 
     case Filter.GOOD:
-      return reviewsToFilter.filter(function() {
-        return (reviews.rating >= Rating.GOOD);
-      })
+      return reviewsToFilter
+        .filter(function() {
+          return (reviews.rating >= Rating.GOOD);
+        })
         .sort(function(a, b) {
           return (b.rating - a.rating);
         });
 
     case Filter.BAD:
-      return reviewsToFilter.filter(function() {
-        return (reviews.rating <= Rating.BAD);
-      })
+      return reviewsToFilter
+        .filter(function() {
+          return (reviews.rating <= Rating.BAD);
+        })
         .sort(function(a, b) {
           return (a.rating - b.rating);
         });
