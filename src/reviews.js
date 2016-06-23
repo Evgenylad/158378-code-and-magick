@@ -145,16 +145,16 @@ var renderReviews = function(loadedReviews, page) {
  * @param {number} pageSize
  * @return {boolean}
  */
-var isNextPageAvailable = function(reviewsFiltered, page, pageSize) {
-  return page < Math.floor(reviewsFiltered.length / pageSize);
+var isNextPageAvailable = function(pageReviews, page, pageSize) {
+  return page < Math.floor(reviews.length / pageSize);
 };
 
-var setMoreReviewsButtonEnabled = function(reviewsFiltered) {
+var setMoreReviewsButtonEnabled = function() {
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
   moreReviewsButton.addEventListener('click', function() {
-    if(isNextPageAvailable(reviewsFiltered, pageNumber, PAGE_SIZE)) {
+    if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
       pageNumber++;
-      renderReviews(reviewsFiltered, pageNumber);
+      renderReviews(filteredReviews, pageNumber);
     }
   });
 };
@@ -218,7 +218,7 @@ var addNothinFoundDiv = function() {
 
 var amountOfComments = function(filter) {
   var filtersLabel = filter.id;
-  var filteredReviews = getFilteredReviews(reviews, filtersLabel);
+  filteredReviews = getFilteredReviews(reviews, filtersLabel);
   var reviewsListLength = filteredReviews.length;
   var sup = document.createElement('sup');
   filter.labels[0].appendChild(sup);
@@ -234,7 +234,7 @@ var setFilter = function(filter) {
   filteredReviews = getFilteredReviews(reviews, filter);
   pageNumber = 0;
   renderReviews(filteredReviews, pageNumber);
-  setMoreReviewsButtonEnabled(filteredReviews);
+  setMoreReviewsButtonEnabled();
 };
 
 //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
