@@ -146,15 +146,18 @@ var renderReviews = function(loadedReviews, page) {
  * @return {boolean}
  */
 var isNextPageAvailable = function(reviewsFiltered, page, pageSize) {
-  return page < Math.floor(reviews.length / pageSize);
+  return page < Math.floor(reviewsFiltered.length / pageSize);
 };
 
 var setMoreReviewsButtonEnabled = function() {
+  console.log(filteredReviews);
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
   moreReviewsButton.addEventListener('click', function() {
     if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
       pageNumber++;
       renderReviews(filteredReviews, pageNumber);
+    } else {
+      document.querySelector('.reviews-controls-more').classList.add('invisible');
     }
   });
 };
@@ -234,7 +237,6 @@ var setFilter = function(filter) {
   filteredReviews = getFilteredReviews(reviews, filter);
   pageNumber = 0;
   renderReviews(filteredReviews, pageNumber);
-  setMoreReviewsButtonEnabled();
 };
 
 //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
@@ -276,6 +278,7 @@ getReviews(function(loadedReviews) {
   renderReviews(reviews, pageNumber);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   reviewsFiltersShow();
+  setMoreReviewsButtonEnabled();
 }, function() {
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
   reviewsBlock.querySelector('.reviews').classList.add('reviews-load-failure');
