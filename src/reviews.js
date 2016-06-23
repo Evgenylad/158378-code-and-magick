@@ -15,6 +15,12 @@ var REVIEWS_LOAD_URL = '//o0.github.io/assets/json/reviews.json';
 /** @constant {number} */
 var RECENT_PERIOD = 4;
 
+/** @constant {number} */
+var PAGE_SIZE = 3;
+
+/** @type {number} */
+var pageNumber = 0;
+
 /** @type {Array.<Object>} */
 var reviews = [];
 
@@ -116,16 +122,39 @@ var getReviews = function(callbackSuccess, callbackError) {
 /** @param {Array.<Object>} loadedReviews */
 //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
 //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
-var renderReviews = function(loadedReviews) {
+var renderReviews = function(loadedReviews, page) {
   reviewsContainer.innerHTML = '';
+
   if(loadedReviews.length < 1) {
     addNothinFoundDiv();
   }
-  loadedReviews.forEach(function(review) {
+  var from = page * PAGE_SIZE;
+  var to = from + PAGE_SIZE;
+  document.querySelector('.reviews-controls-more').classList.remove('invisible');
+  loadedReviews.slice(from, to).forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
 };
 
+/**
+ * @param {Array} hotels
+ * @param {number} page
+ * @param {number} pageSize
+ * @return {boolean}
+ */
+var isNextPageAvailable = function(reviewsFiltered, page, pageSize) {
+  return page < Math.floor(reviewsFiltered.length / pageSize);
+};
+
+var setMoreReviewsButtonEnabled = function(reviewsFiltered) {
+  var moreReviewsButton = document.querySelector('.reviews-controls-more');
+  moreReviewsButton.addEventListener('click', function() {
+    if(isNextPageAvailable(reviewsFiltered, pageNumber, PAGE_SIZE)) {
+      pageNumber++;
+      renderReviews(reviewsFiltered, pageNumber);
+    }
+  });
+};
 //Создадим функцию, которая будет получать на вход массив reviews и проверять каждый элемент
 //на предмет соответствия критериям заданным описании фильтра.
 //Для этого в фунцкцию также нужно передавать фильтр, который будет проверять функция.
@@ -149,7 +178,6 @@ var getFilteredReviews = function(loadedReviews, filter) {
     case Filter.GOOD:
       return reviewsToFilter
         .filter(function(review) {
-          console.log(reviews.rating);
           return (review.rating >= Rating.GOOD);
         })
         .sort(function(a, b) {
@@ -200,7 +228,8 @@ var amountOfComments = function(filter) {
 //Фильтруем reviews и отрисовываем список при клике на кнопку
 var setFilter = function(filter) {
   var filteredReviews = getFilteredReviews(reviews, filter);
-  renderReviews(filteredReviews);
+  renderReviews(filteredReviews, pageNumber);
+  setMoreReviewsButtonEnabled(filteredReviews);
 };
 
 //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
@@ -239,7 +268,7 @@ reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFilterEnabled();
-  renderReviews(reviews);
+  renderReviews(reviews, pageNumber);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   reviewsFiltersShow();
 }, function() {
