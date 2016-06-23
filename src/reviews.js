@@ -24,6 +24,9 @@ var pageNumber = 0;
 /** @type {Array.<Object>} */
 var reviews = [];
 
+/** @type {Array.<Object>} */
+var filteredReviews = [];
+
 /** @enum {string} */
 var Filter = {
   'ALL': 'reviews-all',
@@ -162,8 +165,9 @@ var setMoreReviewsButtonEnabled = function(reviewsFiltered) {
 var getFilteredReviews = function(loadedReviews, filter) {
   var reviewsToFilter = reviews.slice(0); // создаем копию массива, чтобы не повредить reviews при фильтрации
   switch(filter) {
-    /*case Filter.ALL:
-      break;*/
+    case Filter.ALL:
+      return reviewsToFilter;
+
     case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - RECENT_PERIOD);
@@ -227,7 +231,8 @@ var amountOfComments = function(filter) {
 
 //Фильтруем reviews и отрисовываем список при клике на кнопку
 var setFilter = function(filter) {
-  var filteredReviews = getFilteredReviews(reviews, filter);
+  filteredReviews = getFilteredReviews(reviews, filter);
+  pageNumber = 0;
   renderReviews(filteredReviews, pageNumber);
   setMoreReviewsButtonEnabled(filteredReviews);
 };
