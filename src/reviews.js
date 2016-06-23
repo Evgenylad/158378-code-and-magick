@@ -150,7 +150,6 @@ var isNextPageAvailable = function(reviewsFiltered, page, pageSize) {
 };
 
 var setMoreReviewsButtonEnabled = function() {
-  console.log(filteredReviews);
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
   moreReviewsButton.addEventListener('click', function() {
     if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
@@ -221,8 +220,8 @@ var addNothinFoundDiv = function() {
 
 var amountOfComments = function(filter) {
   var filtersLabel = filter.id;
-  filteredReviews = getFilteredReviews(reviews, filtersLabel);
-  var reviewsListLength = filteredReviews.length;
+  var reviewsToCount = getFilteredReviews(reviews, filtersLabel);
+  var reviewsListLength = reviewsToCount.length;
   var sup = document.createElement('sup');
   filter.labels[0].appendChild(sup);
   sup.textContent = reviewsListLength;
@@ -272,12 +271,15 @@ reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 //При вызове функции getReviews в качестве аргумента передается функция,
 //которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
 //Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
-getReviews(function(loadedReviews) {
-  reviews = loadedReviews;
+getReviews(function(someReviews) {
+  reviews = someReviews;
   setFilterEnabled();
-  renderReviews(reviews, pageNumber);
+  if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+    renderReviews(reviews, pageNumber);
+  }
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   reviewsFiltersShow();
+
   setMoreReviewsButtonEnabled();
 }, function() {
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
