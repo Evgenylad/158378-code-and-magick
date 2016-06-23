@@ -140,12 +140,12 @@ var renderReviews = function(loadedReviews, page) {
 };
 
 /**
- * @param {Array} hotels
+ * @param {Array} reviewsFiltered
  * @param {number} page
  * @param {number} pageSize
  * @return {boolean}
  */
-var isNextPageAvailable = function(pageReviews, page, pageSize) {
+var isNextPageAvailable = function(reviewsFiltered, page, pageSize) {
   return page < Math.floor(reviews.length / pageSize);
 };
 
