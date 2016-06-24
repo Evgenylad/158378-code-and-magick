@@ -294,7 +294,7 @@ getReviews(function(someReviews) {
   setFilter(DEFAULT_FILTER);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
-    renderReviews(reviews, pageNumber);
+    renderReviews(reviews, pageNumber, true);
   }
   reviewsFiltersShow();
   setMoreReviewsButtonEnabled();
