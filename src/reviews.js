@@ -125,8 +125,10 @@ var getReviews = function(callbackSuccess, callbackError) {
 /** @param {Array.<Object>} loadedReviews */
 //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
 //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
-var renderReviews = function(loadedReviews, page) {
-  reviewsContainer.innerHTML = '';
+var renderReviews = function(loadedReviews, page, replace) {
+  if (replace) {
+    reviewsContainer.innerHTML = '';
+  }
 
   if(loadedReviews.length < 1) {
     addNothinFoundDiv();
@@ -235,7 +237,7 @@ var amountOfComments = function(filter) {
 var setFilter = function(filter) {
   filteredReviews = getFilteredReviews(reviews, filter);
   pageNumber = 0;
-  renderReviews(filteredReviews, pageNumber);
+  renderReviews(filteredReviews, pageNumber, true);
 };
 
 //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
@@ -274,10 +276,10 @@ reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 getReviews(function(someReviews) {
   reviews = someReviews;
   setFilterEnabled();
+  reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
     renderReviews(reviews, pageNumber);
   }
-  reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   reviewsFiltersShow();
 
   setMoreReviewsButtonEnabled();
