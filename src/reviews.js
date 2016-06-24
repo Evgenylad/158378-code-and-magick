@@ -135,10 +135,14 @@ var renderReviews = function(loadedReviews, page, replace) {
   }
   var from = page * PAGE_SIZE;
   var to = from + PAGE_SIZE;
-  document.querySelector('.reviews-controls-more').classList.remove('invisible');
   loadedReviews.slice(from, to).forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
+  if(loadedReviews.length > 3) {
+    document.querySelector('.reviews-controls-more').classList.remove('invisible');
+  } else {
+    document.querySelector('.reviews-controls-more').classList.add('invisible');
+  }
 };
 
 /**
@@ -155,6 +159,7 @@ var setMoreReviewsButtonEnabled = function() {
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
   moreReviewsButton.addEventListener('click', function() {
     if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+      console.log(pageNumber);
       pageNumber++;
       renderReviews(filteredReviews, pageNumber);
     } else {
@@ -245,16 +250,14 @@ var setFilter = function(filter) {
 var setFilterEnabled = function() {
   reviewsFilter.addEventListener('click', function(evt) {
     var target = evt.target;
-    if (target.classList.contains('reviews-filter-item')) {
-      setFilter(target.id);
+    if (target.classList.value === 'reviews-filter-item') {
+      console.log(target);
+      setFilter(filter.id);
     }
   });
   var filters = document.getElementsByName('reviews');
   for (var i = 0; i < filters.length; i++) {
     amountOfComments(filters[i]);
-    filters[i].onclick = function() {
-      setFilter(this.id);
-    };
   }
 };
 
@@ -284,9 +287,6 @@ getReviews(function(someReviews) {
   setFilterEnabled();
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
   renderReviews(reviews, pageNumber);
-  if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
-    renderReviews(reviews, pageNumber);
-  }
   reviewsFiltersShow();
 
   setMoreReviewsButtonEnabled();
