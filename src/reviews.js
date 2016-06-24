@@ -35,6 +35,10 @@ var Filter = {
   'BAD': 'reviews-bad',
   'POPULAR': 'reviews-popular'
 };
+
+/** @constant {Filter} */
+var DEFAULT_FILTER = Filter.ALL;
+
 /** @enum {string} */
 var Rating = {
   'GOOD': 3,
@@ -139,7 +143,6 @@ var renderReviews = function(loadedReviews, page, replace) {
   } else {
     document.querySelector('.reviews-controls-more').classList.remove('invisible');
   }
-  console.log(loadedReviews.length);
   var from = page * PAGE_SIZE;
   var to = from + PAGE_SIZE;
   loadedReviews.slice(from, to).forEach(function(review) {
@@ -175,9 +178,9 @@ var setMoreReviewsButtonEnabled = function() {
 var getFilteredReviews = function(loadedReviews, filter) {
   var reviewsToFilter = reviews.slice(0); // создаем копию массива, чтобы не повредить reviews при фильтрации
   switch(filter) {
-    case Filter.ALL:
-      return reviewsToFilter;
-
+  /*  case Filter.ALL:
+      break;
+*/
     case Filter.RECENT:
       var today = new Date();
       var dateToCompare = today.setDate(today.getDate() - RECENT_PERIOD);
@@ -288,13 +291,12 @@ reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 getReviews(function(someReviews) {
   reviews = someReviews;
   setFilterEnabled();
+  setFilter(DEFAULT_FILTER);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
-  renderReviews(reviews, pageNumber);
   if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
     renderReviews(reviews, pageNumber);
   }
   reviewsFiltersShow();
-
   setMoreReviewsButtonEnabled();
 }, function() {
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
