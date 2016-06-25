@@ -254,9 +254,7 @@ var setFilter = function(filter) {
 var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   reviewsFilter.addEventListener('click', function(evt) {
-    if(evt.target.tagName === 'INPUT') {
-      console.log(evt.target.tagName);
-      console.log('evt.target =', evt.target, '\nevt.target.id =', evt.target.id);
+    if(evt.target.tagName.toUpperCase() === 'INPUT') {
       setFilter(evt.target.id);
     }
   });
