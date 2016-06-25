@@ -134,11 +134,11 @@ var renderReviews = function(reviewsToRender, page, replace) {
     reviewsContainer.innerHTML = '';
   }
 
-  if(reviewsToRender.length < 1) {
+  if (reviewsToRender.length < 1) {
     addNothinFoundDiv();
   }
 
-  if(reviewsToRender.length < 3) {
+  if (reviewsToRender.length < PAGE_SIZE) {
     document.querySelector('.reviews-controls-more').classList.add('invisible');
   } else {
     document.querySelector('.reviews-controls-more').classList.remove('invisible');
@@ -163,7 +163,7 @@ var isNextPageAvailable = function(reviewsFiltered, page, pageSize) {
 var setMoreReviewsButtonEnabled = function() {
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
   moreReviewsButton.addEventListener('click', function() {
-    if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+    if (isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
       pageNumber++;
       renderReviews(filteredReviews, pageNumber);
     } else {
@@ -254,7 +254,7 @@ var setFilter = function(filter) {
 var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   reviewsFilter.addEventListener('click', function(evt) {
-    if(evt.target.id) {
+    if (evt.target.id) {
       setFilter(evt.target.id);
     }
   });
@@ -289,7 +289,7 @@ getReviews(function(loadedReviews) {
   setFilterEnabled();
   setFilter(DEFAULT_FILTER);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
-  if(isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+  if (isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
     renderReviews(reviews, pageNumber, true);
   }
   reviewsFiltersShow();
