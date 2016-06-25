@@ -129,23 +129,23 @@ var getReviews = function(callbackSuccess, callbackError) {
 /** @param {Array.<Object>} loadedReviews */
 //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
 //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
-var renderReviews = function(loadedReviews, page, replace) {
+var renderReviews = function(someReviews, page, replace) {
   if (replace) {
     reviewsContainer.innerHTML = '';
   }
 
-  if(loadedReviews.length < 1) {
+  if(someReviews.length < 1) {
     addNothinFoundDiv();
   }
 
-  if(loadedReviews.length < 3) {
+  if(someReviews.length < 3) {
     document.querySelector('.reviews-controls-more').classList.add('invisible');
   } else {
     document.querySelector('.reviews-controls-more').classList.remove('invisible');
   }
   var from = page * PAGE_SIZE;
   var to = from + PAGE_SIZE;
-  loadedReviews.slice(from, to).forEach(function(review) {
+  someReviews.slice(from, to).forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
 };
@@ -282,8 +282,8 @@ reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 //При вызове функции getReviews в качестве аргумента передается функция,
 //которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
 //Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
-getReviews(function(someReviews) {
-  reviews = someReviews;
+getReviews(function(loadedReviews) {
+  reviews = loadedReviews;
   setFilterEnabled();
   setFilter(DEFAULT_FILTER);
   reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
