@@ -1,4 +1,28 @@
 'use strict';
+var clouds = document.querySelector('.header-clouds');
+
+var nextElementReached = function() {
+  var demo = document.querySelector('.demo');
+  var nextElementPosition = demo.getBoundingClientRect();
+  console.log(nextElementPosition);
+  return (nextElementPosition.top - 300 <= 0);
+};
+/**
+ * Установка обработчика скрола экрана
+ *
+ */
+var setScrollEnabled = function() {
+  window.addEventListener('scroll', function() {
+    clouds.style.backgroundPosition = '200px';
+    clouds.style.transition = 'background-position linear 2s';
+    if (nextElementReached()) {
+      clouds.style.backgroundPosition = '-200px';
+      clouds.style.transition = 'background-position linear 2s';
+    }
+  });
+};
+
+setScrollEnabled();
 
 (function() {
   /**
