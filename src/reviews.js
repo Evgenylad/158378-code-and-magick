@@ -129,23 +129,23 @@ var getReviews = function(callbackSuccess, callbackError) {
 /** @param {Array.<Object>} loadedReviews */
 //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
 //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
-var renderReviews = function(someReviews, page, replace) {
+var renderReviews = function(reviewsToRender, page, replace) {
   if (replace) {
     reviewsContainer.innerHTML = '';
   }
 
-  if(someReviews.length < 1) {
+  if(reviewsToRender.length < 1) {
     addNothinFoundDiv();
   }
 
-  if(someReviews.length < 3) {
+  if(reviewsToRender.length < 3) {
     document.querySelector('.reviews-controls-more').classList.add('invisible');
   } else {
     document.querySelector('.reviews-controls-more').classList.remove('invisible');
   }
   var from = page * PAGE_SIZE;
   var to = from + PAGE_SIZE;
-  someReviews.slice(from, to).forEach(function(review) {
+  reviewsToRender.slice(from, to).forEach(function(review) {
     getReviewElement(review, reviewsContainer);
   });
 };
@@ -254,7 +254,11 @@ var setFilter = function(filter) {
 var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   reviewsFilter.addEventListener('click', function(evt) {
-    setFilter(evt.target.id);
+    if(evt.target.tagName === 'INPUT') {
+      console.log(evt.target.tagName);
+      console.log('evt.target =', evt.target, '\nevt.target.id =', evt.target.id);
+      setFilter(evt.target.id);
+    }
   });
   for (var i = 0; i < filters.length; i++) {
     amountOfComments(filters[i]);
