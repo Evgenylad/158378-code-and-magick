@@ -255,7 +255,6 @@ var setFilterEnabled = function() {
   var filters = document.getElementsByName('reviews');
   reviewsFilter.addEventListener('click', function(evt) {
     if(evt.target.id) {
-      console.log(evt.target.id);
       setFilter(evt.target.id);
     }
   });
