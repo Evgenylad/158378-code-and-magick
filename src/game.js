@@ -1,5 +1,6 @@
 'use strict';
 var clouds = document.querySelector('.header-clouds');
+var THROTTLE_DELAY = 100;
 
 var nextElementReached = function() {
   var demo = document.querySelector('.demo');
@@ -12,12 +13,16 @@ var nextElementReached = function() {
  *
  */
 var setScrollEnabled = function() {
+  var lastCall = Date.now();
   window.addEventListener('scroll', function() {
-    clouds.style.backgroundPosition = '200px';
-    clouds.style.transition = 'background-position linear 2s';
-    if (nextElementReached()) {
-      clouds.style.backgroundPosition = '-200px';
+    if (Date.now() - lastCall >= THROTTLE_DELAY) {
+      clouds.style.backgroundPosition = '200px';
       clouds.style.transition = 'background-position linear 2s';
+      if (nextElementReached()) {
+        clouds.style.backgroundPosition = '-200px';
+        clouds.style.transition = 'background-position linear 2s';
+      }
+      lastCall = Date.now();
     }
   });
 };
