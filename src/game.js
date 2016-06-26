@@ -6,6 +6,11 @@ var THROTTLE_DELAY = 100;
  * @const {Number}
  */
 var CLOUD_SPEED_FACTOR = 0.8;
+/**
+ * [GAP before bottom border of cloud block]
+ * @type {Number}
+ */
+var GAP = 100;
 
 /**
  * [Paralax function for clouds]
@@ -22,7 +27,7 @@ var paralaxClouds = function() {
  */
 var nextElementReached = function() {
   var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
-  return (ifCloudsStillOnScreen.bottom - 100 <= 0);
+  return (ifCloudsStillOnScreen.bottom - GAP <= 0);
 };
 
 var setScrollEnabled = function() {
