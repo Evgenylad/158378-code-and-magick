@@ -1,6 +1,6 @@
 'use strict';
 var clouds = document.querySelector('.header-clouds');
-//var THROTTLE_DELAY = 100;
+var THROTTLE_DELAY = 200;
 /**
  * [Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана]
  * @const {Number}
@@ -18,7 +18,7 @@ var GAP = 100;
  */
 var paralaxClouds = function() {
   var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
-  clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at 20% of scroll rate
+  clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at CLOUD_SPEED_FACTOR of scroll rate
 };
 
 /**
@@ -31,14 +31,16 @@ var nextElementReached = function() {
 };
 
 var setScrollEnabled = function() {
-  //var lastCall = Date.now();
+  var lastCall = Date.now();
   window.addEventListener('scroll', function() {
-    //if (Date.now() - lastCall >= THROTTLE_DELAY) {
-    if (!nextElementReached()) {
+    if (Date.now() - lastCall >= THROTTLE_DELAY) {
+      if (nextElementReached()) {
+        return;
+      }
+      lastCall = Date.now();
+    } else {
       paralaxClouds();
     }
-  //    lastCall = Date.now();
-  //  }
   });
 };
 
