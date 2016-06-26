@@ -2,10 +2,13 @@
 var clouds = document.querySelector('.header-clouds');
 var THROTTLE_DELAY = 100;
 
+var paralaxClouds = function() {
+  var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
+  clouds.style.backgroundPosition = -scrolltop * 0.8 + 'px'; // move bubble1 at 20% of scroll rate
+};
 var nextElementReached = function() {
   var demo = document.querySelector('.demo');
   var nextElementPosition = demo.getBoundingClientRect();
-  console.log(nextElementPosition);
   return (nextElementPosition.top - 300 <= 0);
 };
 /**
@@ -14,13 +17,13 @@ var nextElementReached = function() {
  */
 var setScrollEnabled = function() {
   var lastCall = Date.now();
+
   window.addEventListener('scroll', function() {
+    paralaxClouds();
     if (Date.now() - lastCall >= THROTTLE_DELAY) {
-      clouds.style.backgroundPosition = '200px';
-      clouds.style.transition = 'background-position linear 2s';
+
       if (nextElementReached()) {
-        clouds.style.backgroundPosition = '-200px';
-        clouds.style.transition = 'background-position linear 2s';
+
       }
       lastCall = Date.now();
     }
