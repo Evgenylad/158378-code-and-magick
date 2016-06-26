@@ -1,56 +1,4 @@
 'use strict';
-var clouds = document.querySelector('.header-clouds');
-var THROTTLE_DELAY = 100;
-/**
- * [Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана]
- * @const {Number}
- */
-var CLOUD_SPEED_FACTOR = 0.8;
-/**
- * [GAP before bottom border of cloud block]
- * @type {Number}
- */
-var GAP = 100;
-
-/**
- * [Paralax function for clouds]
- * @return {number} [Возвращает количество пикселей на которое должны сместиться облака]
- */
-var paralaxClouds = function() {
-  var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
-  clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at CLOUD_SPEED_FACTOR of scroll rate
-};
-
-/**
- * [Функция проверки виден ли еще блок облаков]
- * @return {true}
- */
-var nextElementReached = function() {
-  var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
-  return (ifCloudsStillOnScreen.bottom - GAP <= 0);
-};
-
-var setCloudsScrollEnabled = function() {
-  if (nextElementReached()) {
-    console.log('scroll');
-    window.removeEventListener('scroll', paralaxClouds);
-  } else {
-    console.log('scroll2');
-    window.addEventListener('scroll', paralaxClouds);
-  }
-};
-
-var setScrollEnabled = function() {
-  var lastCall = Date.now();
-  window.addEventListener('scroll', function() {
-    if (Date.now() - lastCall >= THROTTLE_DELAY) {
-      setCloudsScrollEnabled();
-      lastCall = Date.now();
-    }
-  });
-};
-
-setScrollEnabled();
 
 (function() {
   /**
@@ -823,4 +771,67 @@ setScrollEnabled();
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+
+
+  var clouds = document.querySelector('.header-clouds');
+  var THROTTLE_DELAY = 100;
+  /**
+   * [Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана]
+   * @const {Number}
+   */
+  var CLOUD_SPEED_FACTOR = 0.8;
+  /**
+   * [GAP before bottom border of cloud block]
+   * @type {Number}
+   */
+  var GAP = 100;
+
+  /**
+   * [Paralax function for clouds]
+   * @return {number} [Возвращает количество пикселей на которое должны сместиться облака]
+   */
+  var paralaxClouds = function() {
+    var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
+    clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at CLOUD_SPEED_FACTOR of scroll rate
+  };
+
+  /**
+   * [Функция проверки виден ли еще блок облаков]
+   * @return {true}
+   */
+  var nextElementReached = function() {
+    var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
+    return (ifCloudsStillOnScreen.bottom - GAP <= 0);
+  };
+
+  var demoBlockVisible = function() {
+    var demo = document.querySelector('.demo');
+    var ifDemoBlockVisible = demo.getBoundingClientRect();
+    return (ifDemoBlockVisible.top <= 0);
+  };
+
+  var setCloudsScrollEnabled = function() {
+    if (nextElementReached()) {
+      window.removeEventListener('scroll', paralaxClouds);
+    } else {
+      window.addEventListener('scroll', paralaxClouds);
+    }
+  };
+console.log(game);
+  var setScrollEnabled = function() {
+    var lastCall = Date.now();
+    window.addEventListener('scroll', function() {
+      if (Date.now() - lastCall >= THROTTLE_DELAY) {
+        setCloudsScrollEnabled();
+        lastCall = Date.now();
+        if (!demoBlockVisible()) {
+          game.setGameStatus(window.Game.Verdict.PAUSE);
+        }
+      }
+    });
+  };
+
+
+  setScrollEnabled();
+
 })();
