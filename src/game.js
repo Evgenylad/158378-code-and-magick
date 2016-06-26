@@ -1,29 +1,36 @@
 'use strict';
 var clouds = document.querySelector('.header-clouds');
 var THROTTLE_DELAY = 100;
+/**
+ * [Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана]
+ * @const {Number}
+ */
+var CLOUD_SPEED_FACTOR = 0.8;
 
+/**
+ * [Paralax function for clouds]
+ * @return {number} [Возвращает количество пикселей на которое должны сместиться облака]
+ */
 var paralaxClouds = function() {
   var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
-  clouds.style.backgroundPosition = -scrolltop * 0.8 + 'px'; // move bubble1 at 20% of scroll rate
+  clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at 20% of scroll rate
 };
-var nextElementReached = function() {
-  var demo = document.querySelector('.demo');
-  var nextElementPosition = demo.getBoundingClientRect();
-  return (nextElementPosition.top - 300 <= 0);
-};
+
 /**
- * Установка обработчика скрола экрана
- *
+ * [Функция проверки виден ли еще блок облаков]
+ * @return {true}
  */
+var nextElementReached = function() {
+  var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
+  return (ifCloudsStillOnScreen.bottom - 100 <= 0);
+};
+
 var setScrollEnabled = function() {
   var lastCall = Date.now();
-
   window.addEventListener('scroll', function() {
-    paralaxClouds();
     if (Date.now() - lastCall >= THROTTLE_DELAY) {
-
-      if (nextElementReached()) {
-
+      if (!nextElementReached()) {
+        paralaxClouds();
       }
       lastCall = Date.now();
     }
