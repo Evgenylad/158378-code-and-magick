@@ -31,20 +31,16 @@ var nextElementReached = function() {
 };
 
 var setScrollEnabled = function() {
-  var lastCall = Date.now();
-  window.addEventListener('scroll', function() {
-    if (Date.now() - lastCall >= THROTTLE_DELAY) {
-      if (nextElementReached()) {
-        return;
-      }
-      lastCall = Date.now();
-    } else {
-      paralaxClouds();
-    }
-  });
+  if (!nextElementReached()) {
+    window.addEventListener('scroll', paralaxClouds);
+  } else if (nextElementReached()) {
+    window.removeEventListener('scroll', paralaxClouds);
+  }
 };
 
+
 setScrollEnabled();
+
 
 (function() {
   /**
