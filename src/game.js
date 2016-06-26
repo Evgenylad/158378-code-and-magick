@@ -1,6 +1,6 @@
 'use strict';
 var clouds = document.querySelector('.header-clouds');
-var THROTTLE_DELAY = 100;
+//var THROTTLE_DELAY = 100;
 /**
  * [Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана]
  * @const {Number}
@@ -31,14 +31,14 @@ var nextElementReached = function() {
 };
 
 var setScrollEnabled = function() {
-  var lastCall = Date.now();
+  //var lastCall = Date.now();
   window.addEventListener('scroll', function() {
-    if (Date.now() - lastCall >= THROTTLE_DELAY) {
-      if (!nextElementReached()) {
-        paralaxClouds();
-      }
-      lastCall = Date.now();
+    //if (Date.now() - lastCall >= THROTTLE_DELAY) {
+    if (!nextElementReached()) {
+      paralaxClouds();
     }
+  //    lastCall = Date.now();
+  //  }
   });
 };
 
