@@ -792,7 +792,7 @@
    * Flag to check if paralaxClouds enabled
    * @type {Boolean}
    */
-  var isParallaxClouds = true;
+  var isParallaxClouds;
   /**
    * Paralax function for clouds
    */
@@ -817,14 +817,13 @@
   };
 
   var setCloudsScrollEnabled = function() {
-    window.addEventListener('scroll', parallaxClouds);
-    if (checkIfNextElementReached() && (isParallaxClouds)) {
+    if (!checkIfNextElementReached() && (isParallaxClouds === false)) {
+      window.addEventListener('scroll', parallaxClouds);
+      console.log(clouds.style.backgroundPosition);
+    } else {
       window.removeEventListener('scroll', parallaxClouds);
       isParallaxClouds = false;
       console.log(clouds.style.backgroundPosition);
-    } else if (!checkIfNextElementReached() && (isParallaxClouds === false)) {
-      window.addEventListener('scroll', parallaxClouds);
-      isParallaxClouds = true;
     }
   };
 
