@@ -778,20 +778,25 @@
   var THROTTLE_DELAY = 100;
   /**
    * Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана
-   * @const {Number}
+   * @const {number}
    */
   var CLOUD_SPEED_FACTOR = 0.8;
 
   /**
    * GAP before bottom border of cloud block
-   * @const {Number}
+   * @const {number}
    */
   var GAP = 100;
-  var paralaxState = true;
+
+  /**
+   * Flag to check if paralaxClouds enabled
+   * @type {Boolean}
+   */
+  var isParallaxClouds = true;
   /**
    * Paralax function for clouds
    */
-  var paralaxClouds = function() {
+  var parallaxClouds = function() {
     var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
     clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at CLOUD_SPEED_FACTOR of scroll rate
   };
@@ -799,7 +804,7 @@
   /**
    * Function to check if are on the bottom of clouds block. Use it to stop moving clouds
    */
-  var nextElementReached = function() {
+  var checkIfNextElementReached = function() {
     var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
     return (ifCloudsStillOnScreen.bottom - GAP <= 0);
   };
@@ -808,18 +813,18 @@
    * Function to check if demo block visible. Use to pause the game if the game is not visible
    */
   var demoBlockVisible = function() {
-    var ifDemoBlockVisible = demo.getBoundingClientRect();
-    return (ifDemoBlockVisible.top <= 0);
+    return (demo.getBoundingClientRect().top <= 0);
   };
 
   var setCloudsScrollEnabled = function() {
-    if (nextElementReached() && (paralaxState === true)) {
-      window.removeEventListener('scroll', paralaxClouds);
-      paralaxState = false;
+    window.addEventListener('scroll', parallaxClouds);
+    if (checkIfNextElementReached() && (isParallaxClouds)) {
+      window.removeEventListener('scroll', parallaxClouds);
+      isParallaxClouds = false;
       console.log(clouds.style.backgroundPosition);
-    } else if (!nextElementReached() && (paralaxState === false)) {
-      window.addEventListener('scroll', paralaxClouds);
-      paralaxState = true;
+    } else if (!checkIfNextElementReached() && (isParallaxClouds === false)) {
+      window.addEventListener('scroll', parallaxClouds);
+      isParallaxClouds = true;
     }
   };
 
