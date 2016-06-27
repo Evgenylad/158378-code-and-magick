@@ -817,16 +817,16 @@
   };
 
   var setCloudsScrollEnabled = function() {
-    if (!checkIfNextElementReached()) {
-      if (isParallaxClouds === false) {
-        window.addEventListener('scroll', parallaxClouds);
-        isParallaxClouds = true;
-      }
-    } else {
+    if (checkIfNextElementReached()) {
       if (isParallaxClouds) {
         window.removeEventListener('scroll', parallaxClouds);
         isParallaxClouds = false;
       }
+    } else {
+      if (isParallaxClouds === false) {
+        window.addEventListener('scroll', parallaxClouds);
+      }
+      isParallaxClouds = true;
     }
   };
 
