@@ -791,10 +791,9 @@
   /**
    * Paralax function for clouds
    */
-  var paralaxClouds = function(paralaxEnabled) {
+  var paralaxClouds = function() {
     var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
     clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at CLOUD_SPEED_FACTOR of scroll rate
-    paralaxState = paralaxEnabled;
   };
 
   /**
@@ -815,11 +814,12 @@
 
   var setCloudsScrollEnabled = function() {
     if (nextElementReached() && (paralaxState === true)) {
-      window.removeEventListener('scroll', paralaxClouds(false));
-      console.log(paralaxState);
+      window.removeEventListener('scroll', paralaxClouds);
+      paralaxState = false;
       console.log(clouds.style.backgroundPosition);
-    } else {
-      window.addEventListener('scroll', paralaxClouds(true));
+    } else if (!nextElementReached() && (paralaxState === false)) {
+      window.addEventListener('scroll', paralaxClouds);
+      paralaxState = true;
     }
   };
 
