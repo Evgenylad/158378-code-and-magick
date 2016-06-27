@@ -825,8 +825,8 @@
     } else {
       if (isParallaxClouds) {
         window.removeEventListener('scroll', parallaxClouds);
+        isParallaxClouds = false;
       }
-      isParallaxClouds = false;
     }
   };
 
