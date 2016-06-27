@@ -817,13 +817,18 @@
   };
 
   var setCloudsScrollEnabled = function() {
-    if (!checkIfNextElementReached() && (isParallaxClouds === false)) {
-      window.addEventListener('scroll', parallaxClouds);
-      console.log(clouds.style.backgroundPosition);
+    if (!checkIfNextElementReached()) {
+      if (isParallaxClouds === false) {
+        window.addEventListener('scroll', parallaxClouds);
+        isParallaxClouds = true;
+        console.log(isParallaxClouds);
+      }
     } else {
-      window.removeEventListener('scroll', parallaxClouds);
+      if (isParallaxClouds) {
+        window.removeEventListener('scroll', parallaxClouds);
+        console.log(isParallaxClouds);
+      }
       isParallaxClouds = false;
-      console.log(clouds.style.backgroundPosition);
     }
   };
 
