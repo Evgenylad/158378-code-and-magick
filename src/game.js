@@ -774,50 +774,55 @@
 
 
   var clouds = document.querySelector('.header-clouds');
+  var demo = document.querySelector('.demo');
   var THROTTLE_DELAY = 100;
   /**
-   * [Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана]
+   * Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана
    * @const {Number}
    */
   var CLOUD_SPEED_FACTOR = 0.8;
-  /**
-   * [GAP before bottom border of cloud block]
-   * @type {Number}
-   */
-  var GAP = 100;
 
   /**
-   * [Paralax function for clouds]
-   * @return {number} [Возвращает количество пикселей на которое должны сместиться облака]
+   * GAP before bottom border of cloud block
+   * @const {Number}
    */
-  var paralaxClouds = function() {
+  var GAP = 100;
+  var paralaxState = true;
+  /**
+   * Paralax function for clouds
+   */
+  var paralaxClouds = function(paralaxEnabled) {
     var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
     clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at CLOUD_SPEED_FACTOR of scroll rate
+    paralaxState = paralaxEnabled;
   };
 
   /**
-   * [Функция проверки виден ли еще блок облаков]
-   * @return {true}
+   * Function to check if are on the bottom of clouds block. Use it to stop moving clouds
    */
   var nextElementReached = function() {
     var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
     return (ifCloudsStillOnScreen.bottom - GAP <= 0);
   };
 
+  /**
+   * Function to check if demo block visible. Use to pause the game if the game is not visible
+   */
   var demoBlockVisible = function() {
-    var demo = document.querySelector('.demo');
     var ifDemoBlockVisible = demo.getBoundingClientRect();
     return (ifDemoBlockVisible.top <= 0);
   };
 
   var setCloudsScrollEnabled = function() {
-    if (nextElementReached()) {
-      window.removeEventListener('scroll', paralaxClouds);
+    if (nextElementReached() && (paralaxState === true)) {
+      window.removeEventListener('scroll', paralaxClouds(false));
+      console.log(paralaxState);
+      console.log(clouds.style.backgroundPosition);
     } else {
-      window.addEventListener('scroll', paralaxClouds);
+      window.addEventListener('scroll', paralaxClouds(true));
     }
   };
-console.log(game);
+
   var setScrollEnabled = function() {
     var lastCall = Date.now();
     window.addEventListener('scroll', function() {
