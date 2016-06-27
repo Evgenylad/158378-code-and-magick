@@ -810,45 +810,28 @@
     return (ifDemoBlockVisible.top <= 0);
   };
 
-  /*var setCloudsScrollEnabled = function() {
+  var setCloudsScrollEnabled = function() {
     if (nextElementReached()) {
       window.removeEventListener('scroll', paralaxClouds);
     } else {
       window.addEventListener('scroll', paralaxClouds);
     }
-  };*/
-
-  var throttle = function(functionToOptimize, SOME_THROTTLE_DELAY) {
-    var lastCall = Date.now();
-    if (Date.now() - lastCall >= SOME_THROTTLE_DELAY) {
-      var optimizedFunction = functionToOptimize;
-      optimizedFunction();
-    }
-    lastCall = Date.now();
   };
-
+console.log(game);
   var setScrollEnabled = function() {
-    throttle(function() {
-      if (nextElementReached()) {
-        window.removeEventListener('scroll', paralaxClouds);
-      } else {
-        window.addEventListener('scroll', paralaxClouds);
+    var lastCall = Date.now();
+    window.addEventListener('scroll', function() {
+      if (Date.now() - lastCall >= THROTTLE_DELAY) {
+        setCloudsScrollEnabled();
+        lastCall = Date.now();
+        if (!demoBlockVisible()) {
+          game.setGameStatus(window.Game.Verdict.PAUSE);
+        }
       }
-    }, THROTTLE_DELAY);
-
-    throttle(function() {
-      if (!demoBlockVisible()) {
-        game.setGameStatus(window.Game.Verdict.PAUSE);
-      }
-    }, THROTTLE_DELAY);
+    });
   };
-
-/*  var setGameOnPause = function() {
-    if (!demoBlockVisible()) {
-      game.setGameStatus(window.Game.Verdict.PAUSE);
-    }
-  };*/
 
 
   setScrollEnabled();
+
 })();
