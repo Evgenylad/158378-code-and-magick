@@ -821,12 +821,10 @@
       if (isParallaxClouds === false) {
         window.addEventListener('scroll', parallaxClouds);
         isParallaxClouds = true;
-        console.log(isParallaxClouds);
       }
     } else {
       if (isParallaxClouds) {
         window.removeEventListener('scroll', parallaxClouds);
-        console.log(isParallaxClouds);
       }
       isParallaxClouds = false;
     }
