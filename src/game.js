@@ -839,10 +839,11 @@
         isParallaxClouds = false;
       }
     } else {
-      if (isParallaxClouds === false) {
-        window.addEventListener('scroll', parallaxClouds);
-      }
+      window.addEventListener('scroll', parallaxClouds);
       isParallaxClouds = true;
+      if (isParallaxClouds === false) {
+        console.log(isParallaxClouds);
+      }
     }
   };
 
