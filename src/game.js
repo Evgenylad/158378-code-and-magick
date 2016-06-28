@@ -773,9 +773,8 @@
   game.setGameStatus(window.Game.Verdict.INTRO);
 
   /**
-   * [querySelector description]
-   * @param  {string} '.header-clouds'
-   * @param  {string} '.demo'
+   * @type  {HTMLElement} '.header-clouds'
+   * @type  {HTMLElement} '.demo'
    */
   var clouds = document.querySelector('.header-clouds');
   var demo = document.querySelector('.demo');
@@ -801,11 +800,8 @@
    * @type {boolean}
    */
   var isParallaxClouds = true;
-  console.log(isParallaxClouds);
   /**
    * Set Parallax function for clouds
-   * @class {function}
-   * @param {function}
    */
   var parallaxClouds = function() {
     var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
@@ -815,7 +811,7 @@
   /**
    * Function to check if are on the bottom of clouds block. Use it to stop moving clouds
    * @class {function}
-   * @return
+   * @return {true}
    */
   var checkIfNextElementReached = function() {
     var cloudsStillOnScreen = clouds.getBoundingClientRect();
@@ -825,7 +821,7 @@
   /**
    * Function to check if demo block visible. Use to pause the game if the game is not visible
    * @class {function}
-   * @return
+   * @return {true}
    */
   var demoBlockVisible = function() {
     return (demo.getBoundingClientRect().top <= 0);
@@ -842,7 +838,7 @@
         isParallaxClouds = false;
       }
     } else {
-      if (isParallaxClouds === false) {
+      if (!isParallaxClouds) {
         window.addEventListener('scroll', parallaxClouds);
         isParallaxClouds = true;
       }
@@ -866,9 +862,7 @@
     });
   };
 
-/**
- * @function
- */
+
   setScrollEnabled();
 
 })();
