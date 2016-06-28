@@ -811,7 +811,7 @@
   /**
    * Function to check if are on the bottom of clouds block. Use it to stop moving clouds
    * @class {function}
-   * @return {true}
+   * @return {boolean}
    */
   var checkIfNextElementReached = function() {
     var cloudsStillOnScreen = clouds.getBoundingClientRect();
@@ -821,12 +821,11 @@
   /**
    * Function to check if demo block visible. Use to pause the game if the game is not visible
    * @class {function}
-   * @return {true}
+   * @return {boolean}
    */
   var demoBlockVisible = function() {
     return (demo.getBoundingClientRect().top <= 0);
   };
-
 /**
  * Set eventListener for paralaxClouds
  * @class {function}
@@ -845,6 +844,11 @@
     }
   };
 
+  var setTheGameOnPause = function() {
+    if (demoBlockVisible()) {
+      game.setGameStatus(window.Game.Verdict.PAUSE);
+    }
+  };
 /**
  * Set THROTTLE_DELAY for checking paralaxClouds and demoBlockVisible functions
  * @class {function}
@@ -854,10 +858,8 @@
     window.addEventListener('scroll', function() {
       if (Date.now() - lastCall >= THROTTLE_DELAY) {
         setCloudsScrollEnabled();
+        setTheGameOnPause();
         lastCall = Date.now();
-        if (!demoBlockVisible()) {
-          game.setGameStatus(window.Game.Verdict.PAUSE);
-        }
       }
     });
   };
