@@ -772,9 +772,15 @@
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
 
-
+  /**
+   * @global
+   */
   var clouds = document.querySelector('.header-clouds');
   var demo = document.querySelector('.demo');
+  /**
+   * Set throttle delay
+   * @const {number}
+   */
   var THROTTLE_DELAY = 100;
   /**
    * Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана
@@ -790,11 +796,13 @@
 
   /**
    * Flag to check if paralaxClouds enabled
-   * @type {Boolean}
+   * @type {boolean}
    */
   var isParallaxClouds;
   /**
-   * Paralax function for clouds
+   * Set Parallax function for clouds
+   * @class {function}
+   * @param {function}
    */
   var parallaxClouds = function() {
     var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
@@ -803,6 +811,8 @@
 
   /**
    * Function to check if are on the bottom of clouds block. Use it to stop moving clouds
+   * @class {function}
+   * @return
    */
   var checkIfNextElementReached = function() {
     var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
@@ -811,11 +821,17 @@
 
   /**
    * Function to check if demo block visible. Use to pause the game if the game is not visible
+   * @class {function}
+   * @return
    */
   var demoBlockVisible = function() {
     return (demo.getBoundingClientRect().top <= 0);
   };
 
+/**
+ * Set eventListener for paralaxClouds
+ * @class {function}
+ */
   var setCloudsScrollEnabled = function() {
     if (checkIfNextElementReached()) {
       if (isParallaxClouds) {
@@ -830,6 +846,10 @@
     }
   };
 
+/**
+ * Set THROTTLE_DELAY for checking paralaxClouds and demoBlockVisible functions
+ * @class {function}
+ */
   var setScrollEnabled = function() {
     var lastCall = Date.now();
     window.addEventListener('scroll', function() {
