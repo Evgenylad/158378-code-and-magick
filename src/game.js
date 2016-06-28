@@ -773,7 +773,9 @@
   game.setGameStatus(window.Game.Verdict.INTRO);
 
   /**
-   * @global
+   * [querySelector description]
+   * @param  {string} '.header-clouds'
+   * @param  {string} '.demo'
    */
   var clouds = document.querySelector('.header-clouds');
   var demo = document.querySelector('.demo');
@@ -815,8 +817,8 @@
    * @return
    */
   var checkIfNextElementReached = function() {
-    var ifCloudsStillOnScreen = clouds.getBoundingClientRect();
-    return (ifCloudsStillOnScreen.bottom - GAP <= 0);
+    var cloudsStillOnScreen = clouds.getBoundingClientRect();
+    return (cloudsStillOnScreen.bottom - GAP <= 0);
   };
 
   /**
@@ -841,9 +843,6 @@
     } else {
       window.addEventListener('scroll', parallaxClouds);
       isParallaxClouds = true;
-      if (isParallaxClouds === false) {
-        console.log(isParallaxClouds);
-      }
     }
   };
 
