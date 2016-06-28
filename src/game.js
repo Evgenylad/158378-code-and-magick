@@ -800,7 +800,8 @@
    * Flag to check if paralaxClouds enabled
    * @type {boolean}
    */
-  var isParallaxClouds;
+  var isParallaxClouds = true;
+  console.log(isParallaxClouds);
   /**
    * Set Parallax function for clouds
    * @class {function}
@@ -841,8 +842,10 @@
         isParallaxClouds = false;
       }
     } else {
-      window.addEventListener('scroll', parallaxClouds);
-      isParallaxClouds = true;
+      if (isParallaxClouds === false) {
+        window.addEventListener('scroll', parallaxClouds);
+        isParallaxClouds = true;
+      }
     }
   };
 
