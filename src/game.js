@@ -863,7 +863,9 @@
     });
   };
 
-
+/**
+ * @function
+ */
   setScrollEnabled();
 
 })();
