@@ -846,7 +846,7 @@
 
   var setTheGameOnPause = function() {
     if (demoBlockVisible()) {
-      game.setGameStatus(window.Game.Verdict.PAUSE);
+      game.setGameStatus(Game.Verdict.PAUSE);
     }
   };
 /**
