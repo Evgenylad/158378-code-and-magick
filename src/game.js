@@ -782,11 +782,13 @@
    *@type  {HTMLElement} '.demo'
    */
   var demo = document.querySelector('.demo');
+
   /**
    * Set throttle delay
    * @const {number}
    */
   var THROTTLE_DELAY = 100;
+
   /**
    * Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана
    * @const {number}
@@ -804,6 +806,7 @@
    * @type {boolean}
    */
   var isParallaxClouds = true;
+
   /**
    * Set Parallax function for clouds
    */
@@ -828,9 +831,10 @@
   var demoBlockVisible = function() {
     return (demo.getBoundingClientRect().top <= 0);
   };
-/**
- * Set eventListener for paralaxClouds
- */
+
+  /**
+   * Set eventListener for paralaxClouds
+   */
   var setCloudsScrollEnabled = function() {
     if (checkIfNextElementReached()) {
       if (isParallaxClouds) {
@@ -850,9 +854,10 @@
       game.setGameStatus(Game.Verdict.PAUSE);
     }
   };
-/**
- * Set THROTTLE_DELAY for checking paralaxClouds and demoBlockVisible functions
- */
+
+  /**
+   * Set THROTTLE_DELAY for checking paralaxClouds and demoBlockVisible functions
+   */
   var setScrollEnabled = function() {
     var lastCall = Date.now();
     window.addEventListener('scroll', function() {
