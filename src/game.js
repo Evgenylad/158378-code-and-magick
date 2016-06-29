@@ -774,9 +774,13 @@
 
   /**
    * @type  {HTMLElement} '.header-clouds'
-   * @type  {HTMLElement} '.demo'
    */
   var clouds = document.querySelector('.header-clouds');
+
+  /**
+   * [querySelector description]
+   *@type  {HTMLElement} '.demo'
+   */
   var demo = document.querySelector('.demo');
   /**
    * Set throttle delay
@@ -810,7 +814,6 @@
 
   /**
    * Function to check if are on the bottom of clouds block. Use it to stop moving clouds
-   * @class {function}
    * @return {boolean}
    */
   var checkIfNextElementReached = function() {
@@ -820,7 +823,6 @@
 
   /**
    * Function to check if demo block visible. Use to pause the game if the game is not visible
-   * @class {function}
    * @return {boolean}
    */
   var demoBlockVisible = function() {
@@ -828,7 +830,6 @@
   };
 /**
  * Set eventListener for paralaxClouds
- * @class {function}
  */
   var setCloudsScrollEnabled = function() {
     if (checkIfNextElementReached()) {
@@ -851,7 +852,6 @@
   };
 /**
  * Set THROTTLE_DELAY for checking paralaxClouds and demoBlockVisible functions
- * @class {function}
  */
   var setScrollEnabled = function() {
     var lastCall = Date.now();
