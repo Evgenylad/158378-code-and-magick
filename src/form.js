@@ -106,7 +106,9 @@
 
   function validateNameInput() {
 
-    if (_checkField(nameInput)) {
+    if (define(['./form/formCheckField'], function(formCheckField) {
+      formCheckField(nameInput);
+    })) {
       nameLabel.style.display = 'none';
 
       nameInput.setCustomValidity('');
@@ -122,7 +124,9 @@
 
   function validateTextInput() {
 
-    if (_checkField(textInput)) {
+    if (define(['./form/formCheckField'], function(formCheckField) {
+      formCheckField(textInput);
+    })) {
       textLabel.style.display = 'none';
 
       textInput.setCustomValidity('');
@@ -137,11 +141,14 @@
 
 
   function validateForm() {
-    if (_checkField(nameInput) && _checkField(textInput)) {
+    if (define(['./form/formCheckField'], function(formCheckField) {
+      formCheckField(nameInput);
+    }) && define(['./form/formCheckField'], function(formCheckField) {
+      formCheckField(nameInput);
+    })) {
       _enableForm();
     } else {
       _disableForm();
-      nameLabel.style.display = defaultLabelDisplay;
       nameLabel.style.display = defaultLabelDisplay;
     }
   }
@@ -160,12 +167,4 @@
     submitButton.removeAttribute('disabled');
   }
 
-  function _checkField(input) {
-    var inputLength = input.value.length;
-    if (inputLength < 1 && input.required) {
-      return false;
-    } else {
-      return true;
-    }
-  }
 })();
