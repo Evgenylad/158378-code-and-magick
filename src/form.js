@@ -137,7 +137,7 @@
 
 
   function validateForm() {
-    if (_checkField(nameInput) && _checkField(textInput)) {
+    if (formCheckField._checkField(nameInput) && formCheckField._checkField(textInput)) {
       _enableForm();
     } else {
       _disableForm();
@@ -160,12 +160,7 @@
     submitButton.removeAttribute('disabled');
   }
 
-  function _checkField(input) {
-    var inputLength = input.value.length;
-    if (inputLength < 1 && input.required) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  require(['./form/formCheckField'], function(formCheckField) {
+  });
+
 })();
