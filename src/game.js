@@ -771,4 +771,105 @@
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+
+  /**
+   * @type  {HTMLElement} '.header-clouds'
+   */
+  var clouds = document.querySelector('.header-clouds');
+
+  /**
+   * [querySelector description]
+   *@type  {HTMLElement} '.demo'
+   */
+  var demo = document.querySelector('.demo');
+
+  /**
+   * Set throttle delay
+   * @const {number}
+   */
+  var THROTTLE_DELAY = 100;
+
+  /**
+   * Устанавливает коэффициэнт смещения облаков по отношению к скролу экрана
+   * @const {number}
+   */
+  var CLOUD_SPEED_FACTOR = 0.8;
+
+  /**
+   * GAP before bottom border of cloud block
+   * @const {number}
+   */
+  var GAP = 100;
+
+  /**
+   * Flag to check if paralaxClouds enabled
+   * @type {boolean}
+   */
+  var isParallaxClouds = true;
+
+  /**
+   * Set Parallax function for clouds
+   */
+  var parallaxClouds = function() {
+    var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
+    clouds.style.backgroundPosition = -scrolltop * CLOUD_SPEED_FACTOR + 'px'; // move bubble1 at CLOUD_SPEED_FACTOR of scroll rate
+  };
+
+  /**
+   * Function to check if are on the bottom of clouds block. Use it to stop moving clouds
+   * @return {boolean}
+   */
+  var checkIfNextElementReached = function() {
+    var cloudsStillOnScreen = clouds.getBoundingClientRect();
+    return (cloudsStillOnScreen.bottom - GAP <= 0);
+  };
+
+  /**
+   * Function to check if demo block visible. Use to pause the game if the game is not visible
+   * @return {boolean}
+   */
+  var demoBlockVisible = function() {
+    return (demo.getBoundingClientRect().top <= 0);
+  };
+
+  /**
+   * Set eventListener for paralaxClouds
+   */
+  var setCloudsScrollEnabled = function() {
+    if (checkIfNextElementReached()) {
+      if (isParallaxClouds) {
+        window.removeEventListener('scroll', parallaxClouds);
+        isParallaxClouds = false;
+      }
+    } else {
+      if (!isParallaxClouds) {
+        window.addEventListener('scroll', parallaxClouds);
+        isParallaxClouds = true;
+      }
+    }
+  };
+
+  var setTheGameOnPause = function() {
+    if (demoBlockVisible()) {
+      game.setGameStatus(Game.Verdict.PAUSE);
+    }
+  };
+
+  /**
+   * Set THROTTLE_DELAY for checking paralaxClouds and demoBlockVisible functions
+   */
+  var setScrollEnabled = function() {
+    var lastCall = Date.now();
+    window.addEventListener('scroll', function() {
+      if (Date.now() - lastCall >= THROTTLE_DELAY) {
+        setCloudsScrollEnabled();
+        setTheGameOnPause();
+        lastCall = Date.now();
+      }
+    });
+  };
+
+
+  setScrollEnabled();
+
 })();
