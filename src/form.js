@@ -1,5 +1,5 @@
 'use strict';
-define(['./utils/utilities', './utils/formValidation'], function(utilities, formValidation) {
+define(['./utils/utilities'], function(utilities) {
   function contactFormModule() {
 
     var formContainer = document.querySelector('.overlay-container');
@@ -29,6 +29,10 @@ define(['./utils/utilities', './utils/formValidation'], function(utilities, form
     var nameLabel = form.querySelector('.review-fields-name');
     var defaultLabelDisplay = getComputedStyle(nameLabel).display;
 
+
+    var reviewFieldsContainer = form.querySelector('.review-fields');
+
+    var submitButton = form.querySelector('.review-submit');
     var reviewMarkInput = form.elements['review-mark'];
 
     var monthOfBirth = 5;
@@ -47,7 +51,7 @@ define(['./utils/utilities', './utils/formValidation'], function(utilities, form
     };
 
     nameInput.setAttribute('required', true);
-    utilities.disableForm();
+    _disableForm();
 
     /**
    * get days from last birthday
@@ -80,7 +84,7 @@ define(['./utils/utilities', './utils/formValidation'], function(utilities, form
         textInput.removeAttribute('required');
       }
 
-      formValidation.validateForm();
+      validateForm();
     }
 
     function _addListeners() {
@@ -113,7 +117,7 @@ define(['./utils/utilities', './utils/formValidation'], function(utilities, form
         nameInput.setCustomValidity('We\'d like to know your name');
       }
 
-      formValidation.validateForm();
+      validateForm();
     }
 
 
@@ -129,7 +133,31 @@ define(['./utils/utilities', './utils/formValidation'], function(utilities, form
         textInput.setCustomValidity('We\'d like to know why did you rate us so low. Please let us know what you\'d like to change at the game');
       }
 
-      formValidation.validateForm();
+      validateForm();
+    }
+
+
+    function validateForm() {
+      if (utilities.checkField(nameInput) && utilities.checkField(textInput)) {
+        _enableForm();
+      } else {
+        _disableForm();
+        nameLabel.style.display = defaultLabelDisplay;
+      }
+    }
+
+
+    // Disabling form
+    function _disableForm() {
+      reviewFieldsContainer.style.visibility = 'visible';
+      submitButton.setAttribute('disabled', 'disabled');
+    }
+
+
+    // Enabling form
+    function _enableForm() {
+      reviewFieldsContainer.style.visibility = 'hidden';
+      submitButton.removeAttribute('disabled');
     }
 
   }
