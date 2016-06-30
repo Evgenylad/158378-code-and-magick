@@ -1,5 +1,5 @@
 'use strict';
-define(function() {
+define(['./utils/utilities'], function(utilities) {
   function contactFormModule() {
 
     var formContainer = document.querySelector('.overlay-container');
@@ -107,7 +107,7 @@ define(function() {
 
     function validateNameInput() {
 
-      if (_checkField(nameInput)) {
+      if (utilities.checkField(nameInput)) {
         nameLabel.style.display = 'none';
 
         nameInput.setCustomValidity('');
@@ -123,7 +123,7 @@ define(function() {
 
     function validateTextInput() {
 
-      if (_checkField(textInput)) {
+      if (utilities.checkField(textInput)) {
         textLabel.style.display = 'none';
 
         textInput.setCustomValidity('');
@@ -138,7 +138,7 @@ define(function() {
 
 
     function validateForm() {
-      if (_checkField(nameInput) && _checkField(textInput)) {
+      if (utilities.checkField(nameInput) && utilities.checkField(textInput)) {
         _enableForm();
       } else {
         _disableForm();
@@ -158,14 +158,6 @@ define(function() {
     function _enableForm() {
       reviewFieldsContainer.style.visibility = 'hidden';
       submitButton.removeAttribute('disabled');
-    }
-    function _checkField(input) {
-      var inputLength = input.value.length;
-      if (inputLength < 1 && input.required) {
-        return false;
-      } else {
-        return true;
-      }
     }
 
   }
