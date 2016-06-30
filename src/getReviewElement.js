@@ -1,8 +1,7 @@
 'use strict';
 define(['./loadImage'], function(loadImage) {
 
-  var getReviewElement = function(data, container) {
-    var elementToClone;
+  function getReviewElement(data, container, elementToClone) {
     var element = elementToClone.cloneNode(true);
     var picture = element.querySelector('.review-author');
     element.querySelector('.review-text').textContent = data.description;
@@ -16,7 +15,7 @@ define(['./loadImage'], function(loadImage) {
 
     container.appendChild(element);
 
-    loadImage.loadImageModule(data.author.picture, function() {
+    loadImage(data.author.picture, function() {
       picture.src = data.author.picture;
       picture.width = '124';
       picture.height = '124';
@@ -24,7 +23,7 @@ define(['./loadImage'], function(loadImage) {
       element.classList.add('review-load-failure');
     });
     return element;
-  };
+  }
 
   return getReviewElement;
 

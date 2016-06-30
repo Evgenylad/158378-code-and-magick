@@ -4,7 +4,7 @@ define(function() {
   /** @constant {number} */
   var LOAD_IMAGE_TIMEOUT = 10000;
 
-  var loadImageModule = function(url, onSuccess, onFailure) {
+  function loadImage(url, onSuccess, onFailure) {
     var imageToLoadIn = new Image();
     // грузим картинку
     imageToLoadIn.src = url;
@@ -25,7 +25,7 @@ define(function() {
       imageToLoadIn.src = '';
       onFailure();
     }, LOAD_IMAGE_TIMEOUT);
-  };
+  }
 
-  return loadImageModule;
+  return loadImage;
 });

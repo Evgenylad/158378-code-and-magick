@@ -97,7 +97,7 @@ define(['./getReviewElement'], function(getReviewElement) {
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
       reviewsToRender.slice(from, to).forEach(function(review) {
-        getReviewElement.getReviewElement(review, reviewsContainer, elementToClone);
+        getReviewElement(review, reviewsContainer, elementToClone);
       });
     };
 
