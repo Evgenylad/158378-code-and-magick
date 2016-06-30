@@ -1,5 +1,5 @@
 'use strict';
-define(['./utils/utilities'], function(utilities) {
+define(['./utils/utilities', 'browser-cookies'], function(utilities, browserCookies) {
   function contactFormModule() {
 
     var formContainer = document.querySelector('.overlay-container');
@@ -38,9 +38,6 @@ define(['./utils/utilities'], function(utilities) {
 
     var expires = getDaysFromLastBirthday(monthOfBirth, dayOfBirth);
 
-    var browserCookies = require(['browser-cookies'], function(cookies) {
-
-    });
     reviewMarkInput.value = browserCookies.get('reviewMarkInput') || reviewMarkInput.value;
     nameInput.value = browserCookies.get('nameInput') || nameInput.value;
 
