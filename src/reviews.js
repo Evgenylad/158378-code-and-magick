@@ -1,5 +1,5 @@
 'use strict';
-define(function() {
+define(['./getReviewElement'], function(getReviewElement) {
   function reviewsModule() {
 
     var reviewsFilter = document.querySelector('.reviews-filter');
@@ -7,9 +7,6 @@ define(function() {
     var templateElement = document.querySelector('template');
     var elementToClone;
     var reviewsBlock = document.querySelector('.reviews');
-
-    /** @constant {number} */
-    var LOAD_IMAGE_TIMEOUT = 10000;
 
     /** @constant {string} */
     var REVIEWS_LOAD_URL = '//o0.github.io/assets/json/reviews.json';
@@ -52,54 +49,6 @@ define(function() {
     *@param {HTMLElement} container
     *@return {HTMLElement}
     */
-
-    var getReviewElement = function(data, container) {
-
-      var element = elementToClone.cloneNode(true);
-      var picture = element.querySelector('.review-author');
-      element.querySelector('.review-text').textContent = data.description;
-      var rating = element.querySelector('.review-rating');
-
-      var ratingValue = data.rating;
-      var ratingNames = ['', '', 'two', 'three', 'four', 'five'];
-      if(ratingValue >= 2 && ratingValue <= 5) {
-        rating.classList.add('review-rating-' + ratingNames[ratingValue]);
-      }
-
-      container.appendChild(element);
-
-      loadImage(data.author.picture, function() {
-        picture.src = data.author.picture;
-        picture.width = '124';
-        picture.height = '124';
-      }, function() {
-        element.classList.add('review-load-failure');
-      });
-      return element;
-    };
-
-    var loadImage = function(url, onSuccess, onFailure) {
-      var imageToLoadIn = new Image();
-      // грузим картинку
-      imageToLoadIn.src = url;
-
-      // если всё хорошо
-      imageToLoadIn.onload = function() {
-        clearTimeout(imageToLoadInTimeout);
-        onSuccess();
-      };
-
-      // если всё плохо
-      imageToLoadIn.onerror = function() {
-        clearTimeout(imageToLoadInTimeout);
-        onFailure();
-      };
-
-      var imageToLoadInTimeout = setTimeout(function() {
-        imageToLoadIn.src = '';
-        onFailure();
-      }, LOAD_IMAGE_TIMEOUT);
-    };
 
     /**
      * [getReviews - send request to a server for data]
@@ -148,7 +97,7 @@ define(function() {
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
       reviewsToRender.slice(from, to).forEach(function(review) {
-        getReviewElement(review, reviewsContainer);
+        getReviewElement.getReviewElement(review, reviewsContainer, elementToClone);
       });
     };
 
