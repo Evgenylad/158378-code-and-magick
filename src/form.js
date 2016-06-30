@@ -1,5 +1,5 @@
 'use strict';
-define(['./utils/utilities'], function(utilities) {
+define(['./utils/utilities', './utils/formValidation'], function(utilities, formValidation) {
   function contactFormModule() {
 
     var formContainer = document.querySelector('.overlay-container');
@@ -29,10 +29,6 @@ define(['./utils/utilities'], function(utilities) {
     var nameLabel = form.querySelector('.review-fields-name');
     var defaultLabelDisplay = getComputedStyle(nameLabel).display;
 
-
-    var reviewFieldsContainer = form.querySelector('.review-fields');
-
-    var submitButton = form.querySelector('.review-submit');
     var reviewMarkInput = form.elements['review-mark'];
 
     var monthOfBirth = 5;
@@ -51,7 +47,7 @@ define(['./utils/utilities'], function(utilities) {
     };
 
     nameInput.setAttribute('required', true);
-    _disableForm();
+    utilities.disableForm();
 
     /**
    * get days from last birthday
@@ -84,7 +80,7 @@ define(['./utils/utilities'], function(utilities) {
         textInput.removeAttribute('required');
       }
 
-      validateForm();
+      formValidation.validateForm();
     }
 
     function _addListeners() {
@@ -117,7 +113,7 @@ define(['./utils/utilities'], function(utilities) {
         nameInput.setCustomValidity('We\'d like to know your name');
       }
 
-      validateForm();
+      formValidation.validateForm();
     }
 
 
@@ -133,31 +129,7 @@ define(['./utils/utilities'], function(utilities) {
         textInput.setCustomValidity('We\'d like to know why did you rate us so low. Please let us know what you\'d like to change at the game');
       }
 
-      validateForm();
-    }
-
-
-    function validateForm() {
-      if (utilities.checkField(nameInput) && utilities.checkField(textInput)) {
-        _enableForm();
-      } else {
-        _disableForm();
-        nameLabel.style.display = defaultLabelDisplay;
-      }
-    }
-
-
-    // Disabling form
-    function _disableForm() {
-      reviewFieldsContainer.style.visibility = 'visible';
-      submitButton.setAttribute('disabled', 'disabled');
-    }
-
-
-    // Enabling form
-    function _enableForm() {
-      reviewFieldsContainer.style.visibility = 'hidden';
-      submitButton.removeAttribute('disabled');
+      formValidation.validateForm();
     }
 
   }
