@@ -1,4 +1,6 @@
 'use strict';
-require('./game');
-require('./form');
-require('./reviews.js');
+require(['./game', './reviews', './form'], function(gameModule, reviewsModule, contactFormModule) {
+  gameModule();
+  reviewsModule();
+  contactFormModule();
+});
