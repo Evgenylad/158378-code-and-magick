@@ -1,5 +1,5 @@
 'use strict';
-define(['./getReviewElement'], function(getReviewElement) {
+define(['./utils/getReviewElement', './utils/getData'], function(getReviewElement, getData) {
   function reviewsModule() {
 
     var reviewsFilter = document.querySelector('.reviews-filter');
@@ -7,9 +7,6 @@ define(['./getReviewElement'], function(getReviewElement) {
     var templateElement = document.querySelector('template');
     var elementToClone;
     var reviewsBlock = document.querySelector('.reviews');
-
-    /** @constant {string} */
-    var REVIEWS_LOAD_URL = '//o0.github.io/assets/json/reviews.json';
 
     /** @constant {number} */
     var RECENT_PERIOD = 4;
@@ -42,39 +39,6 @@ define(['./getReviewElement'], function(getReviewElement) {
     var Rating = {
       'GOOD': 3,
       'BAD': 2
-    };
-
-    /**
-    *@param {Object} data
-    *@param {HTMLElement} container
-    *@return {HTMLElement}
-    */
-
-    /**
-     * [getReviews - send request to a server for data]
-     * @param  {Function} callbackSuccess [call to the function which is the argument for getReviews after the data
-     * have been loaded]
-     * @param  {Function} callbackError [call to the function which is the argument for getReviews after the data
-     * have NOT been loaded due to an error or timeout]
-     */
-    //При описании функции getReviews в качестве параметра указывается функция с аргументом loadedData, которая описывается
-    //в МОМЕНТ вызова функции getReviews. Таким образом действия (методы внутри функции), которые вызываются функцией могут меняться
-    //от кода к коду на лету и в зависимости от текущей необходимости.
-    var getReviews = function(callbackSuccess, callbackError) {
-      var xhr = new XMLHttpRequest();
-      xhr.timeout = 30000;
-
-      /** @param {ProgressEvent} */
-      xhr.onload = function(evt) {
-        var loadedData = JSON.parse(evt.target.response);
-        callbackSuccess(loadedData);
-      };
-      xhr.onerror = callbackError;
-
-      xhr.ontimeout = callbackError;
-
-      xhr.open('GET', REVIEWS_LOAD_URL);
-      xhr.send();
     };
 
     /** @param {Array.<Object>} loadedReviews */
@@ -235,7 +199,7 @@ define(['./getReviewElement'], function(getReviewElement) {
     //При вызове функции getReviews в качестве аргумента передается функция,
     //которая инициирует новую переменную reviews и записывает в нее загруженный массив отзывов.
     //Кроме того, вызывается функция renderReviews, в которую передается аргумент reviews (массив отзывов).
-    getReviews(function(loadedReviews) {
+    getData(function(loadedReviews) {
       reviews = loadedReviews;
       setFilterEnabled();
       setFilter(DEFAULT_FILTER);
