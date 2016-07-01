@@ -806,7 +806,7 @@ define(function() {
      * Flag to check if paralaxClouds enabled
      * @type {boolean}
      */
-    var isParallaxClouds = true;
+    var isParallaxClouds = false;
 
     /**
      * Set Parallax function for clouds
