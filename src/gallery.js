@@ -37,27 +37,21 @@ define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImag
       _galleryHide();
     };
 
+    var removeEventListeners = function() {
+      controlLeft.removeEventListener('click', showLeftPicture);
+      controlRight.removeEventListener('click', showRightPicture);
+    };
+
     var _galleryMoveLeft = function() {
-      controlLeft.addEventListener('click', function() {
-        if(galleryActivePicture > 0) {
-          galleryActivePicture--;
-          showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
-        }
-        return galleryActivePicture;
-      });
+      controlLeft.addEventListener('click', showLeftPicture);
     };
 
     var _galleryMoveRight = function() {
-      controlRight.addEventListener('click', function() {
-        if(galleryActivePicture < picturesAtPhotogallery) {
-          galleryActivePicture++;
-          showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
-        }
-        return galleryActivePicture;
-      });
+      controlRight.addEventListener('click', showRightPicture);
     };
 
     var _galleryHide = function() {
+      removeEventListeners();
       document.addEventListener('keydown', function(evt) {
         if (evt.keyCode === KEYCODE_ESCAPE) {
           galleryContainer.classList.add('invisible');
@@ -69,6 +63,22 @@ define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImag
       });
     };
 
+    var showLeftPicture = function() {
+      if(galleryActivePicture > 0) {
+        galleryActivePicture--;
+        showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
+      }
+      return galleryActivePicture;
+    };
+
+    var showRightPicture = function() {
+        if(galleryActivePicture < picturesAtPhotogallery) {
+          galleryActivePicture++;
+          showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
+        }
+        return galleryActivePicture;
+      };
+    };
 
     var showPicture = function(pictures, pic) {
       previewContainer.innerHTML = '';
