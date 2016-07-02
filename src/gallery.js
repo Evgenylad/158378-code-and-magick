@@ -33,12 +33,8 @@ define(function() {
       galleryActivePicture = pic;
       galleryContainer.classList.remove('invisible');
       showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
-      if(_galleryMoveLeft()) {
-        showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
-      }
-      if(_galleryMoveRight()) {
-        showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
-      }
+      _galleryMoveLeft();
+      _galleryMoveRight();
     };
 
     var hideGallery = function() {
@@ -50,6 +46,7 @@ define(function() {
         if(galleryActivePicture >= 0) {
           console.log(galleryActivePicture);
           galleryActivePicture--;
+          showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
         }
         return galleryActivePicture;
       });
@@ -60,13 +57,13 @@ define(function() {
         if(galleryActivePicture <= PICTURES_AT_PHOTOGALLERY) {
           console.log(galleryActivePicture);
           galleryActivePicture++;
+          showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
         }
         return galleryActivePicture;
       });
     };
 
     var showPicture = function(pictures, pic) {
-      console.log(pictures);
       galleryPictures = pictures;
       var preview = new Image();
       preview.classList.add('gallery-fullscreen-image');
