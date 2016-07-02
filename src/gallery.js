@@ -6,7 +6,7 @@ define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImag
     var KEYCODE_ESCAPE = 27;
 
     var arrayOfLinks = document.querySelectorAll('.photogallery-image');
-    console.log(arrayOfLinks);
+
     var galleryContainer = document.querySelector('.overlay-gallery');
     var previewContainer = galleryContainer.querySelector('.overlay-gallery-preview');
 
@@ -39,7 +39,7 @@ define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImag
 
     var _galleryMoveLeft = function() {
       controlLeft.addEventListener('click', function() {
-        if(galleryActivePicture >= 0) {
+        if(galleryActivePicture > 0) {
           galleryActivePicture--;
           showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
         }
@@ -49,7 +49,7 @@ define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImag
 
     var _galleryMoveRight = function() {
       controlRight.addEventListener('click', function() {
-        if(galleryActivePicture <= picturesAtPhotogallery) {
+        if(galleryActivePicture < picturesAtPhotogallery) {
           galleryActivePicture++;
           showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
         }
@@ -68,6 +68,7 @@ define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImag
         galleryContainer.classList.add('invisible');
       });
     };
+
 
     var showPicture = function(pictures, pic) {
       previewContainer.innerHTML = '';
