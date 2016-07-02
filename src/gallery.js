@@ -1,20 +1,21 @@
 'use strict';
-define(function() {
+define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImagesModule, showAnyGalleryModule) {
   function galleryModule() {
-    /** @constant {number} */
-    var PICTURES_AT_PHOTOGALLERY = 6;
 
+    /** @constant {number} */
+    var KEYCODE_ESCAPE = 27;
+
+    var arrayOfLinks = document.querySelectorAll('.photogallery-image');
+    console.log(arrayOfLinks);
     var galleryContainer = document.querySelector('.overlay-gallery');
     var previewContainer = galleryContainer.querySelector('.overlay-gallery-preview');
-    var photogallery = document.querySelector('.photogallery');
-    var collectionOfImages = photogallery.getElementsByTagName('img');
-    var arrayOfImages = Array.prototype.slice.call(collectionOfImages);
-    var arrayOfImageSrc = arrayOfImages.map(function(img) {
-      return img.src;
-    });
 
     var controlLeft = galleryContainer.querySelector('.overlay-gallery-control-left');
     var controlRight = galleryContainer.querySelector('.overlay-gallery-control-right');
+    var controlCross = galleryContainer.querySelector('.overlay-gallery-close');
+
+    /** @type {number} */
+    var picturesAtPhotogallery = 6;
 
     /**@type {number}*/
     var galleryActivePicture = 0;
@@ -25,30 +26,22 @@ define(function() {
     /**@param {Array.<string>} pictures
      * @return {Array.<string>}
      * */
-    var loadImages = function(pictures) {
+    var saveImages = function(pictures) {
       galleryPictures = pictures;
       return galleryPictures;
     };
 
-    /**@param {number} pic*/
-    var showGallery = function(pic) {
-      galleryActivePicture = pic;
-      galleryContainer.classList.remove('invisible');
-      showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
+    var _attachListeners = function() {
       _galleryMoveLeft();
       _galleryMoveRight();
-    };
-
-    var hideGallery = function() {
-      galleryContainer.classList.add('invisible');
+      _galleryHide();
     };
 
     var _galleryMoveLeft = function() {
       controlLeft.addEventListener('click', function() {
         if(galleryActivePicture >= 0) {
-          previewContainer.innerHTML = '';
           galleryActivePicture--;
-          showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
+          showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
         }
         return galleryActivePicture;
       });
@@ -56,16 +49,28 @@ define(function() {
 
     var _galleryMoveRight = function() {
       controlRight.addEventListener('click', function() {
-        if(galleryActivePicture <= PICTURES_AT_PHOTOGALLERY) {
-          previewContainer.innerHTML = '';
+        if(galleryActivePicture <= picturesAtPhotogallery) {
           galleryActivePicture++;
-          showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
+          showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
         }
         return galleryActivePicture;
       });
     };
 
+    var _galleryHide = function() {
+      document.addEventListener('keydown', function(evt) {
+        if (evt.keyCode === KEYCODE_ESCAPE) {
+          galleryContainer.classList.add('invisible');
+        }
+      });
+
+      controlCross.addEventListener('click', function() {
+        galleryContainer.classList.add('invisible');
+      });
+    };
+
     var showPicture = function(pictures, pic) {
+      previewContainer.innerHTML = '';
       galleryPictures = pictures;
       var preview = new Image();
       preview.classList.add('gallery-fullscreen-image');
@@ -73,10 +78,11 @@ define(function() {
       preview.src = galleryPictures[pic];
     };
 
-    arrayOfImages.forEach(function(item) {
-      item.addEventListener('click', function() {
-        showGallery(galleryActivePicture);
-      });
+    showAnyGalleryModule(arrayOfLinks, function showGallery(pic) {
+      galleryActivePicture = pic;
+      galleryContainer.classList.remove('invisible');
+      showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
+      _attachListeners();
     });
 
   }
