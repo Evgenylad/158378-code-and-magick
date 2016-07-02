@@ -19,16 +19,18 @@ define(function() {
     /**@type {number}*/
     var galleryActivePicture = 0;
 
-    /**@param {Array.<string>}*/
+    /**@type {Array.<string>}*/
     var galleryPictures = [];
 
-    /**@param {Array.<string>} pictures*/
+    /**@param {Array.<string>} pictures
+     * @return {Array.<string>}
+     * */
     var loadImages = function(pictures) {
       galleryPictures = pictures;
       return galleryPictures;
     };
 
-    /**@type {number} pic*/
+    /**@param {number} pic*/
     var showGallery = function(pic) {
       galleryActivePicture = pic;
       galleryContainer.classList.remove('invisible');
@@ -44,7 +46,7 @@ define(function() {
     var _galleryMoveLeft = function() {
       controlLeft.addEventListener('click', function() {
         if(galleryActivePicture >= 0) {
-          console.log(galleryActivePicture);
+          previewContainer.innerHTML = '';
           galleryActivePicture--;
           showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
         }
@@ -55,7 +57,7 @@ define(function() {
     var _galleryMoveRight = function() {
       controlRight.addEventListener('click', function() {
         if(galleryActivePicture <= PICTURES_AT_PHOTOGALLERY) {
-          console.log(galleryActivePicture);
+          previewContainer.innerHTML = '';
           galleryActivePicture++;
           showPicture(loadImages(arrayOfImageSrc), galleryActivePicture);
         }
