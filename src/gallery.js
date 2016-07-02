@@ -72,12 +72,11 @@ define(['./utils/arrayOfImages', './utils/showAnyGallery'], function(arrayOfImag
     };
 
     var showRightPicture = function() {
-        if(galleryActivePicture < picturesAtPhotogallery) {
-          galleryActivePicture++;
-          showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
-        }
-        return galleryActivePicture;
-      };
+      if(galleryActivePicture < picturesAtPhotogallery) {
+        galleryActivePicture++;
+        showPicture(saveImages(arrayOfImagesModule().arrayOfImageSrc), galleryActivePicture);
+      }
+      return galleryActivePicture;
     };
 
     var showPicture = function(pictures, pic) {
