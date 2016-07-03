@@ -1,8 +1,21 @@
 'use strict';
-require(['./game', './reviews', './form', './utils/arrayOfImages', './gallery'], function(gameModule, reviewsModule, contactFormModule, arrayOfImagesModule, galleryModule) {
+require(['./game', './reviews', './form', './gallery'], function(gameModule, reviewsModule, contactFormModule, gallery) {
+  var collectionOfImages = document.getElementsByTagName('img');
+  var arrayOfImages = Array.prototype.slice.call(collectionOfImages);
+  var arrayOfImageSrc = arrayOfImages.map(function(img) {
+    return img.src;
+  });
+
+  /**@type {Array.<string>}*/
+  var galleryPictures = gallery.saveImages(arrayOfImageSrc);
+
   gameModule();
   reviewsModule();
   contactFormModule();
-  arrayOfImagesModule();
-  galleryModule();
+  arrayOfImages.forEach(function(item, i) {
+    item.addEventListener('click', function() {
+      gallery.showGallery(i);
+      console.log(gallery.showGallery(1));
+    });
+  });
 });
