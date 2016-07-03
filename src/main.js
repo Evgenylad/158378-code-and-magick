@@ -15,7 +15,6 @@ require(['./game', './reviews', './form', './gallery'], function(gameModule, rev
   arrayOfImages.forEach(function(item, i) {
     item.addEventListener('click', function() {
       gallery.showGallery(i);
-      console.log(gallery.showGallery(1));
     });
   });
 });

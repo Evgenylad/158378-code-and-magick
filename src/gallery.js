@@ -64,6 +64,7 @@ define(function() {
 
   var showLeftPicture = function() {
     if(galleryActivePicture > 0) {
+      preview.parentNode.removeChild(preview);
       galleryActivePicture--;
       showPicture(galleryActivePicture);
     }
@@ -72,14 +73,16 @@ define(function() {
 
   var showRightPicture = function() {
     if(galleryActivePicture < picturesAtPhotogallery) {
+      preview.parentNode.removeChild(preview);
       galleryActivePicture++;
       showPicture(galleryActivePicture);
     }
     return galleryActivePicture;
   };
 
+  var preview;
   var showPicture = function(pic) {
-    var preview = new Image();
+    preview = new Image();
     preview.classList.add('gallery-fullscreen-image');
     previewContainer.appendChild(preview);
     preview.src = galleryPictures[pic];
