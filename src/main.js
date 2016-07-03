@@ -1,5 +1,6 @@
 'use strict';
 require(['./game', './reviews', './form', './gallery'], function(gameModule, reviewsModule, contactFormModule, gallery) {
+  var arrayOfLinks = document.querySelectorAll('.photogallery-image');
   var collectionOfImages = document.getElementsByTagName('img');
   var arrayOfImages = Array.prototype.slice.call(collectionOfImages);
   var arrayOfImageSrc = arrayOfImages.map(function(img) {
@@ -11,7 +12,7 @@ require(['./game', './reviews', './form', './gallery'], function(gameModule, rev
   gameModule();
   reviewsModule();
   contactFormModule();
-  arrayOfImages.forEach(function(item, i) {
+  arrayOfLinks.forEach(function(item, i) {
     item.addEventListener('click', function() {
       gallery.showGallery(i);
     });
