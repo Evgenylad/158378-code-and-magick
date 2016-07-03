@@ -64,7 +64,6 @@ define(function() {
 
   var showLeftPicture = function() {
     if(galleryActivePicture > 0) {
-      preview.parentNode.removeChild(preview);
       galleryActivePicture--;
       showPicture(galleryActivePicture);
     }
@@ -73,7 +72,6 @@ define(function() {
 
   var showRightPicture = function() {
     if(galleryActivePicture < picturesAtPhotogallery) {
-      preview.parentNode.removeChild(preview);
       galleryActivePicture++;
       showPicture(galleryActivePicture);
     }
@@ -82,10 +80,17 @@ define(function() {
 
   var preview;
   var showPicture = function(pic) {
-    preview = new Image();
-    preview.classList.add('gallery-fullscreen-image');
-    previewContainer.appendChild(preview);
-    preview.src = galleryPictures[pic];
+    if (typeof preview === 'undefined') {
+      preview = new Image();
+      preview.classList.add('gallery-fullscreen-image');
+      previewContainer.appendChild(preview);
+      preview.src = galleryPictures[pic];
+    } else {
+      preview.parentNode.removeChild(preview);
+      preview.classList.add('gallery-fullscreen-image');
+      previewContainer.appendChild(preview);
+      preview.src = galleryPictures[pic];
+    }
   };
 
   function showGallery(pic) {
