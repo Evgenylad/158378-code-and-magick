@@ -6,8 +6,7 @@ require(['./game', './reviews', './form', './gallery'], function(gameModule, rev
     return img.src;
   });
 
-  /**@type {Array.<string>}*/
-  var galleryPictures = gallery.saveImages(arrayOfImageSrc);
+  gallery.saveImages(arrayOfImageSrc);
 
   gameModule();
   reviewsModule();
