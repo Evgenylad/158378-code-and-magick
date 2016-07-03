@@ -11,8 +11,11 @@ define(function() {
   var controlRight = galleryContainer.querySelector('.overlay-gallery-control-right');
   var controlCross = galleryContainer.querySelector('.overlay-gallery-close');
 
+  var previewNumberTotal = galleryContainer.querySelector('.preview-number-total');
+  var previewNumberCurrent = galleryContainer.querySelector('.preview-number-current');
+
   /** @type {number} */
-  var picturesAtPhotogallery = 6;
+  var picturesAtPhotogallery;
 
   /**@type {number}*/
   var galleryActivePicture;
@@ -20,82 +23,100 @@ define(function() {
   /**@type {Array.<string>}*/
   var galleryPictures = [];
 
-  /**@param {Array.<string>} pictures
-   * @return {Array.<string>}
-   * */
+  /**@type {HTMLImageElement} current gallery image */
+  var preview;
 
+  /**
+   * @param {Array.<string>} pictures
+   * */
   function saveImages(pictures) {
     galleryPictures = pictures;
-    return galleryPictures;
+    picturesAtPhotogallery = galleryPictures.length;
   }
 
+
+  /*================================
+  =            LISTENERS           =
+  ================================*/
+
   var _attachListeners = function() {
-    _galleryMoveLeft();
-    _galleryMoveRight();
-    _galleryHide();
+    controlLeft.addEventListener('click', showLeftPicture);
+    controlRight.addEventListener('click', showRightPicture);
+
+    document.addEventListener('keydown', onKeydown);
+    controlCross.addEventListener('click', onControlCrossClick);
   };
 
-  var removeEventListeners = function() {
+  var _removeListeners = function() {
     controlLeft.removeEventListener('click', showLeftPicture);
     controlRight.removeEventListener('click', showRightPicture);
-  };
 
-  var _galleryMoveLeft = function() {
-    controlLeft.addEventListener('click', showLeftPicture);
-  };
-
-  var _galleryMoveRight = function() {
-    controlRight.addEventListener('click', showRightPicture);
-  };
-
-  var _galleryHide = function() {
-    document.addEventListener('keydown', function(evt) {
-      if (evt.keyCode === KEYCODE_ESCAPE) {
-        galleryContainer.classList.add('invisible');
-        removeEventListeners();
-      }
-    });
-
-    controlCross.addEventListener('click', function() {
-      galleryContainer.classList.add('invisible');
-      removeEventListeners();
-    });
+    document.removeEventListener('keydown', onKeydown);
+    controlCross.removeEventListener('click', onControlCrossClick);
   };
 
   var showLeftPicture = function() {
     if(galleryActivePicture > 0) {
       galleryActivePicture--;
-      showPicture(galleryActivePicture);
+    } else {
+      galleryActivePicture = picturesAtPhotogallery - 1;
     }
-    return galleryActivePicture;
+    showPicture(galleryActivePicture);
   };
 
   var showRightPicture = function() {
-    if(galleryActivePicture < picturesAtPhotogallery) {
+
+    if(galleryActivePicture < picturesAtPhotogallery - 1) {
       galleryActivePicture++;
-      showPicture(galleryActivePicture);
+    } else {
+      galleryActivePicture = 0;
     }
-    return galleryActivePicture;
+
+    showPicture(galleryActivePicture);
   };
 
-  var preview;
+  var onControlCrossClick = function() {
+    galleryContainer.classList.add('invisible');
+    hideGallery();
+  };
+
+  var onKeydown = function(evt) {
+    if (evt.keyCode === KEYCODE_ESCAPE) {
+      galleryContainer.classList.add('invisible');
+      hideGallery();
+    }
+  };
+  /*=====  End of LISTENERS ======*/
 
   var showPicture = function(pic) {
-    if (typeof preview === 'undefined') {
-      preview = new Image();
-    } else {
-      preview.src = '';
-    }
-    preview.classList.add('gallery-fullscreen-image');
-    previewContainer.appendChild(preview);
     preview.src = galleryPictures[pic];
+    previewNumberCurrent.textContent = pic + 1;
   };
 
   function showGallery(pic) {
+    // adding a preview
+    preview = new Image();
+    preview.classList.add('gallery-fullscreen-image');
+    previewContainer.appendChild(preview);
+
+    previewNumberTotal.textContent = picturesAtPhotogallery;
+
     galleryActivePicture = pic;
     galleryContainer.classList.remove('invisible');
     showPicture(galleryActivePicture);
     _attachListeners();
+  }
+
+  function hideGallery() {
+    previewContainer.removeChild(preview);
+    preview = null;
+
+    previewNumberTotal.textContent = '';
+
+    galleryActivePicture = null;
+    galleryContainer.classList.add('invisible');
+
+    _removeListeners();
   }
 
   return {

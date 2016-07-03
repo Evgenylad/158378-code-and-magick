@@ -1,19 +1,23 @@
 'use strict';
 require(['./game', './reviews', './form', './gallery'], function(gameModule, reviewsModule, contactFormModule, gallery) {
-  var arrayOfLinks = document.querySelectorAll('.photogallery-image');
-  var collectionOfImages = document.getElementsByTagName('img');
-  var arrayOfImages = Array.prototype.slice.call(collectionOfImages);
-  var arrayOfImageSrc = arrayOfImages.map(function(img) {
+  gameModule();
+  reviewsModule();
+  contactFormModule();
+
+  var collectionOfLinks = document.querySelectorAll('.photogallery a');
+
+  var arrayOfLinks = Array.prototype.slice.call(collectionOfLinks);
+
+  var arrayOfImageSrc = arrayOfLinks.map(function(link) {
+    var img = link.children[0];
     return img.src;
   });
 
   gallery.saveImages(arrayOfImageSrc);
 
-  gameModule();
-  reviewsModule();
-  contactFormModule();
   arrayOfLinks.forEach(function(item, i) {
-    item.addEventListener('click', function() {
+    item.addEventListener('click', function(ev) {
+      ev.preventDefault();
       gallery.showGallery(i);
     });
   });
