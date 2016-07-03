@@ -84,7 +84,7 @@ define(function() {
     if (typeof preview === 'undefined') {
       preview = new Image();
     } else {
-      preview.parentNode.removeChild(preview);
+      preview.src = '';
     }
     preview.classList.add('gallery-fullscreen-image');
     previewContainer.appendChild(preview);
