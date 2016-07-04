@@ -25,8 +25,27 @@ define(['./loadImage'], function(loadImage) {
       });
       return element;
     };
-    this.remove = function() {
 
+    this.quizAnswerYes = container.querySelector('.review-quiz-answer-yes');
+    this.quizAnswerNo = container.querySelector('.review-quiz-answer-no');
+
+    this.addClassActiveToAnswerYes = function() {
+      this.quizAnswerYes.classList.add('review-quiz-answer-active');
+    };
+
+    this.addClassActiveToAnswerNo = function() {
+      this.quizAnswerNo.classList.add('review-quiz-answer-active');
+    };
+
+    this.eventListeners = function() {
+      this.quizAnswerYes.addEventListener('click', this.addClassActiveToAnswerYes());
+      this.quizAnswerNo.addEventListener('click', this.addClassActiveToAnswerNo());
+    };
+    this.remove = function() {
+      var review = container.querySelector('.review');
+      container.removeChild(review);
+      this.quizAnswerYes.removeEventListener('click', this.addClassActiveToAnswerYes());
+      this.quizAnswerNo.removeEventListener('click', this.addClassActiveToAnswerNo());
     };
   };
   return Review;
