@@ -1,5 +1,5 @@
 'use strict';
-define(['./utils/getReviewElement', './utils/getData'], function(getReviewElement, getData) {
+define(['./utils/getReviewElement', './utils/getData'], function(Review, getData) {
   function reviewsModule() {
 
     var reviewsFilter = document.querySelector('.reviews-filter');
@@ -41,6 +41,8 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       'BAD': 2
     };
 
+    var soloReview;
+
     /** @param {Array.<Object>} loadedReviews */
     //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
     //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
@@ -61,7 +63,9 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
       reviewsToRender.slice(from, to).forEach(function(review) {
-        getReviewElement(review, reviewsContainer, elementToClone);
+        soloReview = new Review(review, reviewsContainer, elementToClone);
+        soloReview.element();
+        console.log(soloReview);
       });
     };
 
@@ -81,6 +85,7 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
         if (isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
           pageNumber++;
           renderReviews(filteredReviews, pageNumber);
+          soloReview.remove();
         } else {
           document.querySelector('.reviews-controls-more').classList.add('invisible');
         }
@@ -162,6 +167,8 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       filteredReviews = getFilteredReviews(reviews, filter);
       pageNumber = 0;
       renderReviews(filteredReviews, pageNumber, true);
+      soloReview.remove();
+      console.log(soloReview);
     };
 
     //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
