@@ -4,8 +4,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
 
     var reviewsFilter = document.querySelector('.reviews-filter');
     var reviewsContainer = document.querySelector('.reviews-list');
-    var templateElement = document.querySelector('template');
-    var elementToClone;
     var reviewsBlock = document.querySelector('.reviews');
 
     /** @constant {number} */
@@ -62,10 +60,10 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       }
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
-      reviewsToRender.slice(from, to).forEach(function(review) {
-        soloReview = new Review(review, reviewsContainer, elementToClone);
-        soloReview.element();
-        console.log(soloReview);
+      reviewsToRender.slice(from, to).forEach(function(reviewData) {
+        var newReview = new Review(reviewData);
+        reviewsContainer.appendChild(newReview);
+
       });
     };
 
@@ -195,11 +193,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
 
     reviewsFiltersHide();
 
-    if ('content' in templateElement) {
-      elementToClone = templateElement.content.querySelector('.review');
-    } else {
-      elementToClone = templateElement.querySelector('.review');
-    }
 
     reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 
