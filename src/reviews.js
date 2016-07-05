@@ -161,9 +161,11 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
 
     //Очищаем массив currentReviews
     var cleanCurrentReviews = function() {
-      currentReviews.forEach(function() {
-        Review.remove();
+      currentReviews.forEach(function(newReview) {
+        debugger;
+        newReview.remove();
       });
+      return currentReviews;
     };
 
     //Фильтруем reviews и отрисовываем список при клике на кнопку
@@ -180,6 +182,7 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       var filters = document.getElementsByName('reviews');
       reviewsFilter.addEventListener('click', function(evt) {
         if (evt.target.id) {
+          cleanCurrentReviews();
           setFilter(evt.target.id);
         }
       });
