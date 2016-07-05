@@ -39,7 +39,7 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       'BAD': 2
     };
 
-    var newReview;
+    var currentReviews = [];
 
     /** @param {Array.<Object>} loadedReviews */
     //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
@@ -61,9 +61,9 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
       reviewsToRender.slice(from, to).forEach(function(reviewData) {
-        newReview = new Review(reviewData);
+        var newReview = new Review(reviewData);
         reviewsContainer.appendChild(newReview.element);
-
+        currentReviews.push(newReview);
       });
     };
 
@@ -159,8 +159,16 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       }
     };
 
+    //Очищаем массив currentReviews
+    var cleanCurrentReviews = function() {
+      currentReviews.forEach(function() {
+        Review.remove();
+      });
+    };
+
     //Фильтруем reviews и отрисовываем список при клике на кнопку
     var setFilter = function(filter) {
+      cleanCurrentReviews();
       filteredReviews = getFilteredReviews(reviews, filter);
       pageNumber = 0;
       renderReviews(filteredReviews, pageNumber, true);
@@ -173,8 +181,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       reviewsFilter.addEventListener('click', function(evt) {
         if (evt.target.id) {
           setFilter(evt.target.id);
-          Review.remove();
-          console.log(Review.remove());
         }
       });
       for (var i = 0; i < filters.length; i++) {

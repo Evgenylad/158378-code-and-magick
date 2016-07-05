@@ -53,6 +53,7 @@ define(['./loadImage'], function(loadImage) {
       this.quizAnswerYes.addEventListener('click', this.addClassActiveToAnswerYes());
       this.quizAnswerNo.addEventListener('click', this.addClassActiveToAnswerNo());
     };
+
     this.remove = function() {
       this.element.parentNode.removeChild(this.element);
       this.quizAnswerYes.removeEventListener('click', this.addClassActiveToAnswerYes());
