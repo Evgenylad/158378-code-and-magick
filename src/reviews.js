@@ -173,7 +173,8 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       reviewsFilter.addEventListener('click', function(evt) {
         if (evt.target.id) {
           setFilter(evt.target.id);
-          newReview.remove();
+          Review.remove();
+          console.log(Review.remove());
         }
       });
       for (var i = 0; i < filters.length; i++) {
