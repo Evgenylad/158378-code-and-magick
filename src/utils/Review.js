@@ -9,6 +9,7 @@ define(['./loadImage'], function(loadImage) {
     elementToClone = templateElement.querySelector('.review');
   }
 
+
   var Review = function(data) {
     this.data = data.author.picture;
     this._renderElement = (function() {
