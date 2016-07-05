@@ -38,20 +38,21 @@ define(['./loadImage'], function(loadImage) {
 
     this.element = this._renderElement();
 
+    this.reviewQuiz = this.element.querySelector('.review-quiz');
+    this.quizAnswerElementsCollection = this.element.querySelectorAll('.review-quiz-answer');
+    this.quizAnswerElementsArray = Array.prototype.slice.call(this.quizAnswerElementsCollection);
+
     this.quizAnswerYes = this.element.querySelector('.review-quiz-answer-yes');
     this.quizAnswerNo = this.element.querySelector('.review-quiz-answer-no');
 
-    this.addClassActiveToAnswerYes = function() {
-      this.quizAnswerYes.classList.add('review-quiz-answer-active');
-    };
-
-    this.addClassActiveToAnswerNo = function() {
-      this.quizAnswerNo.classList.add('review-quiz-answer-active');
-    };
-
     this.eventListeners = function() {
-      this.quizAnswerYes.addEventListener('click', this.addClassActiveToAnswerYes());
-      this.quizAnswerNo.addEventListener('click', this.addClassActiveToAnswerNo());
+      this.reviewQuiz.addEventListener('click', function(evt) {
+        if(evt.target.classList.contains('review-quiz-answer-active')) {
+          evt.target.classList.remove('review-quiz-answer-active');
+        } else {
+          evt.target.classList.add('review-quiz-answer-active');
+        }
+      });
     };
 
     this.remove = function() {
