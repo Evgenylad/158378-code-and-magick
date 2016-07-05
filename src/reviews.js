@@ -1,5 +1,5 @@
 'use strict';
-define(['./utils/getReviewElement', './utils/getData'], function(Review, getData) {
+define(['./utils/Review', './utils/getData'], function(Review, getData) {
   function reviewsModule() {
 
     var reviewsFilter = document.querySelector('.reviews-filter');
