@@ -81,6 +81,7 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       var moreReviewsButton = document.querySelector('.reviews-controls-more');
       moreReviewsButton.addEventListener('click', function() {
         if (isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+          cleanCurrentReviews();
           pageNumber++;
           renderReviews(filteredReviews, pageNumber);
         } else {
@@ -162,8 +163,7 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
     //Очищаем массив currentReviews
     var cleanCurrentReviews = function() {
       currentReviews.forEach(function(newReview) {
-        debugger;
-        newReview.remove();
+        newReview.element.remove();
       });
       return currentReviews;
     };
