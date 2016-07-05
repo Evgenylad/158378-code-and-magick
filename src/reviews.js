@@ -1,5 +1,5 @@
 'use strict';
-define(['./utils/getReviewElement', './utils/getData'], function(Review, getData) {
+define(['./utils/Review', './utils/getData'], function(Review, getData) {
   function reviewsModule() {
 
     var reviewsFilter = document.querySelector('.reviews-filter');
@@ -62,10 +62,10 @@ define(['./utils/getReviewElement', './utils/getData'], function(Review, getData
       }
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
-      reviewsToRender.slice(from, to).forEach(function(review) {
-        soloReview = new Review(review, reviewsContainer, elementToClone);
-        soloReview.element();
-        console.log(soloReview);
+      reviewsToRender.slice(from, to).forEach(function(reviewData) {
+        var newReview = new Review(reviewData);
+        reviewsContainer.appendChild(newReview);
+
       });
     };
 
