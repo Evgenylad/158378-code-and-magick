@@ -164,7 +164,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       filteredReviews = getFilteredReviews(reviews, filter);
       pageNumber = 0;
       renderReviews(filteredReviews, pageNumber, true);
-      newReview.remove();
     };
 
     //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
@@ -174,6 +173,7 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       reviewsFilter.addEventListener('click', function(evt) {
         if (evt.target.id) {
           setFilter(evt.target.id);
+          newReview.remove();
         }
       });
       for (var i = 0; i < filters.length; i++) {
