@@ -12,7 +12,7 @@ define(['./loadImage'], function(loadImage) {
 
   var Review = function(data) {
     this.data = data.author.picture;
-    this._renderElement = (function() {
+    this._renderElement = function() {
       var element = elementToClone.cloneNode(true);
       var picture = element.querySelector('.review-author');
       element.querySelector('.review-text').textContent = data.description;
@@ -34,15 +34,12 @@ define(['./loadImage'], function(loadImage) {
 
       return element;
 
-    })();
-
-    this.element = function(element) {
-      var newReview = element;
-      return newReview;
     };
 
-    this.quizAnswerYes = templateElement.querySelector('.review-quiz-answer-yes');
-    this.quizAnswerNo = templateElement.querySelector('.review-quiz-answer-no');
+    this.element = this._renderElement();
+
+    this.quizAnswerYes = this.element.querySelector('.review-quiz-answer-yes');
+    this.quizAnswerNo = this.element.querySelector('.review-quiz-answer-no');
 
     this.addClassActiveToAnswerYes = function() {
       this.quizAnswerYes.classList.add('review-quiz-answer-active');
@@ -57,8 +54,7 @@ define(['./loadImage'], function(loadImage) {
       this.quizAnswerNo.addEventListener('click', this.addClassActiveToAnswerNo());
     };
     this.remove = function() {
-      var review = this.templateElement.querySelector('.review');
-      this.templateElement.removeChild(review);
+      this.element.parentNode.removeChild(this.element);
       this.quizAnswerYes.removeEventListener('click', this.addClassActiveToAnswerYes());
       this.quizAnswerNo.removeEventListener('click', this.addClassActiveToAnswerNo());
     };

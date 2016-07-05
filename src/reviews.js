@@ -39,7 +39,7 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       'BAD': 2
     };
 
-    var soloReview;
+    var newReview;
 
     /** @param {Array.<Object>} loadedReviews */
     //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
@@ -61,8 +61,8 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
       reviewsToRender.slice(from, to).forEach(function(reviewData) {
-        var newReview = new Review(reviewData);
-        reviewsContainer.appendChild(newReview);
+        newReview = new Review(reviewData);
+        reviewsContainer.appendChild(newReview.element);
 
       });
     };
@@ -83,7 +83,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
         if (isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
           pageNumber++;
           renderReviews(filteredReviews, pageNumber);
-          soloReview.remove();
         } else {
           document.querySelector('.reviews-controls-more').classList.add('invisible');
         }
@@ -165,8 +164,7 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       filteredReviews = getFilteredReviews(reviews, filter);
       pageNumber = 0;
       renderReviews(filteredReviews, pageNumber, true);
-      soloReview.remove();
-      console.log(soloReview);
+      newReview.remove();
     };
 
     //Создадим функцию обработчик событий при клике, которая проверяет все радио-баттон собраные в переменную .filters
