@@ -1,11 +1,9 @@
 'use strict';
-define(['./utils/getReviewElement', './utils/getData'], function(getReviewElement, getData) {
+define(['./utils/Review', './utils/getData'], function(Review, getData) {
   function reviewsModule() {
 
     var reviewsFilter = document.querySelector('.reviews-filter');
     var reviewsContainer = document.querySelector('.reviews-list');
-    var templateElement = document.querySelector('template');
-    var elementToClone;
     var reviewsBlock = document.querySelector('.reviews');
 
     /** @constant {number} */
@@ -41,6 +39,8 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       'BAD': 2
     };
 
+    var currentReviews = [];
+
     /** @param {Array.<Object>} loadedReviews */
     //Функция renderReviews получает на вход массив reviews и обрабатывает каждый элемент массива,
     //создавая под каждый элемент (review) отдельную запись в списке отзывов reviewsContainer
@@ -60,8 +60,10 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       }
       var from = page * PAGE_SIZE;
       var to = from + PAGE_SIZE;
-      reviewsToRender.slice(from, to).forEach(function(review) {
-        getReviewElement(review, reviewsContainer, elementToClone);
+      reviewsToRender.slice(from, to).forEach(function(reviewData) {
+        var newReview = new Review(reviewData);
+        reviewsContainer.appendChild(newReview.element);
+        currentReviews.push(newReview);
       });
     };
 
@@ -79,10 +81,12 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       var moreReviewsButton = document.querySelector('.reviews-controls-more');
       moreReviewsButton.addEventListener('click', function() {
         if (isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+          cleanCurrentReviews();
           pageNumber++;
           renderReviews(filteredReviews, pageNumber);
-        } else {
-          document.querySelector('.reviews-controls-more').classList.add('invisible');
+          if (!isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+            moreReviewsButton.classList.add('invisible');
+          }
         }
       });
     };
@@ -157,8 +161,17 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       }
     };
 
+    //Очищаем массив currentReviews
+    var cleanCurrentReviews = function() {
+      currentReviews.forEach(function(newReview) {
+        newReview.element.remove();
+      });
+      return currentReviews;
+    };
+
     //Фильтруем reviews и отрисовываем список при клике на кнопку
     var setFilter = function(filter) {
+      cleanCurrentReviews();
       filteredReviews = getFilteredReviews(reviews, filter);
       pageNumber = 0;
       renderReviews(filteredReviews, pageNumber, true);
@@ -170,6 +183,7 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
       var filters = document.getElementsByName('reviews');
       reviewsFilter.addEventListener('click', function(evt) {
         if (evt.target.id) {
+          cleanCurrentReviews();
           setFilter(evt.target.id);
         }
       });
@@ -188,11 +202,6 @@ define(['./utils/getReviewElement', './utils/getData'], function(getReviewElemen
 
     reviewsFiltersHide();
 
-    if ('content' in templateElement) {
-      elementToClone = templateElement.content.querySelector('.review');
-    } else {
-      elementToClone = templateElement.querySelector('.review');
-    }
 
     reviewsBlock.classList.add('reviews-list-loading'); //Adding preLoader
 
