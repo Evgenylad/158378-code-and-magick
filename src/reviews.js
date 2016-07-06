@@ -85,10 +85,8 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
           pageNumber++;
           renderReviews(filteredReviews, pageNumber);
           if (!isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
-            document.querySelector('.reviews-controls-more').classList.add('invisible');
+            moreReviewsButton.classList.add('invisible');
           }
-        } else {
-          document.querySelector('.reviews-controls-more').classList.add('invisible');
         }
       });
     };
