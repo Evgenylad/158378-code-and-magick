@@ -1,5 +1,5 @@
 'use strict';
-require(['./game', './reviews', './form', './gallery'], function(gameModule, reviewsModule, contactFormModule, gallery) {
+require(['./game', './reviews', './form', './gallery'], function(gameModule, reviewsModule, contactFormModule, Gallery) {
   gameModule();
   reviewsModule();
   contactFormModule();
@@ -12,13 +12,13 @@ require(['./game', './reviews', './form', './gallery'], function(gameModule, rev
     var img = link.children[0];
     return img.src;
   });
-
-  gallery.saveImages(arrayOfImageSrc);
+  var newGallery = new Gallery(arrayOfImageSrc);
+  newGallery.saveImages(arrayOfImageSrc);
 
   arrayOfLinks.forEach(function(item, i) {
     item.addEventListener('click', function(ev) {
       ev.preventDefault();
-      gallery.showGallery(i);
+      newGallery.showGallery(i);
     });
   });
 });

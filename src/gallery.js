@@ -1,6 +1,5 @@
 'use strict';
 define(function() {
-
   /** @constant {number} */
   var KEYCODE_ESCAPE = 27;
 
@@ -26,101 +25,103 @@ define(function() {
   /**@type {HTMLImageElement} current gallery image */
   var preview;
 
-  /**
-   * @param {Array.<string>} pictures
-   * */
-  function saveImages(pictures) {
-    galleryPictures = pictures;
-    picturesAtPhotogallery = galleryPictures.length;
-  }
+  /**@constructor */
+  var Gallery = function() {
+    var self = this;
+    /**
+     * @param {Array.<string>} pictures
+     * */
+    this.saveImages = function(pictures) {
+      galleryPictures = pictures;
+      picturesAtPhotogallery = galleryPictures.length;
+    };
 
 
-  /*================================
-  =            LISTENERS           =
-  ================================*/
+    /*================================
+    =            LISTENERS           =
+    ================================*/
 
-  var _attachListeners = function() {
-    controlLeft.addEventListener('click', showLeftPicture);
-    controlRight.addEventListener('click', showRightPicture);
+    this._attachListeners = function() {
+      controlLeft.addEventListener('click', self.showLeftPicture);
+      controlRight.addEventListener('click', self.showRightPicture);
 
-    document.addEventListener('keydown', onKeydown);
-    controlCross.addEventListener('click', onControlCrossClick);
-  };
+      document.addEventListener('keydown', self.onKeydown);
+      controlCross.addEventListener('click', self.onControlCrossClick);
+    };
 
-  var _removeListeners = function() {
-    controlLeft.removeEventListener('click', showLeftPicture);
-    controlRight.removeEventListener('click', showRightPicture);
+    this._removeListeners = function() {
+      controlLeft.removeEventListener('click', self.showLeftPicture);
+      controlRight.removeEventListener('click', self.showRightPicture);
 
-    document.removeEventListener('keydown', onKeydown);
-    controlCross.removeEventListener('click', onControlCrossClick);
-  };
+      document.removeEventListener('keydown', self.onKeydown);
+      controlCross.removeEventListener('click', self.onControlCrossClick);
+    };
 
-  var showLeftPicture = function() {
-    if(galleryActivePicture > 0) {
-      galleryActivePicture--;
-    } else {
-      galleryActivePicture = picturesAtPhotogallery - 1;
-    }
-    showPicture(galleryActivePicture);
-  };
+    this.showLeftPicture = function() {
+      if(galleryActivePicture > 0) {
+        galleryActivePicture--;
+      } else {
+        galleryActivePicture = picturesAtPhotogallery - 1;
+      }
+      self.showPicture(galleryActivePicture);
+    };
 
-  var showRightPicture = function() {
+    this.showRightPicture = function() {
 
-    if(galleryActivePicture < picturesAtPhotogallery - 1) {
-      galleryActivePicture++;
-    } else {
-      galleryActivePicture = 0;
-    }
+      if(galleryActivePicture < picturesAtPhotogallery - 1) {
+        galleryActivePicture++;
+      } else {
+        galleryActivePicture = 0;
+      }
 
-    showPicture(galleryActivePicture);
-  };
+      self.showPicture(galleryActivePicture);
+    };
 
-  var onControlCrossClick = function() {
-    galleryContainer.classList.add('invisible');
-    hideGallery();
-  };
-
-  var onKeydown = function(evt) {
-    if (evt.keyCode === KEYCODE_ESCAPE) {
+    this.onControlCrossClick = function() {
       galleryContainer.classList.add('invisible');
-      hideGallery();
-    }
+      self.hideGallery();
+    };
+
+    this.onKeydown = function(evt) {
+      if (evt.keyCode === KEYCODE_ESCAPE) {
+        galleryContainer.classList.add('invisible');
+        self.hideGallery();
+      }
+    };
+    /*=====  End of LISTENERS ======*/
+
+    this.showPicture = function(pic) {
+      preview.src = galleryPictures[pic];
+      previewNumberCurrent.textContent = pic + 1;
+    };
+
+    this.showGallery = function(pic) {
+      // adding a preview
+      preview = new Image();
+      preview.classList.add('gallery-fullscreen-image');
+      previewContainer.appendChild(preview);
+
+      previewNumberTotal.textContent = picturesAtPhotogallery;
+
+      galleryActivePicture = pic;
+      galleryContainer.classList.remove('invisible');
+      self.showPicture(galleryActivePicture);
+      self._attachListeners();
+    };
+
+    this.hideGallery = function() {
+      previewContainer.removeChild(preview);
+      preview = null;
+
+      previewNumberTotal.textContent = '';
+
+      galleryActivePicture = null;
+      galleryContainer.classList.add('invisible');
+
+      self._removeListeners();
+    };
   };
-  /*=====  End of LISTENERS ======*/
 
-  var showPicture = function(pic) {
-    preview.src = galleryPictures[pic];
-    previewNumberCurrent.textContent = pic + 1;
-  };
+  return Gallery;
 
-  function showGallery(pic) {
-    // adding a preview
-    preview = new Image();
-    preview.classList.add('gallery-fullscreen-image');
-    previewContainer.appendChild(preview);
-
-    previewNumberTotal.textContent = picturesAtPhotogallery;
-
-    galleryActivePicture = pic;
-    galleryContainer.classList.remove('invisible');
-    showPicture(galleryActivePicture);
-    _attachListeners();
-  }
-
-  function hideGallery() {
-    previewContainer.removeChild(preview);
-    preview = null;
-
-    previewNumberTotal.textContent = '';
-
-    galleryActivePicture = null;
-    galleryContainer.classList.add('invisible');
-
-    _removeListeners();
-  }
-
-  return {
-    saveImages: saveImages,
-    showGallery: showGallery
-  };
 });
