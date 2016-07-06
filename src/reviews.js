@@ -63,7 +63,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       reviewsToRender.slice(from, to).forEach(function(reviewData) {
         var newReview = new Review(reviewData);
         reviewsContainer.appendChild(newReview.element);
-        newReview.eventListeners();
         currentReviews.push(newReview);
       });
     };
@@ -85,6 +84,9 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
           cleanCurrentReviews();
           pageNumber++;
           renderReviews(filteredReviews, pageNumber);
+          if (!isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
+            document.querySelector('.reviews-controls-more').classList.add('invisible');
+          }
         } else {
           document.querySelector('.reviews-controls-more').classList.add('invisible');
         }
