@@ -20,21 +20,20 @@ define(function() {
   var galleryActivePicture;
 
   /**@type {Array.<string>}*/
-  var galleryPictures = [];
 
   /**@type {HTMLImageElement} current gallery image */
   var preview;
 
   /**@constructor */
-  var Gallery = function() {
+  var Gallery = function(pictures) {
     var self = this;
     /**
      * @param {Array.<string>} pictures
      * */
-    this.saveImages = function(pictures) {
-      galleryPictures = pictures;
-      picturesAtPhotogallery = galleryPictures.length;
-    };
+
+    this.galleryPictures = pictures;
+    this.picturesAtPhotogallery = self.galleryPictures.length;
+
 
 
     /*================================
@@ -91,7 +90,7 @@ define(function() {
     /*=====  End of LISTENERS ======*/
 
     this.showPicture = function(pic) {
-      preview.src = galleryPictures[pic];
+      preview.src = self.galleryPictures[pic];
       previewNumberCurrent.textContent = pic + 1;
     };
 

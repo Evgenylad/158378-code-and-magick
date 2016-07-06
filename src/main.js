@@ -13,7 +13,6 @@ require(['./game', './reviews', './form', './gallery'], function(gameModule, rev
     return img.src;
   });
   var newGallery = new Gallery(arrayOfImageSrc);
-  newGallery.saveImages(arrayOfImageSrc);
 
   arrayOfLinks.forEach(function(item, i) {
     item.addEventListener('click', function(ev) {
