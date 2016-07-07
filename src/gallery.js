@@ -13,26 +13,23 @@ define(function() {
   var previewNumberTotal = galleryContainer.querySelector('.preview-number-total');
   var previewNumberCurrent = galleryContainer.querySelector('.preview-number-current');
 
-  /** @type {number} */
-  var picturesAtPhotogallery;
-
-  /**@type {number}*/
-  var galleryActivePicture;
-
-  /**@type {Array.<string>}*/
-
   /**@type {HTMLImageElement} current gallery image */
   var preview;
 
   /**@constructor */
   var Gallery = function(pictures) {
     var self = this;
+
+    /**@type {number}*/
+    var galleryActivePicture;
+
     /**
      * @param {Array.<string>} pictures
      * */
 
     this.galleryPictures = pictures;
-    this.picturesAtPhotogallery = self.galleryPictures.length;
+    this.picturesAtPhotogallery = this.galleryPictures.length;
+    console.log(this.picturesAtPhotogallery);
 
 
 
@@ -60,14 +57,14 @@ define(function() {
       if(galleryActivePicture > 0) {
         galleryActivePicture--;
       } else {
-        galleryActivePicture = picturesAtPhotogallery - 1;
+        galleryActivePicture = self.picturesAtPhotogallery - 1;
       }
       self.showPicture(galleryActivePicture);
     };
 
     this.showRightPicture = function() {
 
-      if(galleryActivePicture < picturesAtPhotogallery - 1) {
+      if(galleryActivePicture < self.picturesAtPhotogallery - 1) {
         galleryActivePicture++;
       } else {
         galleryActivePicture = 0;
@@ -100,7 +97,7 @@ define(function() {
       preview.classList.add('gallery-fullscreen-image');
       previewContainer.appendChild(preview);
 
-      previewNumberTotal.textContent = picturesAtPhotogallery;
+      previewNumberTotal.textContent = this.picturesAtPhotogallery;
 
       galleryActivePicture = pic;
       galleryContainer.classList.remove('invisible');
