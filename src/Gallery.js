@@ -20,12 +20,10 @@ define(function() {
   var Gallery = function(pictures) {
     var self = this;
 
-    this.galleryData = {
-      galleryPictures: pictures,
-      galleryActivePicture: 0
-    };
 
-    this.picturesAtPhotogallery = this.galleryData.galleryPictures.length;
+    this.galleryPictures = pictures;
+    this.galleryActivePicture = 0;
+    this.picturesAtPhotogallery = this.galleryPictures.length;
 
     /*================================
     =            LISTENERS           =
@@ -48,23 +46,23 @@ define(function() {
     };
 
     this.showLeftPicture = function() {
-      if(self.galleryData.galleryActivePicture > 0) {
-        self.galleryData.galleryActivePicture--;
+      if(this.galleryActivePicture > 0) {
+        this.galleryActivePicture--;
       } else {
-        self.galleryData.galleryActivePicture = self.picturesAtPhotogallery - 1;
+        this.galleryActivePicture = self.picturesAtPhotogallery - 1;
       }
-      self.showPicture(self.galleryData.galleryActivePicture);
+      self.showPicture(this.galleryActivePicture);
     };
 
     this.showRightPicture = function() {
 
-      if(self.galleryData.galleryActivePicture < self.picturesAtPhotogallery - 1) {
-        self.galleryData.galleryActivePicture++;
+      if(this.galleryActivePicture < self.picturesAtPhotogallery - 1) {
+        this.galleryActivePicture++;
       } else {
-        self.galleryData.galleryActivePicture = 0;
+        this.galleryActivePicture = 0;
       }
 
-      self.showPicture(self.galleryData.galleryActivePicture);
+      self.showPicture(this.galleryActivePicture);
     };
 
     this.onControlCrossClick = function() {
@@ -81,7 +79,7 @@ define(function() {
     /*=====  End of LISTENERS ======*/
 
     this.showPicture = function(pic) {
-      preview.src = this.galleryData.galleryPictures[pic];
+      preview.src = this.galleryPictures[pic];
       previewNumberCurrent.textContent = pic + 1;
     };
 
@@ -93,9 +91,9 @@ define(function() {
 
       previewNumberTotal.textContent = this.picturesAtPhotogallery;
 
-      this.galleryData.galleryActivePicture = pic;
+      this.galleryActivePicture = pic;
       galleryContainer.classList.remove('invisible');
-      self.showPicture(this.galleryData.galleryActivePicture);
+      self.showPicture(this.galleryActivePicture);
       self._attachListeners();
     };
 
@@ -105,7 +103,7 @@ define(function() {
 
       previewNumberTotal.textContent = '';
 
-      this.galleryData.galleryActivePicture = null;
+      this.galleryActivePicture = null;
       galleryContainer.classList.add('invisible');
 
       self._removeListeners();
