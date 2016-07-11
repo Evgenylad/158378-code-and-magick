@@ -30,8 +30,9 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       'POPULAR': 'reviews-popular'
     };
 
-    /** @constant {Filter} */
-    var DEFAULT_FILTER = Filter.ALL;
+    /** @type {string} */
+    var defaultFilter = localStorage.getItem('filter');
+    console.log(defaultFilter);
 
     /** @enum {string} */
     var Rating = {
@@ -185,6 +186,8 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
         if (evt.target.id) {
           cleanCurrentReviews();
           setFilter(evt.target.id);
+          localStorage.setItem('filter', evt.target.id);
+          defaultFilter = localStorage.getItem('filter');
         }
       });
       for (var i = 0; i < filters.length; i++) {
@@ -196,8 +199,11 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
       reviewsFilter.classList.add('invisible');
     }
 
-    function reviewsFiltersShow() {
+    function reviewsFiltersShow(filter) {
       reviewsFilter.classList.remove('invisible');
+      var currentFilter = document.getElementById(filter);
+      console.log(currentFilter);
+      currentFilter.setAttribute('checked', 'checked');
     }
 
     reviewsFiltersHide();
@@ -211,12 +217,12 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
     getData(function(loadedReviews) {
       reviews = loadedReviews;
       setFilterEnabled();
-      setFilter(DEFAULT_FILTER);
+      setFilter(defaultFilter);
       reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of success
       if (isNextPageAvailable(filteredReviews, pageNumber, PAGE_SIZE)) {
         renderReviews(reviews, pageNumber, true);
       }
-      reviewsFiltersShow();
+      reviewsFiltersShow(defaultFilter);
       setMoreReviewsButtonEnabled();
     }, function() {
       reviewsBlock.classList.remove('reviews-list-loading'); //Removing preLoader in case of error
