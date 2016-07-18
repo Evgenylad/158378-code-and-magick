@@ -10,14 +10,17 @@ require(['./game', './reviews', './form', './Gallery'], function(gameModule, rev
 
   var arrayOfImageSrc = arrayOfLinks.map(function(link) {
     var img = link.children[0];
-    return img.src;
+    return img.getAttribute('src');
   });
+
   var newGallery = new Gallery(arrayOfImageSrc);
 
-  arrayOfLinks.forEach(function(item, i) {
-    item.addEventListener('click', function(ev) {
-      ev.preventDefault();
-      newGallery.showGallery(i);
+  arrayOfLinks.forEach(function(item) {
+    item.addEventListener('click', function(evt) {
+      evt.preventDefault();
+      var imageSrc = evt.target.getAttribute('src');
+      location.hash = '#photo/' + imageSrc;
     });
   });
+
 });

@@ -32,7 +32,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
 
     /** @type {string} */
     var defaultFilter = localStorage.getItem('filter');
-    console.log(defaultFilter);
 
     /** @enum {string} */
     var Rating = {
@@ -202,7 +201,6 @@ define(['./utils/Review', './utils/getData'], function(Review, getData) {
     function reviewsFiltersShow(filter) {
       reviewsFilter.classList.remove('invisible');
       var currentFilter = document.getElementById(filter);
-      console.log(currentFilter);
       currentFilter.setAttribute('checked', 'checked');
     }
 
