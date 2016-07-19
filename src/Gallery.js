@@ -81,6 +81,14 @@ define(function() {
         self.hideGallery();
       }
     });
+    window.addEventListener('load', function() {
+      if (location.hash !== -1) {
+        pictureNumber = self.getPictureNumber();
+        var customSrc = self.getSrcFormLocationHash();
+        console.log(customSrc);
+        self.showGallery(customSrc, pictureNumber);
+      }
+    });
     /*=====  End of LISTENERS ======*/
 
     this.showPicture = function(pic, index) {
@@ -120,6 +128,13 @@ define(function() {
       this.arrayFromHash = location.hash.split('');
       this.pictureNumber = parseInt(this.arrayFromHash.slice(-5, -4), 10);
       return this.pictureNumber;
+    };
+
+    this.getSrcFormLocationHash = function() {
+      this.arrayFromHash = location.hash.split('');
+      this.arraySrc = this.arrayFromHash.slice(-21);
+      this.createSrc = this.arraySrc.join('');
+      return this.createSrc;
     };
   };
 
